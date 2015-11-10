@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <Switch
+        android:id="@+id/testModeSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        android:checked="false"
+        android:text="@string/testModeSwitch"/>
+
+    <Switch
+        android:id="@+id/loggingSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        android:checked="false"
+        android:text="@string/loggingSwitch"/>
+
+    <Switch
+        android:id="@+id/toastSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        android:checked="false"
+        android:text="@string/toastSwitch"/>
+
+</LinearLayout>

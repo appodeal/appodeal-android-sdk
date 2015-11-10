@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dfeaf1"
+    android:orientation="vertical"
+    tools:context="com.test.adtest.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/init" />
+
+            <include layout="@layout/separator" />
+
+            <com.appodeal.test.layout.SlidingTabLayout
+                android:id="@+id/slidingTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.appodeal.test.layout.AdTypeViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.appodeal.ads.BannerView
+        android:id="@+id/appodealBannerView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:visibility="gone" />
+</LinearLayout>
