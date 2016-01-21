@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/nativeChooseNetworks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="nativeChooseNetworks"
+        android:layout_margin="5dp"
+        android:text="@string/chooseNetworks" />
+
+    <Button
+        android:id="@+id/initNativeSdkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="initNativeSdkButton"
+        android:text="@string/initNativeSdkButton" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/isNativeLoadedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="isNativeLoadedButton"
+            android:text="@string/isNativeLoadedButton" />
+
+        <Button
+            android:id="@+id/nativeCacheButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="nativeCacheButton"
+            android:text="@string/nativeCacheButton" />
+
+        <Button
+            android:id="@+id/nativeCacheMultipleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="nativeCacheMultipleButton"
+            android:text="@string/nativeCacheMultipleButton" />
+
+    </LinearLayout>
+
+    <include layout="@layout/include_native_ads" />
+</LinearLayout>

@@ -21,6 +21,7 @@
     <string name="interstitialShowWithPriceFloorButton">Show w price floor</string>
 
     <string name="autoCacheVideoSwitch">Auto Cache</string>
+    <string name="confirmVideoSwitch">Confirm usage</string>
     <string name="initVideoSdkButton">Init Video</string>
     <string name="isVideoLoadedButton">Loaded?</string>
     <string name="videoCacheButton">Cache</string>
@@ -39,13 +40,48 @@
     <string name="bannerShowButton">Show</string>
     <string name="bannerHideButton">Hide</string>
 
-    <string-array name="networks">
+    <string name="autoCacheMrecSwitch">Auto Cache</string>
+    <string name="initMrecSdkButton">Init MREC</string>
+    <string name="isMrecLoadedButton">Loaded?</string>
+    <string name="mrecCacheButton">Cache</string>
+    <string name="mrecShowButton">Show</string>
+    <string name="mrecHideButton">Hide</string>
+
+    <string name="initNativeSdkButton">Init Native</string>
+    <string name="isNativeLoadedButton">Loaded?</string>
+    <string name="nativeCacheButton">Cache</string>
+    <string name="nativeHideButton">Hide</string>
+    <string name="nativeCacheMultipleButton">Cache multiple ads</string>
+
+    <string-array name="interstitial_networks">
         <item>amazon_ads</item>
         <item>applovin</item>
         <item>chartboost</item>
         <item>mopub</item>
-        <item>unity_ads</item>
         <item>mailru</item>
+        <item>facebook</item>
+        <item>liverail</item>
+        <item>yandex</item>
+        <item>startapp</item>
+        <item>inmobi</item>
+    </string-array>
+
+    <string-array name="banner_networks">
+        <item>amazon_ads</item>
+        <item>mopub</item>
+        <item>mailru</item>
+        <item>facebook</item>
+        <item>liverail</item>
+        <item>yandex</item>
+        <item>startapp</item>
+        <item>inmobi</item>
+    </string-array>
+
+    <string-array name="video_networks">
+        <item>applovin</item>
+        <item>chartboost</item>
+        <item>mopub</item>
+        <item>unity_ads</item>
         <item>facebook</item>
         <item>adcolony</item>
         <item>vungle</item>
@@ -53,5 +89,22 @@
         <item>yandex</item>
         <item>startapp</item>
         <item>inmobi</item>
+    </string-array>
+
+    <string-array name="mrec_networks">
+        <item>amazon_ads</item>
+        <item>mopub</item>
+        <item>liverail</item>
+        <item>yandex</item>
+    </string-array>
+
+    <string-array name="native_networks">
+        <item>applovin</item>
+        <item>facebook</item>
+        <item>startapp</item>
+        <item>inmobi</item>
+        <item>avocarrot</item>
+        <item>flurry</item>
+        <item>pubnative</item>
     </string-array>
 </resources>

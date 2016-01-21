@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#dfeaf1"
     android:orientation="vertical"
-    tools:context="com.test.adtest.MainActivity">
+    tools:context="com.appodeal.test.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -38,4 +38,16 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:visibility="gone" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.appodeal.ads.MrecView
+            android:id="@+id/appodealMrecView"
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+    </RelativeLayout>
 </LinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appodeal-android-demo.iml" filepath="$PROJECT_DIR$/appodeal-android-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pubnative-1.4.8/pubnative-1.4.8.iml" filepath="$PROJECT_DIR$/pubnative-1.4.8/pubnative-1.4.8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/unity-ads-1.5.6/unity-ads-1.5.6.iml" filepath="$PROJECT_DIR$/unity-ads-1.5.6/unity-ads-1.5.6.iml" />
+    </modules>
+  </component>
+</project>

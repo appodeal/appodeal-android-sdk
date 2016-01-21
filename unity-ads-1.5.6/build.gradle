@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('unity-ads-1.5.6.aar'))
