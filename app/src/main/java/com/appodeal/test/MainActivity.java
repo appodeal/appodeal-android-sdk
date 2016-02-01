@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -32,14 +33,15 @@ import com.appodeal.test.layout.SlidingTabLayout;
 
 public class MainActivity extends FragmentActivity {
     private static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
+    Spinner nativeTemplateSpinner;
 
     private String[] interstitial_networks, video_networks, mrec_networks, native_networks, banner_networks;
     boolean[] interstitialNetworks;
-    boolean[] mrecNetworks;
-    boolean[] nativeNetworks;
     boolean[] bannerNetworks;
-    boolean[] nonRewardedViewNetworks;
-    boolean[] rewardedViewNetworks;
+    boolean[] mrecNetworks;
+    boolean[] nonRewardedNetworks;
+    boolean[] rewardedNetworks;
+    boolean[] nativeNetworks;
     boolean[] checkedValues;
 
     boolean showToast = false;
@@ -57,6 +59,20 @@ public class MainActivity extends FragmentActivity {
             return mValue;
         }
 
+        public static AdType fromInteger(Integer x) {
+            if (x == null) {
+                return null;
+            }
+            switch(x) {
+                case Appodeal.INTERSTITIAL: return Interstitial;
+                case Appodeal.SKIPPABLE_VIDEO: return Video;
+                case Appodeal.REWARDED_VIDEO: return RVideo;
+                case Appodeal.BANNER: return Banner;
+                case Appodeal.MREC: return Mrec;
+                case Appodeal.NATIVE: return Native;
+            }
+            return null;
+        }
     }
 
     public enum BannerPosition {
@@ -115,11 +131,11 @@ public class MainActivity extends FragmentActivity {
             bannerNetworks[i] = true;
         }
         video_networks = getResources().getStringArray(R.array.video_networks);
-        nonRewardedViewNetworks = new boolean[video_networks.length];
-        rewardedViewNetworks = new boolean[video_networks.length];
+        nonRewardedNetworks = new boolean[video_networks.length];
+        rewardedNetworks = new boolean[video_networks.length];
         for (int i = 0; i < video_networks.length; i++) {
-            nonRewardedViewNetworks[i] = true;
-            rewardedViewNetworks[i] = true;
+            nonRewardedNetworks[i] = true;
+            rewardedNetworks[i] = true;
         }
         native_networks = getResources().getStringArray(R.array.native_networks);
         nativeNetworks = new boolean[native_networks.length];
@@ -209,16 +225,6 @@ public class MainActivity extends FragmentActivity {
                             }
                         }
                     });
-                    CompoundButton confirmVideoSwitch = (CompoundButton) findViewById(R.id.confirmVideoSwitch);
-                    confirmVideoSwitch.setChecked(false);
-                    confirmVideoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if (isChecked) {
-                                Appodeal.confirm(Appodeal.SKIPPABLE_VIDEO);
-                            }
-                        }
-                    });
                 }
 
                 if (child.findViewById(AdTypePages.RVideo.getId()) != null && child.getTag() == null) {
@@ -236,6 +242,13 @@ public class MainActivity extends FragmentActivity {
                             }
                         }
                     });
+                }
+
+                if (child.findViewById(AdTypePages.Native.getId()) != null && child.getTag() == null) {
+                    child.setTag(true);
+                    nativeTemplateSpinner = (Spinner) findViewById(R.id.native_template_list);
+                    ArrayAdapter<String> nativeTemplateAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.nativeTemplates));
+                    nativeTemplateSpinner.setAdapter(nativeTemplateAdapter);
                 }
 
                 if (child.findViewById(AdTypePages.Banner.getId()) != null && child.getTag() == null) {
@@ -259,9 +272,6 @@ public class MainActivity extends FragmentActivity {
                     bannerPositionSpinner.setAdapter(bannerPositionsAdapter);
                 }
 
-                if (child.findViewById(AdTypePages.Native.getId()) != null && child.getTag() == null) {
-                    child.setTag(true);
-                }
 
                 if (child.findViewById(AdTypePages.MREC.getId()) != null && child.getTag() == null) {
                     child.setTag(true);
@@ -299,6 +309,7 @@ public class MainActivity extends FragmentActivity {
     public void onResume() {
         super.onResume();
         Appodeal.onResume(this, Appodeal.BANNER);
+        Appodeal.onResume(this, Appodeal.MREC);
     }
 
     @Override
@@ -344,7 +355,7 @@ public class MainActivity extends FragmentActivity {
     public void interstitialChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         checkedValues = interstitialNetworks.clone();
-        builder.setTitle("Select networks").setMultiChoiceItems(interstitial_networks, checkedValues,
+        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(interstitial_networks, checkedValues,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     public void onClick(DialogInterface dialog, int item, boolean isChecked) {
                     }
@@ -407,8 +418,8 @@ public class MainActivity extends FragmentActivity {
 
     public void videoChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        checkedValues = nonRewardedViewNetworks.clone();
-        builder.setTitle("Select networks").setMultiChoiceItems(video_networks, checkedValues,
+        checkedValues = nonRewardedNetworks.clone();
+        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(video_networks, checkedValues,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     public void onClick(DialogInterface dialog, int item, boolean isChecked) {
 
@@ -417,8 +428,8 @@ public class MainActivity extends FragmentActivity {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                nonRewardedViewNetworks = checkedValues;
-                disableNetworks(nonRewardedViewNetworks, video_networks, AdType.Video);
+                nonRewardedNetworks = checkedValues;
+                disableNetworks(nonRewardedNetworks, video_networks, AdType.Video);
             }
         });
 
@@ -427,6 +438,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initVideoSdkButton(View v) {
+        Appodeal.confirm(Appodeal.SKIPPABLE_VIDEO);
         Appodeal.initialize(this, APP_KEY, Appodeal.SKIPPABLE_VIDEO);
         Appodeal.setSkippableVideoCallbacks(new AppodealSkippableVideoCallbacks(this));
     }
@@ -451,8 +463,8 @@ public class MainActivity extends FragmentActivity {
 
     public void rewardedVideoChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        checkedValues = rewardedViewNetworks.clone();
-        builder.setTitle("Select networks").setMultiChoiceItems(video_networks, checkedValues,
+        checkedValues = rewardedNetworks.clone();
+        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(video_networks, checkedValues,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     public void onClick(DialogInterface dialog, int item, boolean isChecked) {
                     }
@@ -460,8 +472,8 @@ public class MainActivity extends FragmentActivity {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                rewardedViewNetworks = checkedValues;
-                disableNetworks(rewardedViewNetworks, video_networks, AdType.RVideo);
+                rewardedNetworks = checkedValues;
+                disableNetworks(rewardedNetworks, video_networks, AdType.RVideo);
             }
         });
 
@@ -494,7 +506,7 @@ public class MainActivity extends FragmentActivity {
     public void mrecChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         checkedValues = mrecNetworks.clone();
-        builder.setTitle("Select networks").setMultiChoiceItems(mrec_networks, checkedValues,
+        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(mrec_networks, checkedValues,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     public void onClick(DialogInterface dialog, int item, boolean isChecked) {
                     }
@@ -539,56 +551,11 @@ public class MainActivity extends FragmentActivity {
         Appodeal.hide(this, Appodeal.MREC);
     }
 
-    public void nativeChooseNetworks(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        checkedValues = nativeNetworks.clone();
-        builder.setTitle("Select networks").setMultiChoiceItems(native_networks, checkedValues,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    public void onClick(DialogInterface dialog, int item, boolean isChecked) {
-                    }
-                });
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                nativeNetworks = checkedValues;
-                disableNetworks(nativeNetworks, native_networks, AdType.Native);
-            }
-        });
-
-        Dialog dialog = builder.create();
-        dialog.show();
-    }
-
-    public void initNativeSdkButton(View v) {
-        Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE);
-        Appodeal.setAutoCacheNativeIcons(true);
-        Appodeal.setAutoCacheNativeImages(false);
-        Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
-    }
-
-    public void isNativeLoadedButton(View v) {
-        if (Appodeal.isLoaded(Appodeal.NATIVE)) {
-            Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void nativeCacheButton(View view) {
-        findViewById(R.id.native_item).setVisibility(View.GONE);
-        Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
-        Appodeal.cache(this, Appodeal.NATIVE);
-    }
-
-    public void nativeCacheMultipleButton(View view) {
-        findViewById(R.id.native_item).setVisibility(View.GONE);
-        startActivity(new Intent(this, NativeAdsActivity.class));
-    }
 
     public void bannerChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         checkedValues = bannerNetworks.clone();
-        builder.setTitle("Select networks").setMultiChoiceItems(banner_networks, checkedValues,
+        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(banner_networks, checkedValues,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     public void onClick(DialogInterface dialog, int item, boolean isChecked) {
                     }
@@ -632,6 +599,56 @@ public class MainActivity extends FragmentActivity {
 
     public void bannerHideButton(View v) {
         Appodeal.hide(this, Appodeal.BANNER);
+    }
+
+
+    public void nativeChooseNetworks(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        checkedValues = nativeNetworks.clone();
+        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(native_networks, checkedValues,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    public void onClick(DialogInterface dialog, int item, boolean isChecked) {
+                    }
+                });
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                nativeNetworks = checkedValues;
+                disableNetworks(nativeNetworks, native_networks, AdType.Native);
+            }
+        });
+
+        Dialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+    public void nativeCacheButton(View view) {
+        Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE);
+        findViewById(R.id.native_item).setVisibility(View.GONE);
+        Appodeal.setAutoCacheNativeIcons(true);
+        Appodeal.setAutoCacheNativeImages(true);
+        Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this, nativeTemplateSpinner.getSelectedItemPosition()));
+        Appodeal.cache(this, Appodeal.NATIVE);
+        nativeTemplateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                nativeCacheButton(view);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    public void nativeCacheMultipleButton(View view) {
+        findViewById(R.id.native_item).setVisibility(View.GONE);
+        Intent i = new Intent(this, NativeAdsActivity.class);
+        i.putExtra("type", nativeTemplateSpinner.getSelectedItemPosition());
+        i.putExtra("showToast", showToast);
+        startActivity(i);
     }
 
 

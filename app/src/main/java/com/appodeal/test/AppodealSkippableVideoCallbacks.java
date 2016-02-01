@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import com.appodeal.ads.SkippableVideoCallbacks;
 
-
 class AppodealSkippableVideoCallbacks implements SkippableVideoCallbacks {
     private final Activity mActivity;
 
@@ -14,26 +13,26 @@ class AppodealSkippableVideoCallbacks implements SkippableVideoCallbacks {
 
     @Override
     public void onSkippableVideoLoaded() {
-        ((MainActivity) mActivity).showToast("onVideoLoaded");
+        ((MainActivity) mActivity).showToast("onSkippableVideoLoaded");
     }
 
     @Override
     public void onSkippableVideoFailedToLoad() {
-        ((MainActivity) mActivity).showToast("onVideoFailedToLoad");
+        ((MainActivity) mActivity).showToast("onSkippableVideoFailedToLoad");
     }
 
     @Override
     public void onSkippableVideoShown() {
-        ((MainActivity) mActivity).showToast("onVideoShown");
+        ((MainActivity) mActivity).showToast("onSkippableVideoShown");
     }
 
     @Override
     public void onSkippableVideoFinished() {
-        ((MainActivity) mActivity).showToast("onVideoFinished");
+        ((MainActivity) mActivity).showToast("onSkippableVideoFinished");
     }
 
     @Override
     public void onSkippableVideoClosed() {
-        ((MainActivity) mActivity).showToast("onVideoClosed");
+        ((MainActivity) mActivity).showToast("onSkippableVideoClosed");
     }
 }

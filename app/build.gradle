@@ -21,7 +21,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile ('com.google.android.gms:play-services-ads:8.1.0') {
+    compile ('com.google.android.gms:play-services-ads:8.4.0') {
         exclude module: 'support-v4'
     }
     compile project(':unity-ads-1.5.6')

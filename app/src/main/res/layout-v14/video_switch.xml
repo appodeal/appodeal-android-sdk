@@ -10,12 +10,4 @@
         android:layout_gravity="center_horizontal"
         android:checked="true"
         android:text="@string/autoCacheVideoSwitch" />
-
-    <Switch
-        android:id="@+id/confirmVideoSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:checked="true"
-        android:text="@string/confirmVideoSwitch" />
 </merge>
