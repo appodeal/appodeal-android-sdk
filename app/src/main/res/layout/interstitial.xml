@@ -76,12 +76,6 @@
             android:onClick="interstitialShowButton"
             android:text="@string/interstitialShowButton" />
 
-        <Button
-            android:id="@+id/interstitialShowWithPriceFloorButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="interstitialShowWithPriceFloorButton"
-            android:text="@string/interstitialShowWithPriceFloorButton" />
     </LinearLayout>
 </LinearLayout>
 

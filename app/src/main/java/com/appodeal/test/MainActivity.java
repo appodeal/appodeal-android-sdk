@@ -410,11 +410,6 @@ public class MainActivity extends FragmentActivity {
         Toast.makeText(this, String.valueOf(isShown), Toast.LENGTH_SHORT).show();
     }
 
-    public void interstitialShowWithPriceFloorButton(View v) {
-        boolean isShown = Appodeal.showWithPriceFloor(this, Appodeal.INTERSTITIAL);
-        Toast.makeText(this, String.valueOf(isShown), Toast.LENGTH_SHORT).show();
-    }
-
 
     public void videoChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
