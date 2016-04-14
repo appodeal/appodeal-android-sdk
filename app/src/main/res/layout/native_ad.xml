@@ -11,14 +11,34 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:onClick="nativeChooseNetworks"
-        android:layout_margin="5dp"
         android:text="@string/chooseNetworks" />
+
+    <Button
+        android:id="@+id/initNativeSdkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="initNativeSdkButton"
+        android:text="@string/initNativeSdkButton" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/isNativeLoadedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="isNativeLoadedButton"
+            android:text="@string/isNativeLoadedButton" />
+
+        <com.appodeal.test.layout.HorizontalNumberPicker
+            android:id="@+id/nativeAdsCountPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
 
         <Button
             android:id="@+id/nativeCacheButton"
@@ -28,11 +48,18 @@
             android:text="@string/nativeCacheButton" />
 
         <Button
-            android:id="@+id/nativeCacheMultipleButton"
+            android:id="@+id/nativeHideButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="nativeCacheMultipleButton"
-            android:text="@string/nativeCacheMultipleButton" />
+            android:onClick="nativeHideButton"
+            android:text="@string/nativeHideButton" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
     </LinearLayout>
 
     <LinearLayout
@@ -50,35 +77,13 @@
         <Spinner
             android:id="@+id/native_template_list"
             android:layout_width="wrap_content"
-            android:layout_height="48dp" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 
-    <include layout="@layout/include_native_ads" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/native_template_holder">
-    </RelativeLayout>
-
-    <com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
-        android:id="@+id/native_ad_view_news_feed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp">
-    </com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed>
-
-    <com.appodeal.ads.native_ad.views.NativeAdViewAppWall
-        android:id="@+id/native_ad_view_app_wall"
+    <ListView
+        android:id="@+id/nativeAdsListView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp">
-    </com.appodeal.ads.native_ad.views.NativeAdViewAppWall>
-
-    <com.appodeal.ads.native_ad.views.NativeAdViewContentStream
-        android:id="@+id/native_ad_view_content_stream"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp">
-    </com.appodeal.ads.native_ad.views.NativeAdViewContentStream>
+        android:layout_height="wrap_content">
+    </ListView>
 </LinearLayout>

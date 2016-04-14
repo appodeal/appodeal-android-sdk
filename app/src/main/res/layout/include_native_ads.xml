@@ -38,6 +38,15 @@
                     android:ellipsize="end" />
 
                 <TextView
+                    android:id="@+id/tv_age_restriction"
+                    android:background="#ca774b"
+                    android:padding="5dp"
+                    android:text="14+"
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
                     android:id="@+id/tv_ad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

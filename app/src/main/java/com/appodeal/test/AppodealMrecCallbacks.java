@@ -13,21 +13,21 @@ class AppodealMrecCallbacks implements MrecCallbacks {
 
     @Override
     public void onMrecLoaded() {
-        ((MainActivity) mActivity).showToast("onMrecLoaded");
+        Utils.showToast(mActivity, "onMrecLoaded");
     }
 
     @Override
     public void onMrecFailedToLoad() {
-        ((MainActivity) mActivity).showToast("onMrecFailedToLoad");
+        Utils.showToast(mActivity, "onMrecFailedToLoad");
     }
 
     @Override
     public void onMrecShown() {
-        ((MainActivity) mActivity).showToast("onMrecShown");
+        Utils.showToast(mActivity, "onMrecShown");
     }
 
     @Override
     public void onMrecClicked() {
-        ((MainActivity) mActivity).showToast("onMrecClicked");
+        Utils.showToast(mActivity, "onMrecClicked");
     }
 }

@@ -21,13 +21,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appodeal.ads.Appodeal;
+import com.appodeal.ads.NativeAd;
 import com.appodeal.ads.UserSettings;
+import com.appodeal.ads.utils.PermissionsHelper;
 import com.appodeal.test.layout.AdTypeViewPager;
+import com.appodeal.test.layout.HorizontalNumberPicker;
 import com.appodeal.test.layout.SlidingTabLayout;
 
 
@@ -143,8 +147,9 @@ public class MainActivity extends FragmentActivity {
             nativeNetworks[i] = true;
         }
 
-        if (Build.VERSION.SDK_INT >= 23 && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        if (Build.VERSION.SDK_INT >= 23 && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            Appodeal.requestAndroidMPermissions(this, new AppodealPermissionCallbacks(this));
         }
 
         TextView sdkTextView = (TextView) findViewById(R.id.sdkTextView);
@@ -597,6 +602,12 @@ public class MainActivity extends FragmentActivity {
     }
 
 
+    public void initNativeSdkButton(View v) {
+        Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE);
+        Appodeal.setAutoCacheNativeIcons(true);
+        Appodeal.setAutoCacheNativeImages(true);
+    }
+
     public void nativeChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         checkedValues = nativeNetworks.clone();
@@ -619,33 +630,46 @@ public class MainActivity extends FragmentActivity {
 
 
     public void nativeCacheButton(View view) {
-        Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE);
-        findViewById(R.id.native_item).setVisibility(View.GONE);
-        Appodeal.setAutoCacheNativeIcons(true);
-        Appodeal.setAutoCacheNativeImages(true);
-        Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this, nativeTemplateSpinner.getSelectedItemPosition()));
-        Appodeal.cache(this, Appodeal.NATIVE);
-        nativeTemplateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                nativeCacheButton(view);
-            }
+        hideNativeAds();
+        ListView nativeAdsListView = (ListView) findViewById(R.id.nativeAdsListView);
+        Spinner nativeTemplateSpinner = (Spinner) findViewById(R.id.native_template_list);
+        NativeListViewAdapter adapter = new NativeListViewAdapter(this, nativeTemplateSpinner.getSelectedItemPosition());
+        nativeAdsListView.setAdapter(adapter);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        HorizontalNumberPicker numberPicker = (HorizontalNumberPicker) findViewById(R.id.nativeAdsCountPicker);
+        Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
+        if (numberPicker.getNumber() == 1) {
+            Appodeal.cache(this, Appodeal.NATIVE);
+        } else {
+            Appodeal.cache(this, Appodeal.NATIVE, numberPicker.getNumber());
+        }
     }
 
-    public void nativeCacheMultipleButton(View view) {
-        findViewById(R.id.native_item).setVisibility(View.GONE);
-        Intent i = new Intent(this, NativeAdsActivity.class);
-        i.putExtra("type", nativeTemplateSpinner.getSelectedItemPosition());
-        i.putExtra("showToast", showToast);
-        startActivity(i);
+    public void nativeHideButton(View v) {
+        hideNativeAds();
     }
 
+    public void hideNativeAds() {
+        ListView nativeListView = (ListView) findViewById(R.id.nativeAdsListView);
+        NativeListViewAdapter nativeListViewAdapter = ((NativeListViewAdapter) nativeListView.getAdapter());
+        nativeListView.setAdapter(null);
+        Utils.setListViewHeightBasedOnChildren(nativeListView);
+        if (nativeListViewAdapter != null) {
+            for (int i = 0; i < nativeListViewAdapter.getCount(); i++) {
+                NativeAd nativeAd = (NativeAd) nativeListViewAdapter.getItem(i);
+                nativeAd.unregisterViewForInteraction();
+            }
+        }
+    }
+
+    private void updateNativeList(int position) {
+        ListView nativeListView = (ListView) findViewById(R.id.nativeAdsListView);
+        NativeListViewAdapter nativeListViewAdapter = ((NativeListViewAdapter) nativeListView.getAdapter());
+        if (nativeListViewAdapter != null) {
+            nativeListViewAdapter.setTemplate(position);
+        }
+        Utils.setListViewHeightBasedOnChildren(nativeListView);
+    }
 
     public static class AdTypeAdapter extends FragmentPagerAdapter {
 

@@ -13,26 +13,26 @@ class AppodealSkippableVideoCallbacks implements SkippableVideoCallbacks {
 
     @Override
     public void onSkippableVideoLoaded() {
-        ((MainActivity) mActivity).showToast("onSkippableVideoLoaded");
+        Utils.showToast(mActivity, "onSkippableVideoLoaded");
     }
 
     @Override
     public void onSkippableVideoFailedToLoad() {
-        ((MainActivity) mActivity).showToast("onSkippableVideoFailedToLoad");
+        Utils.showToast(mActivity, "onSkippableVideoFailedToLoad");
     }
 
     @Override
     public void onSkippableVideoShown() {
-        ((MainActivity) mActivity).showToast("onSkippableVideoShown");
+        Utils.showToast(mActivity, "onSkippableVideoShown");
     }
 
     @Override
     public void onSkippableVideoFinished() {
-        ((MainActivity) mActivity).showToast("onSkippableVideoFinished");
+        Utils.showToast(mActivity, "onSkippableVideoFinished");
     }
 
     @Override
     public void onSkippableVideoClosed() {
-        ((MainActivity) mActivity).showToast("onSkippableVideoClosed");
+        Utils.showToast(mActivity, "onSkippableVideoClosed");
     }
 }

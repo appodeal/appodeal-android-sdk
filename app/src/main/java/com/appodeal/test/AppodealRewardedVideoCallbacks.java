@@ -13,26 +13,26 @@ class AppodealRewardedVideoCallbacks implements RewardedVideoCallbacks {
 
     @Override
     public void onRewardedVideoLoaded() {
-        ((MainActivity) mActivity).showToast("onRewardedVideoLoaded");
+        Utils.showToast(mActivity, "onRewardedVideoLoaded");
     }
 
     @Override
     public void onRewardedVideoFailedToLoad() {
-        ((MainActivity) mActivity).showToast("onRewardedVideoFailedToLoad");
+        Utils.showToast(mActivity, "onRewardedVideoFailedToLoad");
     }
 
     @Override
     public void onRewardedVideoShown() {
-        ((MainActivity) mActivity).showToast("onRewardedVideoShown");
+        Utils.showToast(mActivity, "onRewardedVideoShown");
     }
 
     @Override
     public void onRewardedVideoFinished(int amount, String name) {
-        ((MainActivity) mActivity).showToast(String.format("onRewardedVideoFinished. Reward: %d %s", amount, name));
+        Utils.showToast(mActivity, String.format("onRewardedVideoFinished. Reward: %d %s", amount, name));
     }
 
     @Override
     public void onRewardedVideoClosed() {
-        ((MainActivity) mActivity).showToast("onRewardedVideoClosed");
+        Utils.showToast(mActivity, "onRewardedVideoClosed");
     }
 }

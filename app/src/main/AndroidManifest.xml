@@ -26,7 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.appodeal.test.NativeAdsActivity" />
 
         <meta-data android:name="com.appodeal.framework" android:value="android" />
 
@@ -77,6 +76,10 @@
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity android:name="org.nexage.sourcekit.vast.activity.VPAIDActivity"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <!--suppress AndroidDomInspection -->
+        <activity android:name="com.appodeal.ads.networks.vpaid.VPAIDActivity"
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity android:name="com.appodeal.ads.networks.SpotXActivity"

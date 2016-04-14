@@ -13,26 +13,26 @@ class AppodealInterstitialCallbacks implements InterstitialCallbacks {
 
     @Override
     public void onInterstitialLoaded(boolean isPrecache) {
-        ((MainActivity) mActivity).showToast(String.format("onInterstitialLoaded, isPrecache: %s", isPrecache));
+        Utils.showToast(mActivity, String.format("onInterstitialLoaded, isPrecache: %s", isPrecache));
     }
 
     @Override
     public void onInterstitialFailedToLoad() {
-        ((MainActivity) mActivity).showToast("onInterstitialFailedToLoad");
+        Utils.showToast(mActivity, "onInterstitialFailedToLoad");
     }
 
     @Override
     public void onInterstitialShown() {
-        ((MainActivity) mActivity).showToast("onInterstitialShown");
+        Utils.showToast(mActivity, "onInterstitialShown");
     }
 
     @Override
     public void onInterstitialClicked() {
-        ((MainActivity) mActivity).showToast("onInterstitialClicked");
+        Utils.showToast(mActivity, "onInterstitialClicked");
     }
 
     @Override
     public void onInterstitialClosed() {
-        ((MainActivity) mActivity).showToast("onInterstitialClosed");
+        Utils.showToast(mActivity, "onInterstitialClosed");
     }
 }

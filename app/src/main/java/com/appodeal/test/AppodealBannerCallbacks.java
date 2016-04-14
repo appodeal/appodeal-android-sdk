@@ -13,21 +13,21 @@ class AppodealBannerCallbacks implements BannerCallbacks {
 
     @Override
     public void onBannerLoaded() {
-        ((MainActivity) mActivity).showToast("onBannerLoaded");
+        Utils.showToast(mActivity, "onBannerLoaded");
     }
 
     @Override
     public void onBannerFailedToLoad() {
-        ((MainActivity) mActivity).showToast("onBannerFailedToLoad");
+        Utils.showToast(mActivity, "onBannerFailedToLoad");
     }
 
     @Override
     public void onBannerShown() {
-        ((MainActivity) mActivity).showToast("onBannerShown");
+        Utils.showToast(mActivity, "onBannerShown");
     }
 
     @Override
     public void onBannerClicked() {
-        ((MainActivity) mActivity).showToast("onBannerClicked");
+        Utils.showToast(mActivity, "onBannerClicked");
     }
 }
