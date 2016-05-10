@@ -32,7 +32,7 @@ class AppodealRewardedVideoCallbacks implements RewardedVideoCallbacks {
     }
 
     @Override
-    public void onRewardedVideoClosed() {
-        Utils.showToast(mActivity, "onRewardedVideoClosed");
+    public void onRewardedVideoClosed(boolean finished) {
+        Utils.showToast(mActivity, String.format("onRewardedVideoClosed,  finished: %s", finished));
     }
 }

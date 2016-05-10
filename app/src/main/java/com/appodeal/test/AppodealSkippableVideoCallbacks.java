@@ -32,7 +32,7 @@ class AppodealSkippableVideoCallbacks implements SkippableVideoCallbacks {
     }
 
     @Override
-    public void onSkippableVideoClosed() {
-        Utils.showToast(mActivity, "onSkippableVideoClosed");
+    public void onSkippableVideoClosed(boolean finished) {
+        Utils.showToast(mActivity, String.format("onSkippableVideoClosed,  finished: %s", finished));
     }
 }

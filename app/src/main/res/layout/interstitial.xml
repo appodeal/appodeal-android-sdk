@@ -40,13 +40,6 @@
             android:text="@string/isInterstitialLoadedButton" />
 
         <Button
-            android:id="@+id/isInterstitialLoadedWithPriceFloorButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="isInterstitialLoadedWithPriceFloorButton"
-            android:text="@string/isInterstitialLoadedWithPriceFloorButton" />
-
-        <Button
             android:id="@+id/isInterstitialLoadedPrecacheButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

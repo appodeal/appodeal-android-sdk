@@ -272,6 +272,22 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
+                    CompoundButton smartBannersSwitch = (CompoundButton) findViewById(R.id.smartBannersSwitch);
+                    smartBannersSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            Appodeal.setSmartBanners(isChecked);
+                        }
+                    });
+
+                    CompoundButton bigBannersSwitch = (CompoundButton) findViewById(R.id.bigBannersSwitch);
+                    bigBannersSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            Appodeal.set728x90Banners(isChecked);
+                        }
+                    });
+
                     Spinner bannerPositionSpinner = (Spinner) findViewById(R.id.bannerPositionList);
                     ArrayAdapter<BannerPosition> bannerPositionsAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, BannerPosition.values());
                     bannerPositionSpinner.setAdapter(bannerPositionsAdapter);
@@ -384,14 +400,6 @@ public class MainActivity extends FragmentActivity {
 
     public void isInterstitialLoadedButton(View v) {
         if (Appodeal.isLoaded(Appodeal.INTERSTITIAL)) {
-            Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void isInterstitialLoadedWithPriceFloorButton(View v) {
-        if (Appodeal.isLoadedWithPriceFloor(Appodeal.INTERSTITIAL)) {
             Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();

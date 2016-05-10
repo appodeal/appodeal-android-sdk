@@ -33,6 +33,8 @@
     <string name="rewardedVideoShowButton">Show</string>
 
     <string name="autoCacheBannerSwitch">Auto Cache</string>
+    <string name="smartBannersSwitch">Smart</string>
+    <string name="bigBannersSwitch">728*90</string>
     <string name="initBannerSdkButton">Init Banners</string>
     <string name="isBannerLoadedButton">Loaded?</string>
     <string name="bannerCacheButton">Cache</string>

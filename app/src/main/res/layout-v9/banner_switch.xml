@@ -10,4 +10,25 @@
         android:layout_gravity="center_horizontal"
         android:checked="true"
         android:text="@string/autoCacheBannerSwitch" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/smartBannersSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/smartBannersSwitch" />
+
+        <CheckBox
+            android:id="@+id/bigBannersSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/bigBannersSwitch" />
+    </LinearLayout>
 </merge>
