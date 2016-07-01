@@ -1,13 +1,12 @@
 package com.appodeal.test;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -19,92 +18,98 @@ import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NativeListViewAdapter extends BaseAdapter {
+class NativeListAdapter {
 
     private List<NativeAd> mAds = new LinkedList<>();
-    private Context mContext;
+    private final LinearLayout mNativeListView;
     private int mType = 0;
 
-    public NativeListViewAdapter(Context context, int type) {
-        mContext = context;
+    public NativeListAdapter(LinearLayout nativeListView, int type) {
+        mNativeListView = nativeListView;
         mType = type;
     }
 
     void addNativeAd(NativeAd nativeAd) {
         mAds.add(nativeAd);
-        notifyDataSetChanged();
     }
 
     public void setTemplate(int type) {
         mType = type;
-        notifyDataSetChanged();
     }
 
-    @Override
     public int getCount() {
         return mAds.size();
     }
 
-    @Override
     public Object getItem(int position) {
         return mAds.get(position);
     }
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
+    public void rebuild() {
+        mNativeListView.removeAllViews();
+        for (NativeAd nativeAd : mAds) {
+            mNativeListView.addView(getView(nativeAd));
+        }
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public void clear() {
+        mAds = new LinkedList<>();
+    }
+
+    private View getView(NativeAd nativeAd) {
+        View convertView = null;
         switch (mType) {
             case 0:
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.include_native_ads, parent, false);
+                convertView = LayoutInflater.from(mNativeListView.getContext()).inflate(R.layout.include_native_ads, mNativeListView, false);
                 TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
-                tvTitle.setText(mAds.get(position).getTitle());
+                tvTitle.setText(nativeAd.getTitle());
 
                 TextView tvDescription = (TextView) convertView.findViewById(R.id.tv_description);
-                tvDescription.setText(mAds.get(position).getDescription());
+                tvDescription.setText(nativeAd.getDescription());
 
                 RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.rb_rating);
-                if (mAds.get(position).getRating() == 0) {
+                if (nativeAd.getRating() == 0) {
                     ratingBar.setVisibility(View.INVISIBLE);
                 } else {
                     ratingBar.setVisibility(View.VISIBLE);
-                    ratingBar.setRating(mAds.get(position).getRating());
+                    ratingBar.setRating(nativeAd.getRating());
                     ratingBar.setStepSize(0.1f);
                 }
 
                 Button ctaButton = (Button) convertView.findViewById(R.id.b_cta);
-                ctaButton.setText(mAds.get(position).getCallToAction());
+                ctaButton.setText(nativeAd.getCallToAction());
 
-                ((ImageView) convertView.findViewById(R.id.icon)).setImageBitmap(mAds.get(position).getIcon());
+                ((ImageView) convertView.findViewById(R.id.icon)).setImageBitmap(nativeAd.getIcon());
 
-                View providerView = mAds.get(position).getProviderView(mContext);
+                View providerView = nativeAd.getProviderView(mNativeListView.getContext());
                 if (providerView != null) {
+                    if (providerView.getParent() != null && providerView.getParent() instanceof ViewGroup) {
+                        ((ViewGroup) providerView.getParent()).removeView(providerView);
+                    }
                     FrameLayout providerViewContainer = (FrameLayout) convertView.findViewById(R.id.provider_view);
-                    providerViewContainer.addView(providerView);
+                    ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    providerViewContainer.addView(providerView, layoutParams);
                 }
 
                 TextView tvAgeRestrictions = (TextView) convertView.findViewById(R.id.tv_age_restriction);
-                if (mAds.get(position).getAgeRestrictions() != null) {
-                    tvAgeRestrictions.setText(mAds.get(position).getAgeRestrictions());
+                if (nativeAd.getAgeRestrictions() != null) {
+                    tvAgeRestrictions.setText(nativeAd.getAgeRestrictions());
                     tvAgeRestrictions.setVisibility(View.VISIBLE);
                 } else {
                     tvAgeRestrictions.setVisibility(View.GONE);
                 }
 
-                mAds.get(position).registerViewForInteraction(convertView);
+                nativeAd.registerViewForInteraction(convertView);
                 convertView.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                convertView = new NativeAdViewNewsFeed(mContext, mAds.get(position));
+                convertView = new NativeAdViewNewsFeed(mNativeListView.getContext(), nativeAd);
                 break;
             case 2:
-                convertView = new NativeAdViewAppWall(mContext, mAds.get(position));
+                convertView = new NativeAdViewAppWall(mNativeListView.getContext(), nativeAd);
                 break;
             case 3:
-                convertView = new NativeAdViewContentStream(mContext, mAds.get(position));
+                convertView = new NativeAdViewContentStream(mNativeListView.getContext(), nativeAd);
                 break;
         }
         return convertView;

@@ -13,6 +13,8 @@
         android:onClick="nativeChooseNetworks"
         android:text="@string/chooseNetworks" />
 
+    <include layout="@layout/native_switch" />
+
     <Button
         android:id="@+id/initNativeSdkButton"
         android:layout_width="wrap_content"
@@ -81,9 +83,9 @@
             android:layout_gravity="center_vertical" />
     </LinearLayout>
 
-    <ListView
+    <LinearLayout
         android:id="@+id/nativeAdsListView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 </LinearLayout>

@@ -1,14 +1,12 @@
 package com.appodeal.test;
 
 import android.app.Activity;
-import android.util.Pair;
-import android.view.View;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.appodeal.ads.NativeAd;
 import com.appodeal.ads.NativeCallbacks;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AppodealNativeCallbacks implements NativeCallbacks {
@@ -21,12 +19,14 @@ public class AppodealNativeCallbacks implements NativeCallbacks {
     @Override
     public void onNativeLoaded(List<NativeAd> nativeAds) {
         Utils.showToast(mActivity, "onNativeLoaded");
-        final ListView nativeListView = (ListView) mActivity.findViewById(R.id.nativeAdsListView);
-        NativeListViewAdapter nativeListViewAdapter = ((NativeListViewAdapter) nativeListView.getAdapter());
+        LinearLayout nativeAdsListView = (LinearLayout) mActivity.findViewById(R.id.nativeAdsListView);
+        Spinner nativeTemplateSpinner = (Spinner) mActivity.findViewById(R.id.native_template_list);
+        NativeListAdapter nativeListViewAdapter = new NativeListAdapter(nativeAdsListView, nativeTemplateSpinner.getSelectedItemPosition());
         for (NativeAd nativeAd : nativeAds) {
             nativeListViewAdapter.addNativeAd(nativeAd);
         }
-        Utils.setListViewHeightBasedOnChildren(nativeListView);
+        nativeAdsListView.setTag(nativeListViewAdapter);
+        nativeListViewAdapter.rebuild();
     }
 
     @Override

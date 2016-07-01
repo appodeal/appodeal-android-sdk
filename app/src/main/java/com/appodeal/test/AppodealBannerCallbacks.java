@@ -12,8 +12,8 @@ class AppodealBannerCallbacks implements BannerCallbacks {
     }
 
     @Override
-    public void onBannerLoaded(int height) {
-        Utils.showToast(mActivity, String.format("onBannerLoaded, %ddp", height));
+    public void onBannerLoaded(int height, boolean isPrecache) {
+        Utils.showToast(mActivity, String.format("onBannerLoaded, %sdp, isPrecache: %s", height, isPrecache));
     }
 
     @Override

@@ -35,6 +35,7 @@
     <string name="autoCacheBannerSwitch">Auto Cache</string>
     <string name="smartBannersSwitch">Smart</string>
     <string name="bigBannersSwitch">728*90</string>
+    <string name="bannersAnimateBannersSwitch">Animate</string>
     <string name="initBannerSdkButton">Init Banners</string>
     <string name="isBannerLoadedButton">Loaded?</string>
     <string name="bannerCacheButton">Cache</string>
@@ -53,6 +54,7 @@
     <string name="mrecCacheDebugButton">Cache</string>
     <string name="mrecShowDebugButton">Show</string>
 
+    <string name="autoCacheNativeSwitch">Auto Cache</string>
     <string name="initNativeSdkButton">Init Native</string>
     <string name="isNativeLoadedButton">Loaded?</string>
     <string name="nativeCacheButton">Cache</string>
@@ -61,6 +63,7 @@
     <string name="templateNativeTextView">Template</string>
     <string name="nativeCacheDebugButton">Cache</string>
     <string name="nativeCacheMultipleButton">Cache multiple ads</string>
+    <string name="nativeAdMessage">Ad</string>
 
     <string name="selectNetworks">Select networks</string>
 

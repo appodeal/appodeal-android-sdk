@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +27,6 @@ import android.widget.Toast;
 import com.appodeal.ads.Appodeal;
 import com.appodeal.ads.NativeAd;
 import com.appodeal.ads.UserSettings;
-import com.appodeal.ads.utils.PermissionsHelper;
 import com.appodeal.test.layout.AdTypeViewPager;
 import com.appodeal.test.layout.HorizontalNumberPicker;
 import com.appodeal.test.layout.SlidingTabLayout;
@@ -37,8 +34,6 @@ import com.appodeal.test.layout.SlidingTabLayout;
 
 public class MainActivity extends FragmentActivity {
     private static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
-    Spinner nativeTemplateSpinner;
-
     private String[] interstitial_networks, video_networks, mrec_networks, native_networks, banner_networks;
     boolean[] interstitialNetworks;
     boolean[] bannerNetworks;
@@ -48,8 +43,6 @@ public class MainActivity extends FragmentActivity {
     boolean[] nativeNetworks;
     boolean[] checkedValues;
 
-    boolean showToast = false;
-    private Toast mToast;
 
     public enum AdType {
         Interstitial(Appodeal.INTERSTITIAL), Video(Appodeal.SKIPPABLE_VIDEO), RVideo(Appodeal.REWARDED_VIDEO), Banner(Appodeal.BANNER), Mrec(Appodeal.MREC), Native(Appodeal.NATIVE);
@@ -80,7 +73,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public enum BannerPosition {
-        BANNER(Appodeal.BANNER), BOTTOM(Appodeal.BANNER_BOTTOM), TOP(Appodeal.BANNER_TOP), CENTER(Appodeal.BANNER_CENTER), VIEW(Appodeal.BANNER_VIEW);
+        BANNER(Appodeal.BANNER), BOTTOM(Appodeal.BANNER_BOTTOM), TOP(Appodeal.BANNER_TOP), VIEW(Appodeal.BANNER_VIEW);
         private final int mValue;
 
         BannerPosition(int value) {
@@ -160,14 +153,6 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Appodeal.setTesting(isChecked);
-            }
-        });
-
-        CompoundButton toastSwitch = (CompoundButton) findViewById(R.id.toastSwitch);
-        toastSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                showToast = isChecked;
             }
         });
 
@@ -251,9 +236,28 @@ public class MainActivity extends FragmentActivity {
 
                 if (child.findViewById(AdTypePages.Native.getId()) != null && child.getTag() == null) {
                     child.setTag(true);
-                    nativeTemplateSpinner = (Spinner) findViewById(R.id.native_template_list);
+                    CompoundButton autoCacheNativeSwitch = (CompoundButton) findViewById(R.id.autoCacheNativeSwitch);
+                    autoCacheNativeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            Appodeal.setAutoCache(Appodeal.NATIVE, isChecked);
+                        }
+                    });
+
+                    Spinner nativeTemplateSpinner = (Spinner) findViewById(R.id.native_template_list);
                     ArrayAdapter<String> nativeTemplateAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.nativeTemplates));
                     nativeTemplateSpinner.setAdapter(nativeTemplateAdapter);
+                    nativeTemplateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            updateNativeList(position);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
                 }
 
                 if (child.findViewById(AdTypePages.Banner.getId()) != null && child.getTag() == null) {
@@ -285,6 +289,14 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             Appodeal.set728x90Banners(isChecked);
+                        }
+                    });
+
+                    CompoundButton bannersAnimateSwitch = (CompoundButton) findViewById(R.id.bannersAnimateBannersSwitch);
+                    bannersAnimateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            Appodeal.setBannerAnimation(isChecked);
                         }
                     });
 
@@ -611,6 +623,7 @@ public class MainActivity extends FragmentActivity {
 
 
     public void initNativeSdkButton(View v) {
+        Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
         Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE);
         Appodeal.setAutoCacheNativeIcons(true);
         Appodeal.setAutoCacheNativeImages(true);
@@ -639,10 +652,6 @@ public class MainActivity extends FragmentActivity {
 
     public void nativeCacheButton(View view) {
         hideNativeAds();
-        ListView nativeAdsListView = (ListView) findViewById(R.id.nativeAdsListView);
-        Spinner nativeTemplateSpinner = (Spinner) findViewById(R.id.native_template_list);
-        NativeListViewAdapter adapter = new NativeListViewAdapter(this, nativeTemplateSpinner.getSelectedItemPosition());
-        nativeAdsListView.setAdapter(adapter);
 
         HorizontalNumberPicker numberPicker = (HorizontalNumberPicker) findViewById(R.id.nativeAdsCountPicker);
         Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
@@ -658,25 +667,33 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void hideNativeAds() {
-        ListView nativeListView = (ListView) findViewById(R.id.nativeAdsListView);
-        NativeListViewAdapter nativeListViewAdapter = ((NativeListViewAdapter) nativeListView.getAdapter());
-        nativeListView.setAdapter(null);
-        Utils.setListViewHeightBasedOnChildren(nativeListView);
+        LinearLayout nativeListView = (LinearLayout) findViewById(R.id.nativeAdsListView);
+        nativeListView.removeAllViews();
+        NativeListAdapter nativeListViewAdapter = (NativeListAdapter) nativeListView.getTag();
         if (nativeListViewAdapter != null) {
             for (int i = 0; i < nativeListViewAdapter.getCount(); i++) {
                 NativeAd nativeAd = (NativeAd) nativeListViewAdapter.getItem(i);
                 nativeAd.unregisterViewForInteraction();
             }
+            nativeListViewAdapter.clear();
+        }
+    }
+
+    public void isNativeLoadedButton(View v) {
+        if (Appodeal.isLoaded(Appodeal.NATIVE)) {
+            Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void updateNativeList(int position) {
-        ListView nativeListView = (ListView) findViewById(R.id.nativeAdsListView);
-        NativeListViewAdapter nativeListViewAdapter = ((NativeListViewAdapter) nativeListView.getAdapter());
+        LinearLayout nativeListView = (LinearLayout) findViewById(R.id.nativeAdsListView);
+        NativeListAdapter nativeListViewAdapter = (NativeListAdapter) nativeListView.getTag();
         if (nativeListViewAdapter != null) {
             nativeListViewAdapter.setTemplate(position);
+            nativeListViewAdapter.rebuild();
         }
-        Utils.setListViewHeightBasedOnChildren(nativeListView);
     }
 
     public static class AdTypeAdapter extends FragmentPagerAdapter {
@@ -712,18 +729,6 @@ public class MainActivity extends FragmentActivity {
             Bundle args = getArguments();
             int layoutId = args.getInt("layout");
             return inflater.inflate(layoutId, container, false);
-        }
-    }
-
-    public void showToast(String text) {
-        if (showToast) {
-            Log.d("Appodeal", text);
-            if (mToast == null) {
-                mToast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
-            }
-            mToast.setText(text);
-            mToast.setDuration(Toast.LENGTH_SHORT);
-            mToast.show();
         }
     }
 }

@@ -12,8 +12,8 @@ class AppodealMrecCallbacks implements MrecCallbacks {
     }
 
     @Override
-    public void onMrecLoaded() {
-        Utils.showToast(mActivity, "onMrecLoaded");
+    public void onMrecLoaded(boolean isPrecache) {
+        Utils.showToast(mActivity, String.format("onMrecLoaded, isPrecache: %s", isPrecache));
     }
 
     @Override
