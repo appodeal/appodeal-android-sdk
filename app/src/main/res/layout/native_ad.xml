@@ -57,11 +57,38 @@
             android:text="@string/nativeHideButton" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nativeContainer"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/nativeLoadContainerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="nativeLoadContainerButton"
+            android:text="@string/nativeLoadContainerButton" />
+
+        <com.appodeal.test.layout.HorizontalNumberPicker
+            android:id="@+id/nativeAdsContainerShowPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+
+        <Button
+            android:id="@+id/nativeShowContainerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="nativeShowContainerButton"
+            android:text="@string/nativeShowContainerButton" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,6 +105,18 @@
 
         <Spinner
             android:id="@+id/native_template_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/typeNativeTextView" />
+
+        <Spinner
+            android:id="@+id/native_type_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" />

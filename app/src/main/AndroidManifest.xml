@@ -8,10 +8,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!-- for testing only -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
     <uses-feature android:name="android.hardware.location" android:required="false" />
     <uses-feature android:name="android.hardware.location.network" android:required="false" />
 
@@ -48,6 +44,8 @@
         <activity android:name="com.appodeal.ads.LoaderActivity"
                   android:configChanges="orientation|screenSize"
                   android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name="com.appodeal.ads.VideoPlayerActivity"
+                  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <activity android:name="com.google.android.gms.ads.AdActivity"
@@ -126,18 +124,6 @@
         <!--suppress AndroidDomInspection -->
         <activity android:name="com.yandex.mobile.ads.AdActivity"
                   android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
-
-        <activity android:name="com.inmobi.rendering.InMobiAdActivity"
-                  android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize"
-                  android:theme="@android:style/Theme.Translucent.NoTitleBar" android:hardwareAccelerated="true" tools:ignore="UnusedAttribute" />
-        <receiver android:name="com.inmobi.commons.core.utilities.uid.ImIdShareBroadCastReceiver"
-                  android:enabled="true" android:exported="true" tools:ignore="ExportedReceiver">
-            <intent-filter>
-                <action android:name="com.inmobi.share.id" />
-            </intent-filter>
-        </receiver>
-        <service android:enabled="true" android:name="com.inmobi.signals.activityrecognition.ActivityRecognitionManager" />
-
 
         <activity android:name="com.unity3d.ads.android.view.UnityAdsFullscreenActivity"
                   android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"

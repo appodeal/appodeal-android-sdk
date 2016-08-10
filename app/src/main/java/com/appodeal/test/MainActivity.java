@@ -25,11 +25,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appodeal.ads.Appodeal;
+import com.appodeal.ads.Native;
 import com.appodeal.ads.NativeAd;
+import com.appodeal.ads.NativeAdBox;
 import com.appodeal.ads.UserSettings;
 import com.appodeal.test.layout.AdTypeViewPager;
 import com.appodeal.test.layout.HorizontalNumberPicker;
 import com.appodeal.test.layout.SlidingTabLayout;
+
+import java.util.List;
 
 
 public class MainActivity extends FragmentActivity {
@@ -258,6 +262,31 @@ public class MainActivity extends FragmentActivity {
 
                         }
                     });
+
+                    Spinner nativeTypeSpinner = (Spinner) findViewById(R.id.native_type_list);
+                    ArrayAdapter<String> nativeTypeAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.nativeTypes));
+                    nativeTypeSpinner.setAdapter(nativeTypeAdapter);
+                    nativeTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            switch (position) {
+                                case 0:
+                                    Appodeal.setNativeAdType(Native.NativeAdType.Auto);
+                                    break;
+                                case 1:
+                                    Appodeal.setNativeAdType(Native.NativeAdType.NoVideo);
+                                    break;
+                                case 2:
+                                    Appodeal.setNativeAdType(Native.NativeAdType.Video);
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
                 }
 
                 if (child.findViewById(AdTypePages.Banner.getId()) != null && child.getTag() == null) {
@@ -367,7 +396,6 @@ public class MainActivity extends FragmentActivity {
                 .setAlcohol(UserSettings.Alcohol.NEGATIVE)
                 .setSmoking(UserSettings.Smoking.NEUTRAL)
                 .setBirthday("17/06/1990") .setEmail("ru@appodeal.com")
-                .setFacebookId("1623169517896758") .setVkId("91918219")
                 .setGender(UserSettings.Gender.MALE)
                 .setRelation(UserSettings.Relation.DATING)
                 .setInterests("reading, games, movies, snowboarding")
@@ -434,7 +462,6 @@ public class MainActivity extends FragmentActivity {
         boolean isShown = Appodeal.show(this, Appodeal.INTERSTITIAL);
         Toast.makeText(this, String.valueOf(isShown), Toast.LENGTH_SHORT).show();
     }
-
 
     public void videoChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -626,7 +653,7 @@ public class MainActivity extends FragmentActivity {
         Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
         Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE);
         Appodeal.setAutoCacheNativeIcons(true);
-        Appodeal.setAutoCacheNativeImages(true);
+        Appodeal.setAutoCacheNativeMedia(true);
     }
 
     public void nativeChooseNetworks(View v) {
@@ -694,6 +721,28 @@ public class MainActivity extends FragmentActivity {
             nativeListViewAdapter.setTemplate(position);
             nativeListViewAdapter.rebuild();
         }
+    }
+
+    public void nativeLoadContainerButton(View v) {
+        NativeAdBox nativeAdBox = Appodeal.getNativeAdBox();
+        nativeAdBox.setSize(5);
+        nativeAdBox.setListener(new AppodealNativeBoxCallbacks(this));
+        nativeAdBox.load();
+    }
+
+    public void nativeShowContainerButton(View v) {
+        hideNativeAds();
+        HorizontalNumberPicker numberPicker = (HorizontalNumberPicker) findViewById(R.id.nativeAdsContainerShowPicker);
+        List<NativeAd> nativeAds = Appodeal.getNativeAdBox().getNativeAds(numberPicker.getNumber());
+
+        LinearLayout nativeAdsListView = (LinearLayout) findViewById(R.id.nativeAdsListView);
+        Spinner nativeTemplateSpinner = (Spinner) findViewById(R.id.native_template_list);
+        NativeListAdapter nativeListViewAdapter = new NativeListAdapter(nativeAdsListView, nativeTemplateSpinner.getSelectedItemPosition());
+        for (NativeAd nativeAd : nativeAds) {
+            nativeListViewAdapter.addNativeAd(nativeAd);
+        }
+        nativeAdsListView.setTag(nativeListViewAdapter);
+        nativeListViewAdapter.rebuild();
     }
 
     public static class AdTypeAdapter extends FragmentPagerAdapter {

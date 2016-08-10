@@ -61,9 +61,13 @@
     <string name="nativeHideButton">Hide</string>
     <string name="debugNativeTextView">Debug</string>
     <string name="templateNativeTextView">Template</string>
+    <string name="typeNativeTextView">Type</string>
     <string name="nativeCacheDebugButton">Cache</string>
     <string name="nativeCacheMultipleButton">Cache multiple ads</string>
     <string name="nativeAdMessage">Ad</string>
+    <string name="nativeLoadContainerButton">Load</string>
+    <string name="nativeShowContainerButton">Show</string>
+    <string name="nativeContainer">Container</string>
 
     <string name="selectNetworks">Select networks</string>
 
@@ -75,12 +79,12 @@
         <item>tapsense</item>
         <item>amazon_ads</item>
         <item>smaato</item>
-        <item>inmobi</item>
         <item>mailru</item>
         <item>startapp</item>
         <item>inner-active</item>
         <item>yandex</item>
         <item>liverail</item>
+        <item>cheetah</item>
     </string-array>
 
     <string-array name="banner_networks">
@@ -94,6 +98,7 @@
         <item>liverail</item>
         <item>yandex</item>
         <item>openx</item>
+        <item>cheetah</item>
     </string-array>
 
     <string-array name="video_networks">
@@ -105,7 +110,6 @@
         <item>startapp</item>
         <item>vungle</item>
         <item>liverail</item>
-        <item>inmobi</item>
         <item>spotx</item>
         <item>facebook</item>
         <item>yandex</item>
@@ -118,6 +122,7 @@
         <item>tapsense</item>
         <item>inner-active</item>
         <item>liverail</item>
+        <item>cheetah</item>
     </string-array>
 
     <string-array name="native_networks">
@@ -129,7 +134,7 @@
         <item>pubnative</item>
         <item>mopub</item>
         <item>flurry</item>
-        <item>inmobi</item>
+        <item>cheetah</item>
     </string-array>
 
     <string-array name="nativeTemplates">
@@ -137,5 +142,11 @@
         <item>NewsFeed</item>
         <item>AppWall</item>
         <item>ContentStream</item>
+    </string-array>
+
+    <string-array name="nativeTypes">
+        <item>Auto</item>
+        <item>NoVideo</item>
+        <item>Video</item>
     </string-array>
 </resources>

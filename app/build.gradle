@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         applicationId "com.appodeal.test"
         minSdkVersion 9
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -21,8 +21,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile ('com.google.android.gms:play-services-ads:8.4.0') {
+    compile ('com.google.android.gms:play-services-ads:9.2.1') {
         exclude module: 'support-v4'
     }
     compile project(':unity-ads-1.5.6')
+    compile project(':cheetah-mobile-3.4.7')
 }

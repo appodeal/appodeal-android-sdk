@@ -101,4 +101,10 @@
         android:layout_alignBottom="@id/native_ad"
         android:layout_alignLeft="@id/native_ad"
         android:layout_alignStart="@id/native_ad" />
+
+    <com.appodeal.ads.AppodealMediaView
+        android:id="@+id/appodeal_media_view_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/native_ad" />
 </RelativeLayout>

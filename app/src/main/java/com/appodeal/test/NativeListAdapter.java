@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.appodeal.ads.AppodealMediaView;
 import com.appodeal.ads.NativeAd;
 import com.appodeal.ads.native_ad.views.NativeAdViewAppWall;
 import com.appodeal.ads.native_ad.views.NativeAdViewContentStream;
@@ -97,6 +98,12 @@ class NativeListAdapter {
                     tvAgeRestrictions.setVisibility(View.VISIBLE);
                 } else {
                     tvAgeRestrictions.setVisibility(View.GONE);
+                }
+                AppodealMediaView appodealMediaView = (AppodealMediaView) convertView.findViewById(R.id.appodeal_media_view_content);
+                if (nativeAd.containsVideo()) {
+                    nativeAd.setAppodealMediaView(appodealMediaView);
+                } else {
+                    appodealMediaView.setVisibility(View.GONE);
                 }
 
                 nativeAd.registerViewForInteraction(convertView);
