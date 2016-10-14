@@ -13,6 +13,25 @@
 
     <include layout="@layout/switches" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/logLevelTextView" />
+
+        <Spinner
+            android:id="@+id/logLevelList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/initSdkButton"
         android:layout_width="wrap_content"

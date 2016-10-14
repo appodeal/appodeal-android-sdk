@@ -39,6 +39,7 @@
 -dontwarn com.applovin.**
 
 # Facebook
+-keep class com.facebook.ads.** { *; }
 -dontwarn com.facebook.ads.**
 
 # Chartboost
@@ -46,10 +47,8 @@
 -dontwarn com.chartboost.**
 
 # Unity Ads
--keepattributes JavascriptInterface
 -keepattributes SourceFile,LineNumberTable
--keep class com.unity3d.ads.** { *; }
--keep class com.applifier.** { *; }
+-keep class com.unity3d.** { *; }
 
 # Yandex
 -keep class com.yandex.metrica.** { *; }
@@ -83,6 +82,8 @@
 }
 
 # Adcolony
+-keep class com.jirbo.adcolony.** { *;}
+-keep class com.immersion.** { *;}
 -dontnote com.immersion.**
 -dontwarn android.webkit.**
 -dontwarn com.jirbo.adcolony.**
@@ -97,15 +98,21 @@
 # MyTarget
 -keep class com.my.target.** { *; }
 -dontwarn com.my.target.**
--keep class ru.mail.android.mytarget.** { *; }
--dontwarn ru.mail.android.mytarget.**
 
 # Admob
 -keep class com.google.android.gms.ads.** { *; }
 
 # Cheetah Mobile
--keep class com.cmcm.adsdk.** { *; }
--dontwarn com.cmcm.adsdk.**
+-keep class com.cmcm.** { *; }
+-dontwarn com.cmcm.**
+
+# Tapjoy
+-keep class com.tapjoy.** { *; }
+-dontwarn com.tapjoy.**
+
+# Revmob
+-keep class com.revmob.** { *; }
+-dontwarn com.revmob.**
 
 # Google
 -keep class com.google.android.gms.common.GooglePlayServicesUtil {*;}
@@ -146,6 +153,9 @@
   public <fields>;
   public <methods>;
 }
+-keep class com.google.android.gms.common.GooglePlayServicesNotAvailableException {*;}
+-keep class com.google.android.gms.common.GooglePlayServicesRepairableException {*;}
+
 # Google Play Services library 9.0.0 only
 -dontwarn android.security.NetworkSecurityPolicy
 -keep public @com.google.android.gms.common.util.DynamiteApi class * { *; }
@@ -159,6 +169,7 @@
 -keep class android.support.v4.util.LruCache { *; }
 -keep class android.support.v4.view.PagerAdapter { *; }
 -keep class android.support.v4.view.ViewPager { *; }
+-keep class android.support.v4.content.ContextCompat { *; }
 
 # support-v7-recyclerview
 -keep class android.support.v7.widget.RecyclerView { *; }

@@ -14,13 +14,4 @@
         android:checked="false"
         android:text="@string/testModeSwitch"/>
 
-    <Switch
-        android:id="@+id/loggingSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_gravity="center"
-        android:checked="false"
-        android:text="@string/loggingSwitch"/>
-
 </LinearLayout>

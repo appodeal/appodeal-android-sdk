@@ -9,6 +9,7 @@
     <string name="toastSwitch">Show toasts</string>
     <string name="initSdkButton">Init SDK</string>
     <string name="chooseNetworks">Choose networks</string>
+    <string name="logLevelTextView">Log level</string>
 
     <string name="autoCacheInterstitialSwitch">Auto Cache</string>
     <string name="onLoadedInterstitialSwitch">Trigger onLoaded for %s</string>
@@ -148,5 +149,11 @@
         <item>Auto</item>
         <item>NoVideo</item>
         <item>Video</item>
+    </string-array>
+
+    <string-array name="logLevels">
+        <item>none</item>
+        <item>debug</item>
+        <item>verbose</item>
     </string-array>
 </resources>

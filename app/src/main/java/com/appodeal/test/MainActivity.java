@@ -29,6 +29,7 @@ import com.appodeal.ads.Native;
 import com.appodeal.ads.NativeAd;
 import com.appodeal.ads.NativeAdBox;
 import com.appodeal.ads.UserSettings;
+import com.appodeal.ads.utils.Log;
 import com.appodeal.test.layout.AdTypeViewPager;
 import com.appodeal.test.layout.HorizontalNumberPicker;
 import com.appodeal.test.layout.SlidingTabLayout;
@@ -160,11 +161,29 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        CompoundButton loggingSwitch = (CompoundButton) findViewById(R.id.loggingSwitch);
-        loggingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        Spinner logLevelSpinner = (Spinner) findViewById(R.id.logLevelList);
+        Appodeal.setLogLevel(Log.LogLevel.none);
+        ArrayAdapter<String> logLevelAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.logLevels));
+        logLevelSpinner.setAdapter(logLevelAdapter);
+        logLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Appodeal.setLogging(isChecked);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        Appodeal.setLogLevel(Log.LogLevel.none);
+                        break;
+                    case 1:
+                        Appodeal.setLogLevel(Log.LogLevel.debug);
+                        break;
+                    case 2:
+                        Appodeal.setLogLevel(Log.LogLevel.verbose);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 

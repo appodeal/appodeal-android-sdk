@@ -13,14 +13,7 @@
             <option value="$PROJECT_DIR$/unity-ads-1.5.6" />
           </set>
         </option>
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/cheetah-mobile-3.4.7" />
-            <option value="$PROJECT_DIR$/unity-ads-1.5.6" />
-          </set>
-        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
