@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.appodeal.ads.Appodeal;
 import com.appodeal.ads.Native;
 import com.appodeal.ads.NativeAd;
-import com.appodeal.ads.NativeAdBox;
 import com.appodeal.ads.UserSettings;
 import com.appodeal.ads.utils.Log;
 import com.appodeal.test.layout.AdTypeViewPager;
@@ -50,7 +49,7 @@ public class MainActivity extends FragmentActivity {
 
 
     public enum AdType {
-        Interstitial(Appodeal.INTERSTITIAL), Video(Appodeal.SKIPPABLE_VIDEO), RVideo(Appodeal.REWARDED_VIDEO), Banner(Appodeal.BANNER), Mrec(Appodeal.MREC), Native(Appodeal.NATIVE);
+        Interstitial(Appodeal.INTERSTITIAL), RVideo(Appodeal.REWARDED_VIDEO), Banner(Appodeal.BANNER), Mrec(Appodeal.MREC), Native(Appodeal.NATIVE);
         private final int mValue;
 
         AdType(int value) {
@@ -67,7 +66,6 @@ public class MainActivity extends FragmentActivity {
             }
             switch(x) {
                 case Appodeal.INTERSTITIAL: return Interstitial;
-                case Appodeal.SKIPPABLE_VIDEO: return Video;
                 case Appodeal.REWARDED_VIDEO: return RVideo;
                 case Appodeal.BANNER: return Banner;
                 case Appodeal.MREC: return Mrec;
@@ -91,7 +89,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public enum AdTypePages {
-        Interstitial(R.layout.interstitial, R.id.interstitialLayout), Video(R.layout.video, R.id.videoLayout),
+        Interstitial(R.layout.interstitial, R.id.interstitialLayout),
         RVideo(R.layout.rewarded_video, R.id.rewardedVideoLayout), Banner(R.layout.banner, R.id.bannerLayout),
         MREC(R.layout.mrec, R.id.MrecLayout), Native(R.layout.native_ad, R.id.nativeLayout);
 
@@ -218,24 +216,7 @@ public class MainActivity extends FragmentActivity {
                             } else {
                                 onLoadedSwitch.setText(getString(R.string.onLoadedInterstitialSwitch, "expensive"));
                             }
-                            Appodeal.setOnLoadedTriggerBoth(Appodeal.INTERSTITIAL, isChecked);
-                        }
-                    });
-                }
-
-                if (child.findViewById(AdTypePages.Video.getId()) != null && child.getTag() == null) {
-                    child.setTag(true);
-                    CompoundButton autoCacheVideoSwitch = (CompoundButton) findViewById(R.id.autoCacheVideoSwitch);
-                    autoCacheVideoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            Appodeal.setAutoCache(Appodeal.SKIPPABLE_VIDEO, isChecked);
-                            Button videoCacheButton = (Button) findViewById(R.id.videoCacheButton);
-                            if (isChecked) {
-                                videoCacheButton.setVisibility(View.GONE);
-                            } else {
-                                videoCacheButton.setVisibility(View.VISIBLE);
-                            }
+                            Appodeal.setTriggerOnLoadedOnPrecache(Appodeal.INTERSTITIAL, isChecked);
                         }
                     });
                 }
@@ -482,51 +463,6 @@ public class MainActivity extends FragmentActivity {
         Toast.makeText(this, String.valueOf(isShown), Toast.LENGTH_SHORT).show();
     }
 
-    public void videoChooseNetworks(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        checkedValues = nonRewardedNetworks.clone();
-        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(video_networks, checkedValues,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    public void onClick(DialogInterface dialog, int item, boolean isChecked) {
-
-                    }
-                });
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                nonRewardedNetworks = checkedValues;
-                disableNetworks(nonRewardedNetworks, video_networks, AdType.Video);
-            }
-        });
-
-        Dialog dialog = builder.create();
-        dialog.show();
-    }
-
-    public void initVideoSdkButton(View v) {
-        Appodeal.confirm(Appodeal.SKIPPABLE_VIDEO);
-        Appodeal.initialize(this, APP_KEY, Appodeal.SKIPPABLE_VIDEO);
-        Appodeal.setSkippableVideoCallbacks(new AppodealSkippableVideoCallbacks(this));
-    }
-
-    public void isVideoLoadedButton(View v) {
-        if (Appodeal.isLoaded(Appodeal.SKIPPABLE_VIDEO)) {
-            Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void videoCacheButton(View v) {
-        Appodeal.cache(this, Appodeal.SKIPPABLE_VIDEO);
-    }
-
-    public void videoShowButton(View v) {
-        boolean isShown = Appodeal.show(this, Appodeal.SKIPPABLE_VIDEO);
-        Toast.makeText(this, String.valueOf(isShown), Toast.LENGTH_SHORT).show();
-    }
-
-
     public void rewardedVideoChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         checkedValues = rewardedNetworks.clone();
@@ -742,17 +678,10 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void nativeLoadContainerButton(View v) {
-        NativeAdBox nativeAdBox = Appodeal.getNativeAdBox();
-        nativeAdBox.setSize(5);
-        nativeAdBox.setListener(new AppodealNativeBoxCallbacks(this));
-        nativeAdBox.load();
-    }
-
-    public void nativeShowContainerButton(View v) {
+    public void nativeShowButton(View v) {
         hideNativeAds();
-        HorizontalNumberPicker numberPicker = (HorizontalNumberPicker) findViewById(R.id.nativeAdsContainerShowPicker);
-        List<NativeAd> nativeAds = Appodeal.getNativeAdBox().getNativeAds(numberPicker.getNumber());
+        HorizontalNumberPicker numberPicker = (HorizontalNumberPicker) findViewById(R.id.nativeAdsCountPicker);
+        List<NativeAd> nativeAds = Appodeal.getNativeAds(numberPicker.getNumber());
 
         LinearLayout nativeAdsListView = (LinearLayout) findViewById(R.id.nativeAdsListView);
         Spinner nativeTemplateSpinner = (Spinner) findViewById(R.id.native_template_list);

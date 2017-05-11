@@ -17,16 +17,8 @@ public class AppodealNativeCallbacks implements NativeCallbacks {
     }
 
     @Override
-    public void onNativeLoaded(List<NativeAd> nativeAds) {
+    public void onNativeLoaded() {
         Utils.showToast(mActivity, "onNativeLoaded");
-        LinearLayout nativeAdsListView = (LinearLayout) mActivity.findViewById(R.id.nativeAdsListView);
-        Spinner nativeTemplateSpinner = (Spinner) mActivity.findViewById(R.id.native_template_list);
-        NativeListAdapter nativeListViewAdapter = new NativeListAdapter(nativeAdsListView, nativeTemplateSpinner.getSelectedItemPosition());
-        for (NativeAd nativeAd : nativeAds) {
-            nativeListViewAdapter.addNativeAd(nativeAd);
-        }
-        nativeAdsListView.setTag(nativeListViewAdapter);
-        nativeListViewAdapter.rebuild();
     }
 
     @Override

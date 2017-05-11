@@ -21,12 +21,6 @@
     <string name="interstitialShowButton">Show</string>
     <string name="interstitialShowWithPriceFloorButton">Show w price floor</string>
 
-    <string name="autoCacheVideoSwitch">Auto Cache</string>
-    <string name="initVideoSdkButton">Init Video</string>
-    <string name="isVideoLoadedButton">Loaded?</string>
-    <string name="videoCacheButton">Cache</string>
-    <string name="videoShowButton">Show</string>
-
     <string name="autoCacheRewardedVideoSwitch">Auto Cache</string>
     <string name="initRewardedVideoSdkButton">Init Rewarded Video</string>
     <string name="isRewardedVideoLoadedButton">Loaded?</string>
@@ -66,9 +60,7 @@
     <string name="nativeCacheDebugButton">Cache</string>
     <string name="nativeCacheMultipleButton">Cache multiple ads</string>
     <string name="nativeAdMessage">Ad</string>
-    <string name="nativeLoadContainerButton">Load</string>
-    <string name="nativeShowContainerButton">Show</string>
-    <string name="nativeContainer">Container</string>
+    <string name="nativeShowButton">Show</string>
 
     <string name="selectNetworks">Select networks</string>
 

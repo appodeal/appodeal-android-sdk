@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.appodeal.ads.AppodealMediaView;
+import com.appodeal.ads.NativeMediaView;
 import com.appodeal.ads.NativeAd;
 import com.appodeal.ads.native_ad.views.NativeAdViewAppWall;
 import com.appodeal.ads.native_ad.views.NativeAdViewContentStream;
@@ -58,10 +58,10 @@ class NativeListAdapter {
     }
 
     private View getView(NativeAd nativeAd) {
-        View convertView = null;
+        ViewGroup convertView = null;
         switch (mType) {
             case 0:
-                convertView = LayoutInflater.from(mNativeListView.getContext()).inflate(R.layout.include_native_ads, mNativeListView, false);
+                convertView = (ViewGroup) LayoutInflater.from(mNativeListView.getContext()).inflate(R.layout.include_native_ads, mNativeListView, false);
                 TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
                 tvTitle.setText(nativeAd.getTitle());
 
@@ -99,11 +99,11 @@ class NativeListAdapter {
                 } else {
                     tvAgeRestrictions.setVisibility(View.GONE);
                 }
-                AppodealMediaView appodealMediaView = (AppodealMediaView) convertView.findViewById(R.id.appodeal_media_view_content);
+                NativeMediaView nativeMediaView = (NativeMediaView) convertView.findViewById(R.id.appodeal_media_view_content);
                 if (nativeAd.containsVideo()) {
-                    nativeAd.setAppodealMediaView(appodealMediaView);
+                    nativeAd.setNativeMediaView(nativeMediaView);
                 } else {
-                    appodealMediaView.setVisibility(View.GONE);
+                    nativeMediaView.setVisibility(View.GONE);
                 }
 
                 nativeAd.registerViewForInteraction(convertView);

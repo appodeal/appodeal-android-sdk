@@ -36,33 +36,7 @@
             android:onClick="isNativeLoadedButton"
             android:text="@string/isNativeLoadedButton" />
 
-        <com.appodeal.test.layout.HorizontalNumberPicker
-            android:id="@+id/nativeAdsCountPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
-
-        <Button
-            android:id="@+id/nativeCacheButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="nativeCacheButton"
-            android:text="@string/nativeCacheButton" />
-
-        <Button
-            android:id="@+id/nativeHideButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="nativeHideButton"
-            android:text="@string/nativeHideButton" />
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/nativeContainer"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -74,11 +48,11 @@
             android:id="@+id/nativeLoadContainerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="nativeLoadContainerButton"
-            android:text="@string/nativeLoadContainerButton" />
+            android:onClick="nativeCacheButton"
+            android:text="@string/nativeCacheButton" />
 
         <com.appodeal.test.layout.HorizontalNumberPicker
-            android:id="@+id/nativeAdsContainerShowPicker"
+            android:id="@+id/nativeAdsCountPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" />
@@ -87,8 +61,15 @@
             android:id="@+id/nativeShowContainerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="nativeShowContainerButton"
-            android:text="@string/nativeShowContainerButton" />
+            android:onClick="nativeShowButton"
+            android:text="@string/nativeShowButton" />
+
+        <Button
+            android:id="@+id/nativeHideButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="nativeHideButton"
+            android:text="@string/nativeHideButton" />
     </LinearLayout>
 
     <LinearLayout
