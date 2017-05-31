@@ -35,9 +35,4 @@ class AppodealInterstitialCallbacks implements InterstitialCallbacks {
     public void onInterstitialClosed() {
         Utils.showToast(mActivity, "onInterstitialClosed");
     }
-
-    @Override
-    public void onInterstitialFinished() {
-        Utils.showToast(mActivity, "onInterstitialFinished");
-    }
 }

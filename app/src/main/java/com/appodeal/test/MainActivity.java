@@ -393,14 +393,8 @@ public class MainActivity extends FragmentActivity {
         //Add user settings
         Appodeal.getUserSettings(this)
                 .setAge(25)
-                .setAlcohol(UserSettings.Alcohol.NEGATIVE)
-                .setSmoking(UserSettings.Smoking.NEUTRAL)
-                .setBirthday("17/06/1990") .setEmail("ru@appodeal.com")
-                .setGender(UserSettings.Gender.MALE)
-                .setRelation(UserSettings.Relation.DATING)
-                .setInterests("reading, games, movies, snowboarding")
-                .setOccupation(UserSettings.Occupation.WORK);
-        Appodeal.trackInAppPurchase(this, 10.0, "UAH");
+                .setGender(UserSettings.Gender.MALE);
+        Appodeal.trackInAppPurchase(this, 10.0, "USD");
         Appodeal.initialize(this, APP_KEY, Appodeal.NONE);
     }
 
