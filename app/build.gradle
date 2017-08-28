@@ -34,8 +34,8 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:multidex:1.0.1'
-    compile ('com.google.android.gms:play-services-ads:9.6.1')
-    compile ('com.google.android.gms:play-services-location:9.6.1')
+    compile 'com.google.android.gms:play-services-ads:10.2.1'
+    compile 'com.google.android.gms:play-services-location:10.2.1'
 }
 
 fileTree(dir: 'libs-aar', include: '*.aar').each { File file -> dependencies.add("compile", [name: file.name.replaceFirst(~/\.[^\.]+$/, ''), ext: 'aar']) }

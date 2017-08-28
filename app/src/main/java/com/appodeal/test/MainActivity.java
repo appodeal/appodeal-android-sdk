@@ -38,11 +38,10 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity {
     private static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
-    private String[] interstitial_networks, video_networks, mrec_networks, native_networks, banner_networks;
+    private String[] interstitial_networks, rewarded_video_networks, mrec_networks, native_networks, banner_networks;
     boolean[] interstitialNetworks;
     boolean[] bannerNetworks;
     boolean[] mrecNetworks;
-    boolean[] nonRewardedNetworks;
     boolean[] rewardedNetworks;
     boolean[] nativeNetworks;
     boolean[] checkedValues;
@@ -64,12 +63,17 @@ public class MainActivity extends FragmentActivity {
             if (x == null) {
                 return null;
             }
-            switch(x) {
-                case Appodeal.INTERSTITIAL: return Interstitial;
-                case Appodeal.REWARDED_VIDEO: return RVideo;
-                case Appodeal.BANNER: return Banner;
-                case Appodeal.MREC: return Mrec;
-                case Appodeal.NATIVE: return Native;
+            switch (x) {
+                case Appodeal.INTERSTITIAL:
+                    return Interstitial;
+                case Appodeal.REWARDED_VIDEO:
+                    return RVideo;
+                case Appodeal.BANNER:
+                    return Banner;
+                case Appodeal.MREC:
+                    return Mrec;
+                case Appodeal.NATIVE:
+                    return Native;
             }
             return null;
         }
@@ -130,11 +134,9 @@ public class MainActivity extends FragmentActivity {
         for (int i = 0; i < banner_networks.length; i++) {
             bannerNetworks[i] = true;
         }
-        video_networks = getResources().getStringArray(R.array.video_networks);
-        nonRewardedNetworks = new boolean[video_networks.length];
-        rewardedNetworks = new boolean[video_networks.length];
-        for (int i = 0; i < video_networks.length; i++) {
-            nonRewardedNetworks[i] = true;
+        rewarded_video_networks = getResources().getStringArray(R.array.rewarded_video_networks);
+        rewardedNetworks = new boolean[rewarded_video_networks.length];
+        for (int i = 0; i < rewarded_video_networks.length; i++) {
             rewardedNetworks[i] = true;
         }
         native_networks = getResources().getStringArray(R.array.native_networks);
@@ -406,6 +408,11 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    public void setChildDirectedTreatment(View v) {
+        v.setEnabled(false);
+        Appodeal.setChildDirectedTreatment(true);
+    }
+
 
     public void interstitialChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -460,7 +467,7 @@ public class MainActivity extends FragmentActivity {
     public void rewardedVideoChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         checkedValues = rewardedNetworks.clone();
-        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(video_networks, checkedValues,
+        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(rewarded_video_networks, checkedValues,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     public void onClick(DialogInterface dialog, int item, boolean isChecked) {
                     }
@@ -469,7 +476,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 rewardedNetworks = checkedValues;
-                disableNetworks(rewardedNetworks, video_networks, AdType.RVideo);
+                disableNetworks(rewardedNetworks, rewarded_video_networks, AdType.RVideo);
             }
         });
 
