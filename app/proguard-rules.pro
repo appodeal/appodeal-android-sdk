@@ -30,10 +30,12 @@
 -keepclassmembers class com.mopub.** { public *; }
 -dontwarn com.mopub.**
 -keep class * extends com.mopub.mobileads.CustomEventBanner {}
+-keepclassmembers class com.mopub.mobileads.CustomEventBannerAdapter {!private !public !protected *;}
 -keep class * extends com.mopub.mobileads.CustomEventInterstitial {}
 -keep class * extends com.mopub.nativeads.CustomEventNative {}
 -keep class * extends com.mopub.mobileads.CustomEventRewardedVideo {}
 -dontwarn com.mopub.volley.toolbox.**
+-keepclassmembers class ** { @com.mopub.common.util.ReflectionTarget *; }
 
 # Applovin
 -keep class com.applovin.** { *; }
@@ -41,6 +43,7 @@
 
 # Facebook
 -keep class com.facebook.ads.** { *; }
+-keeppackagenames com.facebook.*
 -dontwarn com.facebook.ads.**
 
 # Chartboost
@@ -93,11 +96,14 @@
 -dontwarn com.adcolony.**
 
 # Vungle
--keep class com.vungle.** { *;}
--keep class javax.inject.*
 -keepattributes *Annotation*, Signature
--keep class dagger.*
+-keep class com.vungle.** { *;}
 -dontwarn com.vungle.**
+-keep class com.moat.analytics.mobile.vng.** { *;}
+-keep class dagger.**
+-keep class de.greenrobot.event.**
+-keep class javax.inject.**
+-keep class rx.**
 
 # MyTarget
 -keep class com.my.target.** { *; }
@@ -111,17 +117,20 @@
 -dontwarn com.tapjoy.**
 
 # IronSource
--keepclassmembers class com.supersonicads.sdk.controller.SupersonicWebView$JSInterface { public *; }
+-keepclassmembers class com.ironsource.sdk.controller.IronSourceWebView$JSInterface { public *; }
 -keepclassmembers class * implements android.os.Parcelable { public static final android.os.Parcelable$Creator *; }
--keep class com.supersonic.** { *; }
--keep class com.supersonicads.** { *; }
--dontwarn com.supersonic.**
--dontwarn com.supersonicads.**
+-keep class com.ironsource.** { *; }
+-dontwarn com.ironsource.**
 
 # AdColonyV3
 -keepclassmembers class * { @android.webkit.JavascriptInterface <methods>; }
+-keep class com.adcolony.** { *; }
 -dontwarn com.adcolony.**
 -dontwarn android.app.Activity
+
+#Appnext
+-keep class com.appnext.** { *; }
+-dontwarn com.appnext.**
 
 # Inmobi
 -keep class com.inmobi.** { *; }
@@ -133,7 +142,13 @@
 -keep class com.moat.** {*;}
 -dontwarn com.moat.**
 
+# MMdeia
+-keepclassmembers class com.millennialmedia** {public *;}
+-keep class com.millennialmedia**
+-dontwarn com.millennialmedia.**
+
 # Ogury
+-dontwarn io.presage.**
 -dontnote io.presage.**
 -dontwarn shared_presage.**
 -dontwarn org.codehaus.**
@@ -150,6 +165,8 @@
 -dontnote okio.**
 -dontwarn okhttp3.**
 -dontwarn okio.**
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
 
 -dontnote sun.misc.Unsafe
 -dontnote android.net.http.*
@@ -220,6 +237,7 @@
 -keep class android.support.v4.app.FragmentActivity { *; }
 -keep class android.support.v4.app.FragmentManager { *; }
 -keep class android.support.v4.app.FragmentTransaction { *; }
+-keep class android.support.v4.content.ContextCompat { *; }
 -keep class android.support.v4.content.LocalBroadcastManager { *; }
 -keep class android.support.v4.util.LruCache { *; }
 -keep class android.support.v4.view.PagerAdapter { *; }

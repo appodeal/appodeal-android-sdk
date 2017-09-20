@@ -132,7 +132,7 @@
 
         <!--suppress AndroidDomInspection -->
         <activity
-            android:name="com.startapp.android.publish.list3d.List3DActivity"
+            android:name="com.startapp.android.publish.ads.list3d.List3DActivity"
             android:theme="@android:style/Theme"/>
         <!--suppress AndroidDomInspection -->
         <activity
@@ -226,6 +226,11 @@
             android:name="com.vungle.publisher.MraidFullScreenAdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+        <!--suppress AndroidDomInspection -->
+        <activity
+            android:name="com.vungle.publisher.FlexViewAdActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <!--suppress AndroidDomInspection -->
         <activity
@@ -315,27 +320,49 @@
             </intent-filter>
         </receiver>
 
+        <!--optional, remove if not using Ogury-->
         <meta-data
             android:name="presage_key"
             android:value="000000"/>
-        <service android:name="io.presage.services.PresageServiceImp"/>
+        <!--optional, remove if not using Ogury-->
+        <service
+            android:name="io.presage.PresageService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="io.presage.PresageService.PIVOT"/>
+            </intent-filter>
+        </service>
+        <!--optional, remove if not using Ogury-->
         <activity
             android:name="io.presage.activities.PresageActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:hardwareAccelerated="true">
+            android:hardwareAccelerated="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="io.presage.intent.action.LAUNCH_WEBVIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <receiver android:name="io.presage.receivers.BootReceiver">
+        <!--optional, remove if not using Ogury-->
+        <receiver android:name="io.presage.receiver.NetworkChangeReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.DATE_CHANGED"/>
-                <action android:name="io.presage.receivers.BootReceiver.RESTART_SERVICE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
+                <action android:name="io.presage.receiver.NetworkChangeReceiver.ONDESTROY"/>
             </intent-filter>
         </receiver>
+        <!--optional, remove if not using Ogury-->
+        <receiver android:name="io.presage.receiver.AlarmReceiver"/>
+        <!--optional, remove if not using Ogury-->
+        <provider
+            android:name="io.presage.provider.PresageProvider"
+            android:authorities="${applicationId}.PresageProvider"
+            android:enabled="true"
+            android:exported="true"/>
 
+        <!--optional, remove if not using Millennial Media-->
         <provider
             android:name="com.millennialmedia.internal.utils.MediaContentProvider"
             android:authorities="${applicationId}.MediaContentProvider"
