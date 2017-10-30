@@ -38,6 +38,7 @@
     <string name="bannerCacheButton">Cache</string>
     <string name="bannerShowButton">Show</string>
     <string name="bannerHideButton">Hide</string>
+    <string name="bannerDestroyButton">Destroy</string>
 
     <string name="autoCacheMrecSwitch">Auto Cache</string>
     <string name="initMrecSdkButton">Init MREC</string>
@@ -50,6 +51,7 @@
     <string name="debugMrecTextView">Debug</string>
     <string name="mrecCacheDebugButton">Cache</string>
     <string name="mrecShowDebugButton">Show</string>
+    <string name="mrecDestroyButton">Destroy</string>
 
     <string name="autoCacheNativeSwitch">Auto Cache</string>
     <string name="initNativeSdkButton">Init Native</string>

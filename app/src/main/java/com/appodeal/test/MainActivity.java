@@ -554,6 +554,10 @@ public class MainActivity extends FragmentActivity {
         Appodeal.hide(this, Appodeal.MREC);
     }
 
+    public void mrecDestroyButton(View v) {
+        Appodeal.destroy(Appodeal.MREC);
+    }
+
 
     public void bannerChooseNetworks(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -602,6 +606,10 @@ public class MainActivity extends FragmentActivity {
 
     public void bannerHideButton(View v) {
         Appodeal.hide(this, Appodeal.BANNER);
+    }
+
+    public void bannerDestroyButton(View v) {
+        Appodeal.destroy(Appodeal.BANNER);
     }
 
 

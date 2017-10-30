@@ -75,4 +75,13 @@
             android:onClick="bannerHideButton"
             android:text="@string/bannerHideButton" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/bannerDestroyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="bannerDestroyButton"
+        android:text="@string/bannerDestroyButton" />
+
 </LinearLayout>

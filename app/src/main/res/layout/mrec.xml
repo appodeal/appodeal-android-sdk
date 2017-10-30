@@ -69,4 +69,13 @@
             android:onClick="mrecHideButton"
             android:text="@string/mrecHideButton" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/mrecDestroyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="mrecDestroyButton"
+        android:text="@string/mrecDestroyButton" />
+
 </LinearLayout>
