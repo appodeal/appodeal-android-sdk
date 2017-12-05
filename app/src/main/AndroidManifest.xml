@@ -36,11 +36,11 @@
         <activity
             android:name="com.appodeal.ads.InterstitialActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name="com.appodeal.ads.VideoActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name="com.appodeal.ads.LoaderActivity"
             android:configChanges="orientation|screenSize"
@@ -252,6 +252,35 @@
             android:name="com.flurry.android.FlurryBrowserActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name="com.mobvista.msdk.offerwall.view.MVOfferWallActivity"
+            android:configChanges="screenSize|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mobvista.msdk.offerwall.view.MVOfferWallRewardVideoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="com.mobvista.msdk.reward.player.MVRewardVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="com.mobvista.msdk.videofeeds.vfplayer.VideoFeedsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.mobvista.msdk.out.LoadingActivity" />
+        <activity
+            android:name="com.mobvista.msdk.interstitial.view.MVInterstitialActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="com.mobvista.msdk.shell.MVActivity"
+            android:configChanges="keyboard|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
 
         <!--suppress AndroidDomInspection -->
         <activity
