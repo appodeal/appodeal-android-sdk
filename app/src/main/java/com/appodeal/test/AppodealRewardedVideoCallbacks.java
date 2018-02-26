@@ -28,7 +28,7 @@ class AppodealRewardedVideoCallbacks implements RewardedVideoCallbacks {
 
     @Override
     public void onRewardedVideoFinished(double amount, String name) {
-        Utils.showToast(mActivity, String.format("onRewardedVideoFinished. Reward: %d %s", amount, name));
+        Utils.showToast(mActivity, String.format("onRewardedVideoFinished. Reward: %.2f %s", amount, name));
     }
 
     @Override
