@@ -103,6 +103,39 @@
             android:layout_gravity="center_vertical" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/showInRecyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="showInRecyclerView"
+        android:text="@string/show_in_recycler_view" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registerNativeAds"
+            android:onClick="registerNativeAds"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unRegisterNativeAds"
+            android:onClick="unRegisterNativeAds"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/destroy"
+            android:onClick="destroyNativeAds"/>
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/nativeAdsListView"
         android:layout_width="wrap_content"

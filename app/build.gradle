@@ -34,9 +34,27 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.google.android.gms:play-services-ads:10.2.1'
-    compile 'com.google.android.gms:play-services-location:10.2.1'
+    compile 'com.google.android.gms:play-services-ads:11.0.4'
+    compile 'com.google.android.gms:play-services-location:11.0.4'
+    compile('com.android.support:recyclerview-v7:25.2.0') {
+        exclude module: 'support-v4'
+    }
+    compile 'com.squareup.picasso:picasso:2.5.2' //for Inmobi
+    compile name: 'adcolony-sdk-3.3.0', ext: 'aar'
+    compile name: 'mobvista-8.3.7-alphab', ext: 'aar'
+    compile name: 'mobvista-8.3.7-appwall', ext: 'aar'
+    compile name: 'mobvista-8.3.7-appwallext', ext: 'aar'
+    compile name: 'mobvista-8.3.7-common', ext: 'aar'
+    compile name: 'mobvista-8.3.7-interstitial', ext: 'aar'
+    compile name: 'mobvista-8.3.7-mvdownloads', ext: 'aar'
+    compile name: 'mobvista-8.3.7-mvjscommon', ext: 'aar'
+    compile name: 'mobvista-8.3.7-mvnative', ext: 'aar'
+    compile name: 'mobvista-8.3.7-nativeex', ext: 'aar'
+    compile name: 'mobvista-8.3.7-offerwall', ext: 'aar'
+    compile name: 'mobvista-8.3.7-playercommon', ext: 'aar'
+    compile name: 'mobvista-8.3.7-reward', ext: 'aar'
+    compile name: 'mobvista-8.3.7-videocommon', ext: 'aar'
+    compile name: 'mobvista-8.3.7-videofeeds', ext: 'aar'
+    compile name: 'mmedia-6.4.0', ext: 'aar'
 }
-
-fileTree(dir: 'libs-aar', include: '*.aar').each { File file -> dependencies.add("compile", [name: file.name.replaceFirst(~/\.[^\.]+$/, ''), ext: 'aar']) }
 

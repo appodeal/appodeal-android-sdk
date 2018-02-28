@@ -27,18 +27,22 @@ import android.widget.Toast;
 import com.appodeal.ads.Appodeal;
 import com.appodeal.ads.Native;
 import com.appodeal.ads.NativeAd;
+import com.appodeal.ads.NativeAdView;
 import com.appodeal.ads.UserSettings;
 import com.appodeal.ads.utils.Log;
 import com.appodeal.test.layout.AdTypeViewPager;
 import com.appodeal.test.layout.HorizontalNumberPicker;
 import com.appodeal.test.layout.SlidingTabLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends FragmentActivity {
     private static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
     private String[] interstitial_networks, rewarded_video_networks, mrec_networks, native_networks, banner_networks;
+    private List<NativeAd> nativeAds = new ArrayList<>();
+    String mPlacementName = "default";
     boolean[] interstitialNetworks;
     boolean[] bannerNetworks;
     boolean[] mrecNetworks;
@@ -396,8 +400,8 @@ public class MainActivity extends FragmentActivity {
         Appodeal.getUserSettings(this)
                 .setAge(25)
                 .setGender(UserSettings.Gender.MALE);
-        Appodeal.trackInAppPurchase(this, 10.0, "USD");
         Appodeal.initialize(this, APP_KEY, Appodeal.NONE);
+        Appodeal.trackInAppPurchase(this, 10.0, "USD");
     }
 
     public void disableNetworks(boolean[] adNetworks, String[] networksList, AdType adType) {
@@ -641,32 +645,15 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    public void nativeCacheButton(View view) {
+    public void nativeCacheButton(View v) {
         hideNativeAds();
 
-        HorizontalNumberPicker numberPicker = (HorizontalNumberPicker) findViewById(R.id.nativeAdsCountPicker);
+        HorizontalNumberPicker numberPicker = findViewById(R.id.nativeAdsCountPicker);
         Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
         if (numberPicker.getNumber() == 1) {
             Appodeal.cache(this, Appodeal.NATIVE);
         } else {
             Appodeal.cache(this, Appodeal.NATIVE, numberPicker.getNumber());
-        }
-    }
-
-    public void nativeHideButton(View v) {
-        hideNativeAds();
-    }
-
-    public void hideNativeAds() {
-        LinearLayout nativeListView = (LinearLayout) findViewById(R.id.nativeAdsListView);
-        nativeListView.removeAllViews();
-        NativeListAdapter nativeListViewAdapter = (NativeListAdapter) nativeListView.getTag();
-        if (nativeListViewAdapter != null) {
-            for (int i = 0; i < nativeListViewAdapter.getCount(); i++) {
-                NativeAd nativeAd = (NativeAd) nativeListViewAdapter.getItem(i);
-                nativeAd.unregisterViewForInteraction();
-            }
-            nativeListViewAdapter.clear();
         }
     }
 
@@ -678,8 +665,68 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    public void nativeShowButton(View v) {
+        hideNativeAds();
+        HorizontalNumberPicker numberPicker = findViewById(R.id.nativeAdsCountPicker);
+        nativeAds = Appodeal.getNativeAds(numberPicker.getNumber());
+        LinearLayout nativeAdsListView = findViewById(R.id.nativeAdsListView);
+        Spinner nativeTemplateSpinner = findViewById(R.id.native_template_list);
+        NativeListAdapter nativeListViewAdapter = new NativeListAdapter(nativeAdsListView, nativeTemplateSpinner.getSelectedItemPosition());
+        for (NativeAd nativeAd : nativeAds) {
+            nativeListViewAdapter.addNativeAd(nativeAd);
+        }
+        nativeAdsListView.setTag(nativeListViewAdapter);
+        nativeListViewAdapter.rebuild();
+    }
+
+    public void nativeHideButton(View v) {
+        hideNativeAds();
+    }
+
+    public void unRegisterNativeAds(View v) {
+        LinearLayout nativeListView = findViewById(R.id.nativeAdsListView);
+        int childCount = nativeListView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            NativeAdView child = (NativeAdView) nativeListView.getChildAt(i);
+            child.unregisterViewForInteraction();
+        }
+    }
+
+    public void destroyNativeAds(View v) {
+        LinearLayout nativeListView = findViewById(R.id.nativeAdsListView);
+        int childCount = nativeListView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            NativeAdView child = (NativeAdView) nativeListView.getChildAt(i);
+            child.destroy();
+        }
+    }
+
+    public void registerNativeAds(View v) {
+        LinearLayout nativeListView = findViewById(R.id.nativeAdsListView);
+        int childCount = nativeListView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            NativeAdView child = (NativeAdView) nativeListView.getChildAt(i);
+            child.registerView(nativeAds.get(i));
+        }
+    }
+
+    private void hideNativeAds() {
+        LinearLayout nativeListView = findViewById(R.id.nativeAdsListView);
+        int childCount = nativeListView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            NativeAdView child = (NativeAdView) nativeListView.getChildAt(i);
+            child.unregisterViewForInteraction();
+            child.destroy();
+        }
+        nativeListView.removeAllViews();
+        NativeListAdapter nativeListViewAdapter = (NativeListAdapter) nativeListView.getTag();
+        if (nativeListViewAdapter != null) {
+            nativeListViewAdapter.clear();
+        }
+    }
+
     private void updateNativeList(int position) {
-        LinearLayout nativeListView = (LinearLayout) findViewById(R.id.nativeAdsListView);
+        LinearLayout nativeListView = findViewById(R.id.nativeAdsListView);
         NativeListAdapter nativeListViewAdapter = (NativeListAdapter) nativeListView.getTag();
         if (nativeListViewAdapter != null) {
             nativeListViewAdapter.setTemplate(position);
@@ -687,19 +734,9 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void nativeShowButton(View v) {
-        hideNativeAds();
-        HorizontalNumberPicker numberPicker = (HorizontalNumberPicker) findViewById(R.id.nativeAdsCountPicker);
-        List<NativeAd> nativeAds = Appodeal.getNativeAds(numberPicker.getNumber());
-
-        LinearLayout nativeAdsListView = (LinearLayout) findViewById(R.id.nativeAdsListView);
-        Spinner nativeTemplateSpinner = (Spinner) findViewById(R.id.native_template_list);
-        NativeListAdapter nativeListViewAdapter = new NativeListAdapter(nativeAdsListView, nativeTemplateSpinner.getSelectedItemPosition());
-        for (NativeAd nativeAd : nativeAds) {
-            nativeListViewAdapter.addNativeAd(nativeAd);
-        }
-        nativeAdsListView.setTag(nativeListViewAdapter);
-        nativeListViewAdapter.rebuild();
+    public void showInRecyclerView(View v) {
+        Spinner nativeTemplateSpinner = findViewById(R.id.native_template_list);
+        startActivity(NativeActivity.newIntent(this, nativeTemplateSpinner.getSelectedItemPosition()));
     }
 
     public static class AdTypeAdapter extends FragmentPagerAdapter {
