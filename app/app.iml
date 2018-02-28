@@ -84,6 +84,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
@@ -96,29 +97,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="com.android.support:multidex-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="mobvista-8.3.7-appwall:@aar" level="project" />
-    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/flurry-ads-8.2.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" exported="" name="mobvista-8.3.7-videocommon:@aar" level="project" />
-    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/applovin-7.7.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" exported="" name="mobvista-8.3.7-offerwall:@aar" level="project" />
-    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/flurry-analytics-8.2.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" exported="" name="mobvista-8.3.7-mvdownloads:@aar" level="project" />
-    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/ogury-2.1.15.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" exported="" name="mobvista-8.3.7-mvnative:@aar" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-fragment-25.2.0" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-core-utils-25.2.0" level="project" />
-    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/unity_ads-2.1.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-tasks-11.0.4" level="project" />
-    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/chartboost-7.0.1.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" exported="" name="mobvista-8.3.7-alphab:@aar" level="project" />
-    <orderEntry type="library" exported="" name="mobvista-8.3.7-reward:@aar" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:support-annotations:25.2.0@jar" level="project" />
-    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-ads-11.0.4" level="project" />
-    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-ads-lite-11.0.4" level="project" />
-    <orderEntry type="library" exported="" name="com.squareup.picasso:picasso:2.5.2@jar" level="project" />
-    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-base-11.0.4" level="project" />
     <orderEntry type="library" exported="" name="mmedia-6.4.0:@aar" level="project" />
+    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/flurry-ads-8.2.0.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="mobvista-8.3.7-common:@aar" level="project" />
-    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/android-support-v4-23.1.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/mailru-4.7.2.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-clearcut-11.0.4" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="com.android.support:multidex-instrumentation-1.0.1" level="project" />
@@ -126,22 +107,40 @@
     <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/inmobi-7.0.2.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/yandex-metrica-2.80.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-core-ui-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="mobvista-8.3.7-videocommon:@aar" level="project" />
+    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/applovin-7.7.0.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-media-compat-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="mobvista-8.3.7-offerwall:@aar" level="project" />
+    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/flurry-analytics-8.2.0.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-basement-11.0.4" level="project" />
     <orderEntry type="library" exported="" name="adcolony-sdk-3.3.0:@aar" level="project" />
+    <orderEntry type="library" exported="" name="mobvista-8.3.7-mvdownloads:@aar" level="project" />
     <orderEntry type="library" exported="" name="mobvista-8.3.7-mvjscommon:@aar" level="project" />
     <orderEntry type="library" exported="" name="mobvista-8.3.7-videofeeds:@aar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-v4-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/ogury-2.1.15.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="mobvista-8.3.7-mvnative:@aar" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-fragment-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="mobvista-8.3.7-nativeex:@aar" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-safetynet-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-core-utils-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/unity_ads-2.1.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-tasks-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/chartboost-7.0.1.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="mobvista-8.3.7-alphab:@aar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/startapp-3.6.9.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-compat-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="mobvista-8.3.7-reward:@aar" level="project" />
     <orderEntry type="library" exported="" name="mobvista-8.3.7-interstitial:@aar" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-annotations:25.2.0@jar" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-ads-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-ads-lite-11.0.4" level="project" />
     <orderEntry type="library" exported="" name="mobvista-8.3.7-playercommon:@aar" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:/Users/test/StudioProjects/AppodealAndroidDemo/app/libs/appodeal-2.3.0.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-gass-11.0.4" level="project" />
     <orderEntry type="library" exported="" name="mobvista-8.3.7-appwallext:@aar" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-location-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-base-11.0.4" level="project" />
   </component>
 </module>
