@@ -26,6 +26,12 @@ public class NativeActivity extends FragmentActivity {
     private NativeAdapter nativeAdapter;
     private AppodealWrapperAdapter appodealWrapperAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private final Runnable addPackRunnable = new Runnable() {
+        @Override
+        public void run() {
+            addPackToAdapter();
+        }
+    };
 
 
     public static Intent newIntent(Context context, int nativeType) {
@@ -90,7 +96,7 @@ public class NativeActivity extends FragmentActivity {
                     int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
 
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
-                        addPackToAdapter();
+                        recyclerView.post(addPackRunnable);
                     }
                 }
             }
