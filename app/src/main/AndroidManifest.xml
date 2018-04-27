@@ -260,6 +260,11 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
+            android:name="com.mobvista.msdk.activity.MVCommonActivity"
+            android:configChanges="keyboard|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
             android:name="com.mobvista.msdk.offerwall.view.MVOfferWallActivity"
             android:configChanges="screenSize|orientation"
             android:screenOrientation="portrait" />
