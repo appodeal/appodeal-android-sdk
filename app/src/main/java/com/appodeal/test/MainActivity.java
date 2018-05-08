@@ -37,7 +37,7 @@ import java.util.List;
 
 
 public class MainActivity extends FragmentActivity {
-    private static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
+    public static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
     private String[] interstitial_networks, rewarded_video_networks, mrec_networks, native_networks, banner_networks;
     boolean[] interstitialNetworks;
     boolean[] bannerNetworks;
@@ -130,6 +130,8 @@ public class MainActivity extends FragmentActivity {
         if (Build.VERSION.SDK_INT >= 23 && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             Appodeal.requestAndroidMPermissions(this, new AppodealPermissionCallbacks(this));
+        } else {
+            Appodeal.initialize(this, APP_KEY, Appodeal.BANNER | Appodeal.MREC | Appodeal.INTERSTITIAL | Appodeal.REWARDED_VIDEO | Appodeal.NATIVE);
         }
 
         TextView sdkTextView = findViewById(R.id.sdkTextView);
