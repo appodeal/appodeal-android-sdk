@@ -10,7 +10,7 @@
     <string name="initSdkButton">Init SDK</string>
     <string name="chooseNetworks">Choose networks</string>
     <string name="logLevelTextView">Log level</string>
-    
+
     <string name="set_child_directed_treatment">Set Child Directed Treatment</string>
 
     <string name="autoCacheInterstitialSwitch">Auto Cache</string>
@@ -187,4 +187,14 @@
         <item>debug</item>
         <item>verbose</item>
     </string-array>
+
+    <string name="gdpr_title">Personalize Your Ad Experience</string>
+    <string name="gdpr_main_text">This app personalizes your advertising experience using Appodeal. Appodeal and its partners may collect and process personal data such as device identifiers, location data, and other demographic and interest data to provide advertising experience tailored to you. By consenting to this improved ad experience, you`ll see ads that Appodeal and its partners believe are more relevant to you. <a href='https://www.appodeal.com/privacy-policy'>Learn more</a>\n\nBy agreeing, you are confirming that you are over the age of 16 and would like a personalized ad experience.</string>
+    <string name="gdpr_agree_text">Great. We hope you enjoy your personalized ad experience. If you ever change your mind, you can withdraw your consent by enabling "Opt out of Ads Personalization" under Settings/Google/Ads on your Android device and then restarting this app.</string>
+    <string name="gdpr_disagree_text">Appodeal won`t collect your data through this app for personalized advertising. If you consent to Appodeal personalizing your advertising experience in a different app, we will still collect your data through that app.</string>
+    <string name="gdpr_agree">Yes, I agree</string>
+    <string name="gdpr_disagree">No, thank you</string>
+    <string name="gdpr_understand">I understand that I will still see ads, but they may not be as relevant to my interests.</string>
+    <string name="gdpr_close">Close window</string>
+
 </resources>
