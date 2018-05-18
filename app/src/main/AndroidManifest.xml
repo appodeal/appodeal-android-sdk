@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.appodeal.test">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--optional-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!--optional-->
 
     <uses-feature
         android:name="android.hardware.location"
@@ -250,19 +251,56 @@
 
         <!--suppress AndroidDomInspection -->
         <activity
-            android:name="com.vungle.publisher.VideoFullScreenAdActivity"
+            android:name="com.vungle.warren.ui.VungleActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <!--suppress AndroidDomInspection -->
-        <activity
-            android:name="com.vungle.publisher.MraidFullScreenAdActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-        <!--suppress AndroidDomInspection -->
-        <activity
-            android:name="com.vungle.publisher.FlexViewAdActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <service
+            android:name="com.evernote.android.job.v21.PlatformJobService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name="com.evernote.android.job.v14.PlatformAlarmService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name="com.evernote.android.job.v14.PlatformAlarmServiceExact"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.evernote.android.job.v14.PlatformAlarmReceiver"
+            android:exported="false">
+            <intent-filter>
+                <!-- Keep the filter for legacy intents -->
+                <action android:name="com.evernote.android.job.v14.RUN_JOB" />
+                <action android:name="net.vrallev.android.job.v14.RUN_JOB" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.evernote.android.job.JobBootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.evernote.android.job.gcm.PlatformGcmService"
+            android:enabled="false"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.evernote.android.job.JobRescheduleService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <!--suppress AndroidDomInspection -->
         <activity
@@ -275,15 +313,13 @@
             android:configChanges="keyboard|orientation"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name="com.mobvista.msdk.offerwall.view.MVOfferWallActivity"
-            android:configChanges="screenSize|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.mobvista.msdk.offerwall.view.MVOfferWallRewardVideoActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <service android:name="com.mobvista.msdk.shell.MVService">
+            <intent-filter>
+                <action android:name="com.mobvista.msdk.download.action" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name="com.mobvista.msdk.reward.player.MVRewardVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -299,10 +335,8 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name="com.mobvista.msdk.shell.MVActivity"
-            android:configChanges="keyboard|orientation"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+            android:name="com.mobvista.msdk.mvjscommon.authority.activity.MVAuthorityActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!--suppress AndroidDomInspection -->
         <activity
@@ -359,22 +393,12 @@
             android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:resizeableActivity="false"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@android:style/Theme.NoTitleBar"
+            tools:ignore="UnusedAttribute" />
 
-        <receiver
-            android:name="com.inmobi.commons.core.utilities.uid.ImIdShareBroadCastReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.inmobi.share.id" />
-            </intent-filter>
-        </receiver>
-
-        <!--optional, remove if not using Ogury-->
         <meta-data
             android:name="presage_key"
             android:value="000000" />
-        <!--optional, remove if not using Ogury-->
         <service
             android:name="io.presage.PresageService"
             android:enabled="true"
@@ -384,7 +408,6 @@
                 <action android:name="io.presage.PresageService.PIVOT" />
             </intent-filter>
         </service>
-        <!--optional, remove if not using Ogury-->
         <activity
             android:name="io.presage.activities.PresageActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -395,7 +418,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!--optional, remove if not using Ogury-->
+
         <receiver android:name="io.presage.receiver.NetworkChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -403,21 +426,13 @@
                 <action android:name="io.presage.receiver.NetworkChangeReceiver.ONDESTROY" />
             </intent-filter>
         </receiver>
-        <!--optional, remove if not using Ogury-->
         <receiver android:name="io.presage.receiver.AlarmReceiver" />
-        <!--optional, remove if not using Ogury-->
+
         <provider
             android:name="io.presage.provider.PresageProvider"
             android:authorities="${applicationId}.PresageProvider"
             android:enabled="true"
             android:exported="true" />
-
-        <!--optional, remove if not using Millennial Media-->
-        <provider
-            android:name="com.millennialmedia.internal.utils.MediaContentProvider"
-            android:authorities="${applicationId}.MediaContentProvider"
-            android:exported="false"
-            android:grantUriPermissions="true" />
 
     </application>
 

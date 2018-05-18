@@ -37,7 +37,6 @@ import com.appodeal.test.layout.SlidingTabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainActivity extends FragmentActivity {
     public static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
     private String[] interstitial_networks, rewarded_video_networks, mrec_networks, native_networks, banner_networks;
@@ -152,8 +151,6 @@ public class MainActivity extends FragmentActivity {
         if (Build.VERSION.SDK_INT >= 23 && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             Appodeal.requestAndroidMPermissions(this, new AppodealPermissionCallbacks(this));
-        } else {
-            Appodeal.initialize(this, APP_KEY, Appodeal.BANNER | Appodeal.MREC | Appodeal.INTERSTITIAL | Appodeal.REWARDED_VIDEO | Appodeal.NATIVE);
         }
 
         TextView sdkTextView = (TextView) findViewById(R.id.sdkTextView);
@@ -402,7 +399,7 @@ public class MainActivity extends FragmentActivity {
         Appodeal.getUserSettings(this)
                 .setAge(25)
                 .setGender(UserSettings.Gender.MALE);
-        Appodeal.initialize(this, APP_KEY, Appodeal.NONE);
+        Appodeal.initialize(this, APP_KEY, Appodeal.NONE, true);
         Appodeal.trackInAppPurchase(this, 10.0, "USD");
     }
 
@@ -441,7 +438,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initInterstitialSdkButton(View v) {
-        Appodeal.initialize(this, APP_KEY, Appodeal.INTERSTITIAL);
+        Appodeal.initialize(this, APP_KEY, Appodeal.INTERSTITIAL, true);
         Appodeal.setInterstitialCallbacks(new AppodealInterstitialCallbacks(this));
     }
 
@@ -491,7 +488,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initRewardedVideoSdkButton(View v) {
-        Appodeal.initialize(this, APP_KEY, Appodeal.REWARDED_VIDEO);
+        Appodeal.initialize(this, APP_KEY, Appodeal.REWARDED_VIDEO, true);
         Appodeal.setRewardedVideoCallbacks(new AppodealRewardedVideoCallbacks(this));
     }
 
@@ -534,7 +531,7 @@ public class MainActivity extends FragmentActivity {
 
     public void initMrecSdkButton(View v) {
         Appodeal.setMrecViewId(R.id.appodealMrecView);
-        Appodeal.initialize(this, APP_KEY, Appodeal.MREC);
+        Appodeal.initialize(this, APP_KEY, Appodeal.MREC, true);
         Appodeal.setMrecCallbacks(new AppodealMrecCallbacks(this));
     }
 
@@ -587,7 +584,7 @@ public class MainActivity extends FragmentActivity {
 
     public void initBannerSdkButton(View v) {
         Appodeal.setBannerViewId(R.id.appodealBannerView);
-        Appodeal.initialize(this, APP_KEY, Appodeal.BANNER);
+        Appodeal.initialize(this, APP_KEY, Appodeal.BANNER, true);
         Appodeal.setBannerCallbacks(new AppodealBannerCallbacks(this));
     }
 
@@ -621,7 +618,7 @@ public class MainActivity extends FragmentActivity {
 
     public void initNativeSdkButton(View v) {
         Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
-        Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE);
+        Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE, true);
         Appodeal.setAutoCacheNativeIcons(true);
         Appodeal.setAutoCacheNativeMedia(true);
     }

@@ -76,17 +76,6 @@
   public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
-# Avocarrot
--keep class com.avocarrot.** { *; }
--keepclassmembers class com.avocarrot.** { *; }
--dontwarn com.avocarrot.**
--keep public class * extends android.view.View {
-  public <init>(android.content.Context);
-  public <init>(android.content.Context, android.util.AttributeSet);
-  public <init>(android.content.Context, android.util.AttributeSet, int);
-  public void set*(...);
-}
-
 # Adcolony
 -keep class com.jirbo.adcolony.** { *;}
 -keep class com.adcolony.** { *;}
@@ -98,29 +87,22 @@
 -keepclassmembers class com.adcolony.sdk.ADCNative** { *; }
 
 # Vungle
--keepattributes *Annotation*, Signature
--keep class com.vungle.** { *;}
--dontwarn com.vungle.**
--dontnote com.vungle.**
+-dontwarn com.vungle.warren.**
+-keep class com.vungle.warren.** { *; }
+-keep class net.vrallev.android.cat.** { *; }
+-keep class com.evernote.android.job.** { *; }
+-dontwarn com.evernote.android.job.gcm.**
+-dontwarn com.evernote.android.job.GcmAvailableHelper
+-dontwarn com.google.android.gms.ads.identifier.**
+-keep public class com.evernote.android.job.v21.PlatformJobService
+-keep public class com.evernote.android.job.v14.PlatformAlarmService
+-keep public class com.evernote.android.job.v14.PlatformAlarmReceiver
+-keep public class com.evernote.android.job.JobBootReceiver
+-keep public class com.evernote.android.job.JobRescheduleService
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-keep class com.google.android.gms.internal.** { *; }
+-keep class com.moat.** { *; }
 -dontwarn com.moat.**
--keep class com.moat.analytics.mobile.vng.** { *;}
--keep class com.moat.** { public protected private *; }
--keep class dagger.**
--dontwarn de.greenrobot.event.util.**
--keep class de.greenrobot.event.**
--keep class javax.inject.**
--keep class rx.**
--dontwarn rx.**
--keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
-   long producerIndex;
-   long consumerIndex;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
-   rx.internal.util.atomic.LinkedQueueNode producerNode;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
-   rx.internal.util.atomic.LinkedQueueNode consumerNode;
-}
 
 # MyTarget
 -keep class com.my.target.** { *; }
@@ -159,10 +141,6 @@
 -dontwarn com.adcolony.**
 -dontwarn android.app.Activity
 
-#Appnext
--keep class com.appnext.** { *; }
--dontwarn com.appnext.**
-
 # Inmobi
 -keep class com.inmobi.** { *; }
 -dontwarn com.inmobi.**
@@ -178,11 +156,6 @@
 -keep class com.moat.** {*;}
 -dontwarn com.moat.**
 -keep class com.integralads.avid.library.* {*;}
-
-# MMdeia
--keepclassmembers class com.millennialmedia** {public *;}
--keep class com.millennialmedia**
--dontwarn com.millennialmedia.**
 
 # Ogury
 -dontwarn io.presage.**

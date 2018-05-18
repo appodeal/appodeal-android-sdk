@@ -2,8 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
-
     defaultConfig {
         applicationId "com.appodeal.test"
         minSdkVersion 14
@@ -32,27 +30,27 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.google.android.gms:play-services-ads:15.0.0'
-    compile 'com.google.android.gms:play-services-location:15.0.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-    compile name: 'adcolony-sdk-3.3.0', ext: 'aar'
-    compile name: 'mobvista-8.9.0-alphab', ext: 'aar'
-    compile name: 'mobvista-8.9.0-appwall', ext: 'aar'
-    compile name: 'mobvista-8.9.0-appwallext', ext: 'aar'
-    compile name: 'mobvista-8.9.0-common', ext: 'aar'
-    compile name: 'mobvista-8.9.0-interstitial', ext: 'aar'
-    compile name: 'mobvista-8.9.0-mvdownloads', ext: 'aar'
-    compile name: 'mobvista-8.9.0-mvjscommon', ext: 'aar'
-    compile name: 'mobvista-8.9.0-mvnative', ext: 'aar'
-    compile name: 'mobvista-8.9.0-nativeex', ext: 'aar'
-    compile name: 'mobvista-8.9.0-offerwall', ext: 'aar'
-    compile name: 'mobvista-8.9.0-playercommon', ext: 'aar'
-    compile name: 'mobvista-8.9.0-reward', ext: 'aar'
-    compile name: 'mobvista-8.9.0-videocommon', ext: 'aar'
-    compile name: 'mobvista-8.9.0-videofeeds', ext: 'aar'
-    compile name: 'mobvista-8.9.0-videojs', ext: 'aar'
-    compile name: 'mmedia-6.4.0', ext: 'aar'
-}
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.android.gms:play-services-gcm:15.0.1'
+
+    implementation name: 'adcolony-sdk-3.3.0', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-alphab', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-common', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-interstitial', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-interstitialvideo', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-mvdownloads', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-mvjscommon', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-mvnative', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-nativeex', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-playercommon', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-reward', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-videocommon', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-videofeeds', ext: 'aar'
+    implementation name: 'mobvista-8.11.0-videojs', ext: 'aar'
+}
