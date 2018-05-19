@@ -3,7 +3,9 @@ package com.appodeal.test;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +38,9 @@ import com.appodeal.test.layout.SlidingTabLayout;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity {
+
+    private static final String CONSENT = "consent";
+
     public static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
     private String[] interstitial_networks, rewarded_video_networks, mrec_networks, native_networks, banner_networks;
     boolean[] interstitialNetworks;
@@ -44,6 +49,7 @@ public class MainActivity extends FragmentActivity {
     boolean[] rewardedNetworks;
     boolean[] nativeNetworks;
     boolean[] checkedValues;
+    boolean consent;
 
 
     public enum AdType {
@@ -57,7 +63,6 @@ public class MainActivity extends FragmentActivity {
         public int getValue() {
             return mValue;
         }
-
     }
 
     public enum BannerPosition {
@@ -95,10 +100,20 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    public static Intent getIntent(Context context, boolean consent) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(CONSENT, consent);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        consent = getIntent().getBooleanExtra(CONSENT, false);
+
+        android.util.Log.d("Appodeal", "Consent: " + consent);
 
         interstitial_networks = getResources().getStringArray(R.array.interstitial_networks);
         interstitialNetworks = new boolean[interstitial_networks.length];
@@ -372,13 +387,17 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initSdkButton(View v) {
-
-        //Add user settings
-        Appodeal.getUserSettings(this)
-                .setAge(25)
-                .setGender(UserSettings.Gender.MALE);
-        Appodeal.trackInAppPurchase(this, 10.0, "USD");
-        Appodeal.initialize(this, APP_KEY, Appodeal.NONE);
+        if (consent) {
+            //Add user settings
+            Appodeal.getUserSettings(this)
+                    .setAge(25)
+                    .setGender(UserSettings.Gender.MALE);
+            Appodeal.trackInAppPurchase(this, 10.0, "USD");
+            Appodeal.initialize(this, APP_KEY, Appodeal.NONE);
+        } else {
+            android.util.Log.d("Appodeal", "SDK not initialized, consent false");
+            Utils.showToast(this, "SDK not initialized, consent false");
+        }
     }
 
     public void disableNetworks(boolean[] adNetworks, String[] networksList, AdType adType) {
@@ -416,8 +435,14 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initInterstitialSdkButton(View v) {
-        Appodeal.initialize(this, APP_KEY, Appodeal.INTERSTITIAL);
-        Appodeal.setInterstitialCallbacks(new AppodealInterstitialCallbacks(this));
+        if (consent) {
+            Appodeal.initialize(this, APP_KEY, Appodeal.INTERSTITIAL);
+            Appodeal.setInterstitialCallbacks(new AppodealInterstitialCallbacks(this));
+
+        } else {
+            android.util.Log.d("Appodeal", "SDK not initialized, consent false");
+            Utils.showToast(this, "SDK not initialized, consent false");
+        }
     }
 
     public void isInterstitialLoadedButton(View v) {
@@ -466,8 +491,13 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initRewardedVideoSdkButton(View v) {
-        Appodeal.initialize(this, APP_KEY, Appodeal.REWARDED_VIDEO);
-        Appodeal.setRewardedVideoCallbacks(new AppodealRewardedVideoCallbacks(this));
+        if (consent) {
+            Appodeal.initialize(this, APP_KEY, Appodeal.REWARDED_VIDEO);
+            Appodeal.setRewardedVideoCallbacks(new AppodealRewardedVideoCallbacks(this));
+        } else {
+            android.util.Log.d("Appodeal", "SDK not initialized, consent false");
+            Utils.showToast(this, "SDK not initialized, consent false");
+        }
     }
 
     public void isRewardedVideoLoadedButton(View v) {
@@ -508,9 +538,14 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initMrecSdkButton(View v) {
-        Appodeal.setMrecViewId(R.id.appodealMrecView);
-        Appodeal.initialize(this, APP_KEY, Appodeal.MREC);
-        Appodeal.setMrecCallbacks(new AppodealMrecCallbacks(this));
+        if (consent) {
+            Appodeal.setMrecViewId(R.id.appodealMrecView);
+            Appodeal.initialize(this, APP_KEY, Appodeal.MREC);
+            Appodeal.setMrecCallbacks(new AppodealMrecCallbacks(this));
+        } else {
+            android.util.Log.d("Appodeal", "SDK not initialized, consent false");
+            Utils.showToast(this, "SDK not initialized, consent false");
+        }
     }
 
     public void isMrecLoadedButton(View v) {
@@ -561,9 +596,14 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initBannerSdkButton(View v) {
-        Appodeal.setBannerViewId(R.id.appodealBannerView);
-        Appodeal.initialize(this, APP_KEY, Appodeal.BANNER);
-        Appodeal.setBannerCallbacks(new AppodealBannerCallbacks(this));
+        if (consent) {
+            Appodeal.setBannerViewId(R.id.appodealBannerView);
+            Appodeal.initialize(this, APP_KEY, Appodeal.BANNER);
+            Appodeal.setBannerCallbacks(new AppodealBannerCallbacks(this));
+        } else {
+            android.util.Log.d("Appodeal", "SDK not initialized, consent false");
+            Utils.showToast(this, "SDK not initialized, consent false");
+        }
     }
 
     public void isBannerLoadedButton(View v) {
@@ -595,10 +635,15 @@ public class MainActivity extends FragmentActivity {
 
 
     public void initNativeSdkButton(View v) {
-        Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
-        Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE);
-        Appodeal.setAutoCacheNativeIcons(true);
-        Appodeal.setAutoCacheNativeMedia(true);
+        if (consent) {
+            Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
+            Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE);
+            Appodeal.setAutoCacheNativeIcons(true);
+            Appodeal.setAutoCacheNativeMedia(true);
+        } else {
+            android.util.Log.d("Appodeal", "SDK not initialized, consent false");
+            Utils.showToast(this, "SDK not initialized, consent false");
+        }
     }
 
     public void nativeChooseNetworks(View v) {

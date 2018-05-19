@@ -33,8 +33,6 @@
 
         <activity android:name=".GDPRResultActivity" />
 
-        <activity android:name=".GDPRErrorActivity" />
-
         <activity
             android:name="com.appodeal.test.MainActivity"
             android:label="@string/app_name" />
