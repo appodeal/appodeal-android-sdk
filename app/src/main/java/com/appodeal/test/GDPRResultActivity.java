@@ -65,13 +65,7 @@ public class GDPRResultActivity extends Activity {
         llButtonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
-
-                if (resultGDPR) {
-                    intent = new Intent(GDPRResultActivity.this, MainActivity.class);
-                } else {
-                    intent = GDPRErrorActivity.getIntent(GDPRResultActivity.this, getString(R.string.gdpr_consent_not_granted));
-                }
+                Intent intent = MainActivity.getIntent(GDPRResultActivity.this, resultGDPR);
 
                 startActivity(intent);
 
