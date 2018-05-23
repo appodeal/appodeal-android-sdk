@@ -18,6 +18,7 @@
 
 # Appodeal
 -keep class com.appodeal.** { *; }
+-keep class com.appodealx.** { *; }
 -keep class org.nexage.** { *; }
 -keepattributes EnclosingMethod, InnerClasses, Signature, JavascriptInterface
 

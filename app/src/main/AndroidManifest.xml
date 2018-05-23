@@ -49,6 +49,10 @@
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
+            android:name="com.appodealx.mraid.MraidActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
             android:name="com.appodeal.ads.LoaderActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
@@ -431,7 +435,6 @@
             android:authorities="${applicationId}.PresageProvider"
             android:enabled="true"
             android:exported="true" />
-
     </application>
 
 </manifest>
