@@ -16,8 +16,6 @@ class AppodealPermissionCallbacks implements PermissionsHelper.AppodealPermissio
     @Override
     public void writeExternalStorageResponse(int result) {
         if (result == PackageManager.PERMISSION_GRANTED) {
-            Appodeal.initialize(mActivity, MainActivity.APP_KEY, Appodeal.BANNER | Appodeal.MREC | Appodeal.INTERSTITIAL | Appodeal.REWARDED_VIDEO | Appodeal.NATIVE);
-
             Utils.showToast(mActivity, "WRITE_EXTERNAL_STORAGE permission was granted");
         } else {
             Utils.showToast(mActivity, "WRITE_EXTERNAL_STORAGE permission was NOT granted");

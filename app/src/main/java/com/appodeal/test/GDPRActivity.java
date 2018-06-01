@@ -50,10 +50,14 @@ public class GDPRActivity extends Activity implements AdvertisingInfoListener {
                 }
 
                 startActivity(intent);
+
+                finish();
             }
         } else {
             Intent intent = GDPRErrorActivity.getIntent(this, getString(R.string.gdpr_opt_out_enabled));
             startActivity(intent);
+
+            finish();
         }
     }
 
