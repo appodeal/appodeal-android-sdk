@@ -5,8 +5,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--optional-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--optional -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!--optional-->
 
     <uses-feature
@@ -32,7 +32,6 @@
             </intent-filter>
         </activity>
 
-
         <activity
             android:name="com.appodeal.ads.InterstitialActivity"
             android:configChanges="orientation|screenSize"
@@ -44,7 +43,7 @@
         <activity
             android:name="com.appodeal.ads.LoaderActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name="com.appodeal.ads.VideoPlayerActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
@@ -69,7 +68,8 @@
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            tools:replace="android:theme" />
 
         <activity
             android:name="com.chartboost.sdk.CBImpressionActivity"
@@ -88,7 +88,7 @@
         <activity
             android:name="com.mopub.mobileads.MoPubActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
         <activity
             android:name="com.mopub.common.MoPubBrowser"
             android:configChanges="keyboardHidden|orientation|screenSize" />
@@ -137,7 +137,7 @@
         <activity
             android:name="com.startapp.android.publish.adsCommon.activities.OverlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.startapp.android.publish.adsCommon.activities.FullScreenActivity"
@@ -147,6 +147,11 @@
         <service android:name="com.startapp.android.publish.common.metaData.PeriodicMetaDataService" />
         <!--suppress AndroidDomInspection -->
         <service android:name="com.startapp.android.publish.common.metaData.InfoEventService" />
+        <receiver android:name="com.startapp.android.publish.common.metaData.BootCompleteListener">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
 
         <service
@@ -348,11 +353,9 @@
             </intent-filter>
         </receiver>
 
-        <!--optional, remove if not using Ogury-->
         <meta-data
             android:name="presage_key"
             android:value="000000" />
-        <!--optional, remove if not using Ogury-->
         <service
             android:name="io.presage.PresageService"
             android:enabled="true"
@@ -362,7 +365,6 @@
                 <action android:name="io.presage.PresageService.PIVOT" />
             </intent-filter>
         </service>
-        <!--optional, remove if not using Ogury-->
         <activity
             android:name="io.presage.activities.PresageActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -373,7 +375,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!--optional, remove if not using Ogury-->
+
         <receiver android:name="io.presage.receiver.NetworkChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -381,9 +383,8 @@
                 <action android:name="io.presage.receiver.NetworkChangeReceiver.ONDESTROY" />
             </intent-filter>
         </receiver>
-        <!--optional, remove if not using Ogury-->
         <receiver android:name="io.presage.receiver.AlarmReceiver" />
-        <!--optional, remove if not using Ogury-->
+
         <provider
             android:name="io.presage.provider.PresageProvider"
             android:authorities="${applicationId}.PresageProvider"

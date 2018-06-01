@@ -2,8 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
-
     defaultConfig {
         applicationId "com.appodeal.test"
         minSdkVersion 14
@@ -25,18 +23,33 @@ android {
 }
 
 repositories {
-    jcenter()
     flatDir {
         dirs 'libs-aar'
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.google.android.gms:play-services-ads:10.2.1'
-    compile 'com.google.android.gms:play-services-location:10.2.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+
+    implementation name: 'adcolony-sdk-3.2.1', ext: 'aar'
+    implementation name: 'mmedia-6.4.0', ext: 'aar'
+    implementation name: 'mobvista_alphab', ext: 'aar'
+    implementation name: 'mobvista_appwall', ext: 'aar'
+    implementation name: 'mobvista_appwallext', ext: 'aar'
+    implementation name: 'mobvista_common', ext: 'aar'
+    implementation name: 'mobvista_interstitial', ext: 'aar'
+    implementation name: 'mobvista_mvdownloads', ext: 'aar'
+    implementation name: 'mobvista_mvjscommon', ext: 'aar'
+    implementation name: 'mobvista_mvnative', ext: 'aar'
+    implementation name: 'mobvista_nativeex', ext: 'aar'
+    implementation name: 'mobvista_offerwall', ext: 'aar'
+    implementation name: 'mobvista_playercommon', ext: 'aar'
+    implementation name: 'mobvista_reward', ext: 'aar'
+    implementation name: 'mobvista_videocommon', ext: 'aar'
+    implementation name: 'mobvista_videofeeds', ext: 'aar'
 }
-
-fileTree(dir: 'libs-aar', include: '*.aar').each { File file -> dependencies.add("compile", [name: file.name.replaceFirst(~/\.[^\.]+$/, ''), ext: 'aar']) }
-

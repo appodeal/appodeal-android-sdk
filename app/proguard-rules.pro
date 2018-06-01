@@ -34,8 +34,8 @@
 -keep class * extends com.mopub.mobileads.CustomEventInterstitial {}
 -keep class * extends com.mopub.nativeads.CustomEventNative {}
 -keep class * extends com.mopub.mobileads.CustomEventRewardedVideo {}
--dontwarn com.mopub.volley.toolbox.**
 -keepclassmembers class ** { @com.mopub.common.util.ReflectionTarget *; }
+-dontwarn com.mopub.volley.toolbox.**
 
 # Applovin
 -keep class com.applovin.** { *; }
@@ -100,9 +100,27 @@
 # Vungle
 -keepattributes *Annotation*, Signature
 -keep class com.vungle.** { *;}
--keep class javax.inject.*
--keep class dagger.*
 -dontwarn com.vungle.**
+-dontnote com.vungle.**
+-dontwarn com.moat.**
+-keep class com.moat.analytics.mobile.vng.** { *;}
+-keep class com.moat.** { public protected private *; }
+-keep class dagger.**
+-dontwarn de.greenrobot.event.util.**
+-keep class de.greenrobot.event.**
+-keep class javax.inject.**
+-keep class rx.**
+-dontwarn rx.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+   long producerIndex;
+   long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+   rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+   rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
 
 # MyTarget
 -keep class com.my.target.** { *; }
