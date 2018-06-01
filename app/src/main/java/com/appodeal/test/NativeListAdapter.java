@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.appodeal.ads.NativeMediaView;
 import com.appodeal.ads.NativeAd;
+import com.appodeal.ads.NativeMediaView;
 import com.appodeal.ads.native_ad.views.NativeAdViewAppWall;
 import com.appodeal.ads.native_ad.views.NativeAdViewContentStream;
 import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed;
@@ -21,11 +21,11 @@ import java.util.List;
 
 class NativeListAdapter {
 
-    private List<NativeAd> mAds = new LinkedList<>();
     private final LinearLayout mNativeListView;
-    private int mType = 0;
+    private List<NativeAd> mAds = new LinkedList<>();
+    private int mType;
 
-    public NativeListAdapter(LinearLayout nativeListView, int type) {
+    NativeListAdapter(LinearLayout nativeListView, int type) {
         mNativeListView = nativeListView;
         mType = type;
     }
@@ -62,13 +62,13 @@ class NativeListAdapter {
         switch (mType) {
             case 0:
                 convertView = (ViewGroup) LayoutInflater.from(mNativeListView.getContext()).inflate(R.layout.include_native_ads, mNativeListView, false);
-                TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
+                TextView tvTitle = convertView.findViewById(R.id.tv_title);
                 tvTitle.setText(nativeAd.getTitle());
 
-                TextView tvDescription = (TextView) convertView.findViewById(R.id.tv_description);
+                TextView tvDescription = convertView.findViewById(R.id.tv_description);
                 tvDescription.setText(nativeAd.getDescription());
 
-                RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.rb_rating);
+                RatingBar ratingBar = convertView.findViewById(R.id.rb_rating);
                 if (nativeAd.getRating() == 0) {
                     ratingBar.setVisibility(View.INVISIBLE);
                 } else {
@@ -77,7 +77,7 @@ class NativeListAdapter {
                     ratingBar.setStepSize(0.1f);
                 }
 
-                Button ctaButton = (Button) convertView.findViewById(R.id.b_cta);
+                Button ctaButton = convertView.findViewById(R.id.b_cta);
                 ctaButton.setText(nativeAd.getCallToAction());
 
                 ((ImageView) convertView.findViewById(R.id.icon)).setImageBitmap(nativeAd.getIcon());
@@ -87,19 +87,19 @@ class NativeListAdapter {
                     if (providerView.getParent() != null && providerView.getParent() instanceof ViewGroup) {
                         ((ViewGroup) providerView.getParent()).removeView(providerView);
                     }
-                    FrameLayout providerViewContainer = (FrameLayout) convertView.findViewById(R.id.provider_view);
+                    FrameLayout providerViewContainer = convertView.findViewById(R.id.provider_view);
                     ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     providerViewContainer.addView(providerView, layoutParams);
                 }
 
-                TextView tvAgeRestrictions = (TextView) convertView.findViewById(R.id.tv_age_restriction);
+                TextView tvAgeRestrictions = convertView.findViewById(R.id.tv_age_restriction);
                 if (nativeAd.getAgeRestrictions() != null) {
                     tvAgeRestrictions.setText(nativeAd.getAgeRestrictions());
                     tvAgeRestrictions.setVisibility(View.VISIBLE);
                 } else {
                     tvAgeRestrictions.setVisibility(View.GONE);
                 }
-                NativeMediaView nativeMediaView = (NativeMediaView) convertView.findViewById(R.id.appodeal_media_view_content);
+                NativeMediaView nativeMediaView = convertView.findViewById(R.id.appodeal_media_view_content);
                 if (nativeAd.containsVideo()) {
                     nativeAd.setNativeMediaView(nativeMediaView);
                 } else {

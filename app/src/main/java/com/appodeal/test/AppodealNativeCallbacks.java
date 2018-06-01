@@ -1,13 +1,9 @@
 package com.appodeal.test;
 
 import android.app.Activity;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import com.appodeal.ads.NativeAd;
 import com.appodeal.ads.NativeCallbacks;
-
-import java.util.List;
 
 public class AppodealNativeCallbacks implements NativeCallbacks {
     private final Activity mActivity;

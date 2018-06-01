@@ -2,7 +2,6 @@ package com.appodeal.test;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.widget.Spinner;
 
 import com.appodeal.ads.utils.PermissionsHelper;
 
@@ -12,7 +11,7 @@ class AppodealPermissionCallbacks implements PermissionsHelper.AppodealPermissio
     AppodealPermissionCallbacks(Activity activity) {
         mActivity = activity;
     }
-    
+
     @Override
     public void writeExternalStorageResponse(int result) {
         if (result == PackageManager.PERMISSION_GRANTED) {
