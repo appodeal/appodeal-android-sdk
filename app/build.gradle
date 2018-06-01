@@ -32,6 +32,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.android.support:multidex:1.0.3'
+    //Requesting Consent from European Users
+    //https://developers.google.com/admob/android/eu-consent
+    implementation 'com.google.android.ads.consent:consent-library:1.0.3'
 
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
