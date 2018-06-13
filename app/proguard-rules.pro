@@ -35,8 +35,19 @@
 -keep class * extends com.mopub.mobileads.CustomEventInterstitial {}
 -keep class * extends com.mopub.nativeads.CustomEventNative {}
 -keep class * extends com.mopub.mobileads.CustomEventRewardedVideo {}
+-keep class * extends com.mopub.nativeads.CustomEventRewardedAd {}
 -keepclassmembers class ** { @com.mopub.common.util.ReflectionTarget *; }
 -dontwarn com.mopub.volley.toolbox.**
+-keepclassmembers,allowshrinking,allowobfuscation class com.android.volley.NetworkDispatcher {
+    void processRequest();
+}
+-keepclassmembers,allowshrinking,allowobfuscation class com.android.volley.CacheDispatcher {
+    void processRequest();
+}
+-keep public class android.webkit.JavascriptInterface {}
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}
 
 # Applovin
 -keep class com.applovin.** { *; }

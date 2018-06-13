@@ -5,10 +5,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- optional -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- optional -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!--only for Vungle SDK -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!--only for Vungle SDK -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--optional -->
 
     <uses-feature
         android:name="android.hardware.location"
@@ -37,6 +37,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name" />
         <activity android:name=".NativeActivity" />
+
         <activity
             android:name="com.appodeal.ads.InterstitialActivity"
             android:configChanges="orientation|screenSize"
@@ -50,10 +51,6 @@
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name="com.appodeal.ads.LoaderActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
             android:name="com.appodeal.ads.VideoPlayerActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
 
@@ -63,11 +60,9 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
-
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-
         <activity
             android:name="com.appodeal.ads.TestActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -80,76 +75,81 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
+
         <activity
             android:name="com.chartboost.sdk.CBImpressionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+
         <activity
             android:name="com.applovin.adview.AppLovinInterstitialActivity"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name="com.applovin.adview.AppLovinConfirmationActivity"
             android:configChanges="orientation|screenSize" />
+
         <activity
-            android:name="com.mopub.mobileads.MoPubActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent" />
+            android:name="com.mopub.common.privacy.ConsentDialogActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name="com.mopub.common.MoPubBrowser"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.mobileads.MoPubActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name="com.mopub.mobileads.MraidActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
             android:name="com.mopub.mobileads.RewardedMraidActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+
         <activity
             android:name="org.nexage.sourcekit.vast.activity.VASTActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
         <activity
             android:name="org.nexage.sourcekit.vast.activity.VPAIDActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
         <activity
             android:name="com.appodeal.ads.networks.vpaid.VPAIDActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
         <activity
             android:name="com.amazon.device.ads.AdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name="com.my.target.ads.MyTargetActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:hardwareAccelerated="true" />
 
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.facebook.ads.AudienceNetworkActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.startapp.android.publish.ads.list3d.List3DActivity"
             android:theme="@android:style/Theme" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.startapp.android.publish.adsCommon.activities.OverlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.startapp.android.publish.adsCommon.activities.FullScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <service android:name="com.startapp.android.publish.common.metaData.PeriodicMetaDataService" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <service android:name="com.startapp.android.publish.common.metaData.InfoEventService" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <service
             android:name="com.startapp.android.publish.common.metaData.PeriodicJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
@@ -196,7 +196,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.yandex.mobile.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
@@ -242,7 +242,7 @@
             android:hardwareAccelerated="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
 
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.vungle.warren.ui.VungleActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
@@ -283,9 +283,8 @@
 
         <service
             android:name="com.evernote.android.job.gcm.PlatformGcmService"
-            android:enabled="false"
-            android:exported="true"
-            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            android:enabled="true"
+            tools:replace="android:enabled">
             <intent-filter>
                 <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
             </intent-filter>
@@ -295,7 +294,7 @@
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.flurry.android.FlurryFullscreenTakeoverActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -331,51 +330,51 @@
             android:name="com.mobvista.msdk.mvjscommon.authority.activity.MVAuthorityActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.tapjoy.TJAdUnitActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.tapjoy.mraid.view.ActionHandler"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.tapjoy.mraid.view.Browser"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.tapjoy.TJContentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.ironsource.sdk.controller.ControllerActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.ironsource.sdk.controller.InterstitialActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.Translucent" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.ironsource.sdk.controller.OpenUrlActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.Translucent" />
 
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.adcolony.sdk.AdColonyInterstitialActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:hardwareAccelerated="true" />
-        <!-- suppress AndroidDomInspection -->
+        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.adcolony.sdk.AdColonyAdViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -392,7 +391,6 @@
         <meta-data
             android:name="presage_key"
             android:value="000000" />
-
         <service
             android:name="io.presage.PresageService"
             android:enabled="true"
@@ -402,7 +400,6 @@
                 <action android:name="io.presage.PresageService.PIVOT" />
             </intent-filter>
         </service>
-
         <activity
             android:name="io.presage.activities.PresageActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -410,7 +407,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="io.presage.intent.action.LAUNCH_WEBVIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -429,6 +425,11 @@
             android:authorities="${applicationId}.PresageProvider"
             android:enabled="true"
             android:exported="true" />
+
+        <activity
+            android:name="com.my.target.common.MyTargetActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+
     </application>
 
 </manifest>

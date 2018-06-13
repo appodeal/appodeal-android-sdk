@@ -42,7 +42,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation 'com.google.android.gms:play-services-gcm:15.0.1'
 
-    implementation name: 'adcolony-sdk-3.3.0', ext: 'aar'
+    implementation name: 'adcolony-sdk-3.3.4', ext: 'aar'
     implementation name: 'mobvista-8.11.0-alphab', ext: 'aar'
     implementation name: 'mobvista-8.11.0-common', ext: 'aar'
     implementation name: 'mobvista-8.11.0-interstitial', ext: 'aar'
