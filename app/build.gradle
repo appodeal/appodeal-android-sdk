@@ -36,8 +36,8 @@ dependencies {
     //https://developers.google.com/admob/android/eu-consent
     implementation 'com.google.android.ads.consent:consent-library:1.0.3'
 
-    implementation 'com.google.android.gms:play-services-ads:15.0.1'
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.android.gms:play-services-ads:10.2.1'
+    implementation 'com.google.android.gms:play-services-location:10.2.1'
 
     implementation name: 'adcolony-sdk-3.2.1', ext: 'aar'
     implementation name: 'mmedia-6.4.0', ext: 'aar'
