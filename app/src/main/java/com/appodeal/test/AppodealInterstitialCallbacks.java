@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.appodeal.ads.InterstitialCallbacks;
 
 class AppodealInterstitialCallbacks implements InterstitialCallbacks {
+
     private final Activity mActivity;
 
     AppodealInterstitialCallbacks(Activity activity) {
@@ -35,4 +36,10 @@ class AppodealInterstitialCallbacks implements InterstitialCallbacks {
     public void onInterstitialClosed() {
         Utils.showToast(mActivity, "onInterstitialClosed");
     }
+
+    @Override
+    public void onInterstitialExpired() {
+        Utils.showToast(mActivity, "onInterstitialExpired");
+    }
+
 }

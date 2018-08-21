@@ -10,6 +10,7 @@ import com.appodeal.ads.NativeCallbacks;
 import java.util.List;
 
 public class AppodealNativeCallbacks implements NativeCallbacks {
+
     private final Activity mActivity;
 
     AppodealNativeCallbacks(Activity activity) {
@@ -35,4 +36,10 @@ public class AppodealNativeCallbacks implements NativeCallbacks {
     public void onNativeClicked(NativeAd nativeAd) {
         Utils.showToast(mActivity, "onNativeClicked");
     }
+
+    @Override
+    public void onNativeExpired() {
+        Utils.showToast(mActivity, "onNativeExpired");
+    }
+
 }

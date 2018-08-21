@@ -173,6 +173,11 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     }
 
+    @Override
+    public void onNativeExpired() {
+
+    }
+
 
     /**
      * @return count of loaded ads {@link com.appodeal.ads.NativeAd}

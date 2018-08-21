@@ -15,6 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+# AdMediator
+-keep class com.admediator.** { *; }
 
 # Appodeal
 -keep class com.appodeal.** { *; }
@@ -76,9 +78,11 @@
 
 # StartApp
 -keep class com.startapp.** { *;}
+-keep class com.truenet.** { *;}
 -dontwarn com.startapp.**
 -dontwarn android.webkit.JavascriptInterface
 -keepattributes Exceptions, InnerClasses, Signature, Deprecated, SourceFile, LineNumberTable, *Annotation*, EnclosingMethod
+-dontwarn org.jetbrains.annotations.**
 
 # Flurry
 -keep class com.flurry.** { *; }
@@ -101,20 +105,16 @@
 # Vungle
 -dontwarn com.vungle.warren.**
 -keep class com.vungle.warren.** { *; }
--keep class net.vrallev.android.cat.** { *; }
--keep class com.evernote.android.job.** { *; }
--dontwarn com.evernote.android.job.gcm.**
--dontwarn com.evernote.android.job.GcmAvailableHelper
 -dontwarn com.google.android.gms.ads.identifier.**
--keep public class com.evernote.android.job.v21.PlatformJobService
--keep public class com.evernote.android.job.v14.PlatformAlarmService
--keep public class com.evernote.android.job.v14.PlatformAlarmReceiver
--keep public class com.evernote.android.job.JobBootReceiver
--keep public class com.evernote.android.job.JobRescheduleService
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -keep class com.google.android.gms.internal.** { *; }
 -keep class com.moat.** { *; }
 -dontwarn com.moat.**
+-dontwarn sun.misc.**
+-keep class com.google.gson.examples.android.model.** { *; }
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
 
 # MyTarget
 -keep class com.my.target.** { *; }
@@ -144,7 +144,8 @@
 -keep public class com.google.android.gms.ads.** { public *; }
 -dontwarn com.moat.**
 -keep class com.moat.** { public protected private *; }
--keep class com.ironsource.** { *; }
+-keep class com.ironsource.adapters.** { *; }
+-keepnames class com.ironsource.mediationsdk.IronSource { *; }
 -dontwarn com.ironsource.**
 
 # AdColonyV3
@@ -168,45 +169,6 @@
 -keep class com.moat.** {*;}
 -dontwarn com.moat.**
 -keep class com.integralads.avid.library.* {*;}
-
-# Ogury
--dontwarn io.presage.**
--dontnote io.presage.**
--dontwarn shared_presage.**
--dontwarn org.codehaus.**
--keepattributes Signature
--keep class shared_presage.** { *; }
--keep class io.presage.** { *; }
--keepclassmembers class io.presage.** { *; }
--keepattributes *Annotation*
--keepattributes JavascriptInterface
--keepclassmembers class * {
-  @android.webkit.JavascriptInterface <methods>;
-}
--dontnote okhttp3.**
--dontnote okio.**
--dontwarn okhttp3.**
--dontwarn okio.**
--dontwarn javax.annotation.Nullable
--dontwarn javax.annotation.ParametersAreNonnullByDefault
-
--dontnote sun.misc.Unsafe
--dontnote android.net.http.*
-
--dontnote org.apache.commons.codec.**
--dontnote org.apache.http.**
-
--dontwarn org.apache.commons.collections.BeanMap
--dontwarn java.beans.**
--dontnote com.google.gson.**
--keepclassmembers class * implements java.io.Serializable {
-  static final long serialVersionUID;
-  private static final java.io.ObjectStreamField[] serialPersistentFields;
-  private void writeObject(java.io.ObjectOutputStream);
-  private void readObject(java.io.ObjectInputStream);
-  java.lang.Object writeReplace();
-  java.lang.Object readResolve();
-}
 
 # Google
 -keep class com.google.android.gms.common.GooglePlayServicesUtil {*;}

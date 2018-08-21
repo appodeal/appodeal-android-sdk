@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.appodeal.ads.BannerCallbacks;
 
 class AppodealBannerCallbacks implements BannerCallbacks {
+
     private final Activity mActivity;
 
     AppodealBannerCallbacks(Activity activity) {
@@ -30,4 +31,10 @@ class AppodealBannerCallbacks implements BannerCallbacks {
     public void onBannerClicked() {
         Utils.showToast(mActivity, "onBannerClicked");
     }
+
+    @Override
+    public void onBannerExpired() {
+        Utils.showToast(mActivity, "onBannerExpired");
+    }
+
 }

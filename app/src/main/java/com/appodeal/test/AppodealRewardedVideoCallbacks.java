@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.appodeal.ads.RewardedVideoCallbacks;
 
 class AppodealRewardedVideoCallbacks implements RewardedVideoCallbacks {
+
     private final Activity mActivity;
 
     AppodealRewardedVideoCallbacks(Activity activity) {
@@ -35,4 +36,10 @@ class AppodealRewardedVideoCallbacks implements RewardedVideoCallbacks {
     public void onRewardedVideoClosed(boolean finished) {
         Utils.showToast(mActivity, String.format("onRewardedVideoClosed,  finished: %s", finished));
     }
+
+    @Override
+    public void onRewardedVideoExpired() {
+        Utils.showToast(mActivity, "onRewardedVideoExpired");
+    }
+
 }

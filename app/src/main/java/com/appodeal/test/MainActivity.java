@@ -410,13 +410,11 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initSdkButton(View v) {
-
         //Add user settings
         Appodeal.getUserSettings(this)
                 .setAge(25)
                 .setGender(UserSettings.Gender.MALE);
         Appodeal.initialize(this, APP_KEY, Appodeal.NONE, consent);
-        Appodeal.trackInAppPurchase(this, 10.0, "USD");
     }
 
     public void disableNetworks(boolean[] adNetworks, String[] networksList, AdType adType) {
