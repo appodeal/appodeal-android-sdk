@@ -9,7 +9,7 @@ Stable branch ver. 2.1.11
 Stable version of Appodeal SDK is **2.1.11**.
 Documentation: [docs](https://www.appodeal.com/sdk/documentation?framework=1&full=1&platform=1)
 
-Beta version of Appodeal SDK is **2.4.3**. 
+Beta version of Appodeal SDK is **2.4.6**. 
 Documentation: [beta docs](https://www.appodeal.ru/sdk/android_beta)
 
 ## Requesting Consent from European Users
