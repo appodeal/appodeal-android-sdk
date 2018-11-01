@@ -75,6 +75,8 @@
 -keep class com.yandex.mobile.ads.** { *; }
 -dontwarn com.yandex.mobile.ads.**
 -keepattributes *Annotation*
+-keep class com.android.installreferrer.api.* { *; }
+-dontwarn com.android.installreferrer.api.*
 
 # StartApp
 -keep class com.startapp.** { *;}
