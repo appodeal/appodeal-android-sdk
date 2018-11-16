@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.appodeal.ads.RewardedVideoCallbacks;
 
 class AppodealRewardedVideoCallbacks implements RewardedVideoCallbacks {
+
     private final Activity mActivity;
 
     AppodealRewardedVideoCallbacks(Activity activity) {
@@ -12,8 +13,8 @@ class AppodealRewardedVideoCallbacks implements RewardedVideoCallbacks {
     }
 
     @Override
-    public void onRewardedVideoLoaded() {
-        Utils.showToast(mActivity, "onRewardedVideoLoaded");
+    public void onRewardedVideoLoaded(boolean isPrecache) {
+        Utils.showToast(mActivity, "onRewardedVideoLoaded, isPrecache: " + isPrecache);
     }
 
     @Override
@@ -27,12 +28,18 @@ class AppodealRewardedVideoCallbacks implements RewardedVideoCallbacks {
     }
 
     @Override
-    public void onRewardedVideoFinished(int amount, String name) {
-        Utils.showToast(mActivity, String.format("onRewardedVideoFinished. Reward: %d %s", amount, name));
+    public void onRewardedVideoFinished(double amount, String name) {
+        Utils.showToast(mActivity, String.format("onRewardedVideoFinished. Reward: %.2f %s", amount, name));
     }
 
     @Override
     public void onRewardedVideoClosed(boolean finished) {
         Utils.showToast(mActivity, String.format("onRewardedVideoClosed,  finished: %s", finished));
     }
+
+    @Override
+    public void onRewardedVideoExpired() {
+        Utils.showToast(mActivity, "onRewardedVideoExpired");
+    }
+
 }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.appodeal.ads.MrecCallbacks;
 
 class AppodealMrecCallbacks implements MrecCallbacks {
+
     private final Activity mActivity;
 
     AppodealMrecCallbacks(Activity activity) {
@@ -30,4 +31,10 @@ class AppodealMrecCallbacks implements MrecCallbacks {
     public void onMrecClicked() {
         Utils.showToast(mActivity, "onMrecClicked");
     }
+
+    @Override
+    public void onMrecExpired() {
+        Utils.showToast(mActivity, "onMrecExpired");
+    }
+
 }

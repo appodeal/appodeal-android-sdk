@@ -12,7 +12,7 @@ class AppodealPermissionCallbacks implements PermissionsHelper.AppodealPermissio
     AppodealPermissionCallbacks(Activity activity) {
         mActivity = activity;
     }
-
+    
     @Override
     public void writeExternalStorageResponse(int result) {
         if (result == PackageManager.PERMISSION_GRANTED) {

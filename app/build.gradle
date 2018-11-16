@@ -23,6 +23,8 @@ android {
 }
 
 repositories {
+    google()
+    jcenter()
     flatDir {
         dirs 'libs-aar'
     }
@@ -32,27 +34,27 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
     //Requesting Consent from European Users
     //https://developers.google.com/admob/android/eu-consent
     implementation 'com.google.android.ads.consent:consent-library:1.0.3'
 
-    implementation 'com.google.android.gms:play-services-ads:10.2.1'
-    implementation 'com.google.android.gms:play-services-location:10.2.1'
+    implementation 'com.google.android.gms:play-services-ads:15.0.0'
+    implementation 'com.google.android.gms:play-services-location:15.0.0'
 
-    implementation name: 'adcolony-sdk-3.2.1', ext: 'aar'
-    implementation name: 'mmedia-6.4.0', ext: 'aar'
-    implementation name: 'mobvista_alphab', ext: 'aar'
-    implementation name: 'mobvista_appwall', ext: 'aar'
-    implementation name: 'mobvista_appwallext', ext: 'aar'
-    implementation name: 'mobvista_common', ext: 'aar'
-    implementation name: 'mobvista_interstitial', ext: 'aar'
-    implementation name: 'mobvista_mvdownloads', ext: 'aar'
-    implementation name: 'mobvista_mvjscommon', ext: 'aar'
-    implementation name: 'mobvista_mvnative', ext: 'aar'
-    implementation name: 'mobvista_nativeex', ext: 'aar'
-    implementation name: 'mobvista_offerwall', ext: 'aar'
-    implementation name: 'mobvista_playercommon', ext: 'aar'
-    implementation name: 'mobvista_reward', ext: 'aar'
-    implementation name: 'mobvista_videocommon', ext: 'aar'
-    implementation name: 'mobvista_videofeeds', ext: 'aar'
+    implementation name: 'adcolony-3.3.4', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-alphab', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-common', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-interstitial', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-interstitialvideo', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-mvdownloads', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-mvjscommon', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-mvnative', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-nativeex', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-playercommon', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-reward', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-videocommon', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-videofeeds', ext: 'aar'
+    implementation name: 'mobvista-8.11.3-videojs', ext: 'aar'
+    implementation name: 'ogury-3.0.13', ext: 'aar'
 }
