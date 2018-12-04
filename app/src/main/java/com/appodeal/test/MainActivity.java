@@ -269,6 +269,29 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
+                    Spinner sMediaAssets = findViewById(R.id.s_media_assets);
+                    sMediaAssets.setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.native_media_assets)));
+                    sMediaAssets.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            switch (position) {
+                                case 0:
+                                    Appodeal.setRequiredNativeMediaAssetType(Native.MediaAssetType.ALL);
+                                    break;
+                                case 1:
+                                    Appodeal.setRequiredNativeMediaAssetType(Native.MediaAssetType.ICON);
+                                    break;
+                                case 2:
+                                    Appodeal.setRequiredNativeMediaAssetType(Native.MediaAssetType.IMAGE);
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
                     Spinner nativeTemplateSpinner = (Spinner) findViewById(R.id.native_template_list);
                     ArrayAdapter<String> nativeTemplateAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.nativeTemplates));
                     nativeTemplateSpinner.setAdapter(nativeTemplateAdapter);
@@ -633,8 +656,6 @@ public class MainActivity extends FragmentActivity {
     public void initNativeSdkButton(View v) {
         Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
         Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE, consent);
-        Appodeal.setAutoCacheNativeIcons(true);
-        Appodeal.setAutoCacheNativeMedia(true);
     }
 
     public void nativeChooseNetworks(View v) {

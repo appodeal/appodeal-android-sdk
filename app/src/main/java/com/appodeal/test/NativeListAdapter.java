@@ -5,13 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.appodeal.ads.NativeAd;
 import com.appodeal.ads.NativeAdView;
+import com.appodeal.ads.NativeIconView;
 import com.appodeal.ads.NativeMediaView;
 import com.appodeal.ads.native_ad.views.NativeAdViewAppWall;
 import com.appodeal.ads.native_ad.views.NativeAdViewContentStream;
@@ -66,60 +66,7 @@ class NativeListAdapter {
         NativeAdView nativeAdView = null;
         switch (mType) {
             case 0:
-                nativeAdView = (NativeAdView) LayoutInflater.from(mNativeListView.getContext()).inflate(R.layout.include_native_ads, mNativeListView, false);
-                TextView tvTitle = nativeAdView.findViewById(R.id.tv_title);
-                tvTitle.setText(nativeAd.getTitle());
-                nativeAdView.setTitleView(tvTitle);
-
-                TextView tvDescription = nativeAdView.findViewById(R.id.tv_description);
-                tvDescription.setText(nativeAd.getDescription());
-                nativeAdView.setDescriptionView(tvDescription);
-
-                RatingBar ratingBar = nativeAdView.findViewById(R.id.rb_rating);
-                if (nativeAd.getRating() == 0) {
-                    ratingBar.setVisibility(View.INVISIBLE);
-                } else {
-                    ratingBar.setVisibility(View.VISIBLE);
-                    ratingBar.setRating(nativeAd.getRating());
-                    ratingBar.setStepSize(0.1f);
-                }
-                nativeAdView.setRatingView(ratingBar);
-
-                Button ctaButton = nativeAdView.findViewById(R.id.b_cta);
-                ctaButton.setText(nativeAd.getCallToAction());
-                nativeAdView.setCallToActionView(ctaButton);
-
-                ImageView icon = nativeAdView.findViewById(R.id.icon);
-                icon.setImageBitmap(nativeAd.getIcon());
-                nativeAdView.setIconView(icon);
-
-                View providerView = nativeAd.getProviderView(mNativeListView.getContext());
-                if (providerView != null) {
-                    if (providerView.getParent() != null && providerView.getParent() instanceof ViewGroup) {
-                        ((ViewGroup) providerView.getParent()).removeView(providerView);
-                    }
-                    FrameLayout providerViewContainer = nativeAdView.findViewById(R.id.provider_view);
-                    ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    providerViewContainer.addView(providerView, layoutParams);
-                }
-                nativeAdView.setProviderView(providerView);
-
-                TextView tvAgeRestrictions = nativeAdView.findViewById(R.id.tv_age_restriction);
-                if (nativeAd.getAgeRestrictions() != null) {
-                    tvAgeRestrictions.setText(nativeAd.getAgeRestrictions());
-                    tvAgeRestrictions.setVisibility(View.VISIBLE);
-                } else {
-                    tvAgeRestrictions.setVisibility(View.GONE);
-                }
-                NativeMediaView nativeMediaView = nativeAdView.findViewById(R.id.appodeal_media_view_content);
-                if (nativeAd.containsVideo()) {
-                    nativeAdView.setNativeMediaView(nativeMediaView);
-                } else {
-                    nativeMediaView.setVisibility(View.GONE);
-                }
-
-                nativeAdView.registerView(nativeAd, ((MainActivity) mNativeListView.getContext()).mPlacementName);
-                nativeAdView.setVisibility(View.VISIBLE);
+                nativeAdView = fillCustomNativeAdView(nativeAd);
                 break;
             case 1:
                 nativeAdView = new NativeAdViewNewsFeed(mNativeListView.getContext(), nativeAd, ((MainActivity) mNativeListView.getContext()).mPlacementName);
@@ -130,7 +77,100 @@ class NativeListAdapter {
             case 3:
                 nativeAdView = new NativeAdViewContentStream(mNativeListView.getContext(), nativeAd, ((MainActivity) mNativeListView.getContext()).mPlacementName);
                 break;
+            case 4:
+                nativeAdView = fillCustomWithoutIconNativeAdView(nativeAd);
+                break;
         }
+        return nativeAdView;
+    }
+
+    private NativeAdView fillCustomNativeAdView(NativeAd nativeAd) {
+        NativeAdView nativeAdView = (NativeAdView) LayoutInflater.from(mNativeListView.getContext()).inflate(R.layout.include_native_ads, mNativeListView, false);
+        TextView tvTitle = nativeAdView.findViewById(R.id.tv_title);
+        tvTitle.setText(nativeAd.getTitle());
+        nativeAdView.setTitleView(tvTitle);
+        TextView tvDescription = nativeAdView.findViewById(R.id.tv_description);
+        tvDescription.setText(nativeAd.getDescription());
+        nativeAdView.setDescriptionView(tvDescription);
+        RatingBar ratingBar = nativeAdView.findViewById(R.id.rb_rating);
+        if (nativeAd.getRating() == 0) {
+            ratingBar.setVisibility(View.INVISIBLE);
+        } else {
+            ratingBar.setVisibility(View.VISIBLE);
+            ratingBar.setRating(nativeAd.getRating());
+            ratingBar.setStepSize(0.1f);
+        }
+        nativeAdView.setRatingView(ratingBar);
+        Button ctaButton = nativeAdView.findViewById(R.id.b_cta);
+        ctaButton.setText(nativeAd.getCallToAction());
+        nativeAdView.setCallToActionView(ctaButton);
+        NativeIconView nativeIconView = nativeAdView.findViewById(R.id.icon);
+        nativeAdView.setNativeIconView(nativeIconView);
+        View providerView = nativeAd.getProviderView(mNativeListView.getContext());
+        if (providerView != null) {
+            if (providerView.getParent() != null && providerView.getParent() instanceof ViewGroup) {
+                ((ViewGroup) providerView.getParent()).removeView(providerView);
+            }
+            FrameLayout providerViewContainer = nativeAdView.findViewById(R.id.provider_view);
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            providerViewContainer.addView(providerView, layoutParams);
+        }
+        nativeAdView.setProviderView(providerView);
+        TextView tvAgeRestrictions = nativeAdView.findViewById(R.id.tv_age_restriction);
+        if (nativeAd.getAgeRestrictions() != null) {
+            tvAgeRestrictions.setText(nativeAd.getAgeRestrictions());
+            tvAgeRestrictions.setVisibility(View.VISIBLE);
+        } else {
+            tvAgeRestrictions.setVisibility(View.GONE);
+        }
+        NativeMediaView nativeMediaView = nativeAdView.findViewById(R.id.appodeal_media_view_content);
+        nativeAdView.setNativeMediaView(nativeMediaView);
+        nativeAdView.registerView(nativeAd, ((MainActivity) mNativeListView.getContext()).mPlacementName);
+        nativeAdView.setVisibility(View.VISIBLE);
+        return nativeAdView;
+    }
+
+    private NativeAdView fillCustomWithoutIconNativeAdView(NativeAd nativeAd) {
+        NativeAdView nativeAdView = (NativeAdView) LayoutInflater.from(mNativeListView.getContext()).inflate(R.layout.native_ads_without_icon, mNativeListView, false);
+        TextView tvTitle = nativeAdView.findViewById(R.id.tv_title);
+        tvTitle.setText(nativeAd.getTitle());
+        nativeAdView.setTitleView(tvTitle);
+        TextView tvDescription = nativeAdView.findViewById(R.id.tv_description);
+        tvDescription.setText(nativeAd.getDescription());
+        nativeAdView.setDescriptionView(tvDescription);
+        RatingBar ratingBar = nativeAdView.findViewById(R.id.rb_rating);
+        if (nativeAd.getRating() == 0) {
+            ratingBar.setVisibility(View.INVISIBLE);
+        } else {
+            ratingBar.setVisibility(View.VISIBLE);
+            ratingBar.setRating(nativeAd.getRating());
+            ratingBar.setStepSize(0.1f);
+        }
+        nativeAdView.setRatingView(ratingBar);
+        Button ctaButton = nativeAdView.findViewById(R.id.b_cta);
+        ctaButton.setText(nativeAd.getCallToAction());
+        nativeAdView.setCallToActionView(ctaButton);
+        View providerView = nativeAd.getProviderView(mNativeListView.getContext());
+        if (providerView != null) {
+            if (providerView.getParent() != null && providerView.getParent() instanceof ViewGroup) {
+                ((ViewGroup) providerView.getParent()).removeView(providerView);
+            }
+            FrameLayout providerViewContainer = nativeAdView.findViewById(R.id.provider_view);
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            providerViewContainer.addView(providerView, layoutParams);
+        }
+        nativeAdView.setProviderView(providerView);
+        TextView tvAgeRestrictions = nativeAdView.findViewById(R.id.tv_age_restriction);
+        if (nativeAd.getAgeRestrictions() != null) {
+            tvAgeRestrictions.setText(nativeAd.getAgeRestrictions());
+            tvAgeRestrictions.setVisibility(View.VISIBLE);
+        } else {
+            tvAgeRestrictions.setVisibility(View.GONE);
+        }
+        NativeMediaView nativeMediaView = nativeAdView.findViewById(R.id.appodeal_media_view_content);
+        nativeAdView.setNativeMediaView(nativeMediaView);
+        nativeAdView.registerView(nativeAd, ((MainActivity) mNativeListView.getContext()).mPlacementName);
+        nativeAdView.setVisibility(View.VISIBLE);
         return nativeAdView;
     }
 }

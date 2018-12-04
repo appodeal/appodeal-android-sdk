@@ -59,6 +59,7 @@
     <string name="nativeCacheButton">Cache</string>
     <string name="nativeHideButton">Hide</string>
     <string name="debugNativeTextView">Debug</string>
+    <string name="media_assets">Media Assets</string>
     <string name="templateNativeTextView">Template</string>
     <string name="typeNativeTextView">Type</string>
     <string name="nativeCacheDebugButton">Cache</string>
@@ -178,12 +179,19 @@
         <item>NewsFeed</item>
         <item>AppWall</item>
         <item>ContentStream</item>
+        <item>CustomWithoutIcon</item>
     </string-array>
 
     <string-array name="nativeTypes">
         <item>Auto</item>
         <item>NoVideo</item>
         <item>Video</item>
+    </string-array>
+
+    <string-array name="native_media_assets">
+        <item>ALL</item>
+        <item>ICON</item>
+        <item>IMAGE</item>
     </string-array>
 
     <string-array name="logLevels">
