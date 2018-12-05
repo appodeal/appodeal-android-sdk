@@ -105,7 +105,23 @@
 
         <!-- Facebook -->
         <!--suppress AndroidDomInspection -->
-        <activity android:name="com.facebook.ads.AudienceNetworkActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.facebook.ads.AudienceNetworkActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false" />
+        <activity
+            android:name="com.facebook.ads.internal.ipc.RemoteANActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:process=":adnw" />
+
+        <service
+            android:name="com.facebook.ads.internal.ipc.AdsProcessPriorityService"
+            android:exported="false" />
+        <service
+            android:name="com.facebook.ads.internal.ipc.AdsMessengerService"
+            android:exported="false"
+            android:process=":adnw" />
         <!-- End Facebook -->
 
         <!-- Startapp -->
@@ -235,24 +251,25 @@
 
         <!-- Mobvista -->
         <activity
-            android:name="com.mobvista.msdk.activity.MVCommonActivity"
+            android:name="com.mintegral.msdk.activity.MTGCommonActivity"
             android:configChanges="keyboard|orientation"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <service android:name="com.mobvista.msdk.shell.MVService" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <service android:name="com.mintegral.msdk.shell.MTGService">
             <intent-filter>
-                <action android:name="com.mobvista.msdk.download.action" />
+                <action android:name="com.mintegral.msdk.download.action" />
             </intent-filter>
         </service>
-        <activity android:name="com.mobvista.msdk.reward.player.MVRewardVideoActivity"
+
+        <activity
+            android:name="com.mintegral.msdk.reward.player.MTGRewardVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity android:name="com.mobvista.msdk.interstitial.view.MVInterstitialActivity"
-            android:screenOrientation="portrait" />
         <activity
-            android:name="com.mobvista.msdk.mvjscommon.authority.activity.MVAuthorityActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity android:name="com.mobvista.msdk.out.LoadingActivity" />
+            android:name="com.mintegral.msdk.interstitial.view.MTGInterstitialActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
         <!-- End Mobvista -->
 
         <!-- Tapjoy -->

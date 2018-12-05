@@ -16,6 +16,7 @@ import com.appodeal.ads.Appodeal;
 import com.appodeal.ads.NativeAd;
 import com.appodeal.ads.NativeAdView;
 import com.appodeal.ads.NativeCallbacks;
+import com.appodeal.ads.NativeIconView;
 import com.appodeal.ads.NativeMediaView;
 import com.appodeal.ads.native_ad.views.NativeAdViewAppWall;
 import com.appodeal.ads.native_ad.views.NativeAdViewContentStream;
@@ -33,6 +34,7 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final int NATIVE_TYPE_NEWS_FEED = 1;
     private static final int NATIVE_TYPE_APP_WALL = 2;
     private static final int NATIVE_TYPE_CONTENT_STREAM = 3;
+    private static final int NATIVE_WITHOUT_ICON = 4;
 
     private static final int VIEW_HOLDER_NATIVE_AD_TYPE = 600;
 
@@ -93,6 +95,9 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 case NATIVE_TYPE_CONTENT_STREAM:
                     view = new NativeAdViewContentStream(parent.getContext());
                     return new NativeCreatedAdViewHolder(view);
+                case NATIVE_WITHOUT_ICON:
+                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_ads_without_icon, parent, false);
+                    return new NativeWithoutIconHolder(view);
                 default:
                     view = LayoutInflater.from(parent.getContext()).inflate(R.layout.include_native_ads, parent, false);
                     return new NativeCustomAdViewHolder(view);
@@ -276,6 +281,7 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private TextView tvDescription;
         private RatingBar ratingBar;
         private Button ctaButton;
+        private NativeIconView nativeIconView;
         private ImageView icon;
         private TextView tvAgeRestrictions;
         private NativeMediaView nativeMediaView;
@@ -288,7 +294,80 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             tvDescription = itemView.findViewById(R.id.tv_description);
             ratingBar = itemView.findViewById(R.id.rb_rating);
             ctaButton = itemView.findViewById(R.id.b_cta);
-            icon = itemView.findViewById(R.id.icon);
+            nativeIconView = itemView.findViewById(R.id.icon);
+            providerViewContainer = itemView.findViewById(R.id.provider_view);
+            tvAgeRestrictions = itemView.findViewById(R.id.tv_age_restriction);
+            nativeMediaView = itemView.findViewById(R.id.appodeal_media_view_content);
+        }
+
+        @Override
+        void fillNative(NativeAd nativeAd) {
+            tvTitle.setText(nativeAd.getTitle());
+            tvDescription.setText(nativeAd.getDescription());
+            if (nativeAd.getRating() == 0) {
+                ratingBar.setVisibility(View.INVISIBLE);
+            } else {
+                ratingBar.setVisibility(View.VISIBLE);
+                ratingBar.setRating(nativeAd.getRating());
+                ratingBar.setStepSize(0.1f);
+            }
+            ctaButton.setText(nativeAd.getCallToAction());
+            View providerView = nativeAd.getProviderView(nativeAdView.getContext());
+            if (providerView != null) {
+                if (providerView.getParent() != null && providerView.getParent() instanceof ViewGroup) {
+                    ((ViewGroup) providerView.getParent()).removeView(providerView);
+                }
+                providerViewContainer.removeAllViews();
+                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                providerViewContainer.addView(providerView, layoutParams);
+            }
+            if (nativeAd.getAgeRestrictions() != null) {
+                tvAgeRestrictions.setText(nativeAd.getAgeRestrictions());
+                tvAgeRestrictions.setVisibility(View.VISIBLE);
+            } else {
+                tvAgeRestrictions.setVisibility(View.GONE);
+            }
+            if (nativeAd.containsVideo()) {
+                nativeAdView.setNativeMediaView(nativeMediaView);
+            } else {
+                nativeMediaView.setVisibility(View.GONE);
+            }
+            nativeAdView.setTitleView(tvTitle);
+            nativeAdView.setDescriptionView(tvDescription);
+            nativeAdView.setRatingView(ratingBar);
+            nativeAdView.setCallToActionView(ctaButton);
+            nativeAdView.setNativeIconView(nativeIconView);
+            nativeAdView.setProviderView(providerView);
+            nativeAdView.registerView(nativeAd);
+            nativeAdView.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        void unregisterViewForInteraction() {
+            nativeAdView.unregisterViewForInteraction();
+        }
+    }
+
+    /**
+     * View holder for create custom NativeAdView without NativeIconView
+     */
+    static class NativeWithoutIconHolder extends NativeAdViewHolder {
+        private NativeAdView nativeAdView;
+        private TextView tvTitle;
+        private TextView tvDescription;
+        private RatingBar ratingBar;
+        private Button ctaButton;
+        private TextView tvAgeRestrictions;
+        private NativeMediaView nativeMediaView;
+        private FrameLayout providerViewContainer;
+
+        NativeWithoutIconHolder(View itemView) {
+            super(itemView);
+            nativeAdView = itemView.findViewById(R.id.native_item);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            tvDescription = itemView.findViewById(R.id.tv_description);
+            ratingBar = itemView.findViewById(R.id.rb_rating);
+            ctaButton = itemView.findViewById(R.id.b_cta);
             providerViewContainer = itemView.findViewById(R.id.provider_view);
             tvAgeRestrictions = itemView.findViewById(R.id.tv_age_restriction);
             nativeMediaView = itemView.findViewById(R.id.appodeal_media_view_content);
@@ -308,7 +387,6 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
 
             ctaButton.setText(nativeAd.getCallToAction());
-            icon.setImageBitmap(nativeAd.getIcon());
 
             View providerView = nativeAd.getProviderView(nativeAdView.getContext());
             if (providerView != null) {
@@ -338,7 +416,6 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             nativeAdView.setDescriptionView(tvDescription);
             nativeAdView.setRatingView(ratingBar);
             nativeAdView.setCallToActionView(ctaButton);
-            nativeAdView.setIconView(icon);
             nativeAdView.setProviderView(providerView);
 
             nativeAdView.registerView(nativeAd);
