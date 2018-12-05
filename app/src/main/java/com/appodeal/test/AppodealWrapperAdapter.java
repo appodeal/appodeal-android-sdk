@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -282,7 +281,6 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private RatingBar ratingBar;
         private Button ctaButton;
         private NativeIconView nativeIconView;
-        private ImageView icon;
         private TextView tvAgeRestrictions;
         private NativeMediaView nativeMediaView;
         private FrameLayout providerViewContainer;
