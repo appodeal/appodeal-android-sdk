@@ -66,6 +66,7 @@
     <string name="nativeCacheMultipleButton">Cache multiple ads</string>
     <string name="nativeAdMessage">Ad</string>
     <string name="nativeShowButton">Show</string>
+    <string name="isNativeHasVideoButton">Has Video?</string>
 
     <string name="selectNetworks">Select networks</string>
     <string name="show_in_recycler_view">Show in recycler view</string>

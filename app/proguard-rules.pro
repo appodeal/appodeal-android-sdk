@@ -105,18 +105,32 @@
 -keepclassmembers class com.adcolony.sdk.ADCNative** { *; }
 
 # Vungle
--dontwarn com.vungle.warren.**
 -keep class com.vungle.warren.** { *; }
--dontwarn com.google.android.gms.ads.identifier.**
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
--keep class com.google.android.gms.internal.** { *; }
+-dontwarn com.vungle.warren.error.VungleError$ErrorCode
+
+# Vungle/Moat SDK
 -keep class com.moat.** { *; }
 -dontwarn com.moat.**
+
+# Vungle/Okio
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+# Vungle/Retrofit
+-dontwarn okio.**
+-dontwarn retrofit2.Platform$Java8
+
+# Vungle/Gson
+-keepattributes Signature
+-keepattributes *Annotation*
 -dontwarn sun.misc.**
 -keep class com.google.gson.examples.android.model.** { *; }
 -keep class * implements com.google.gson.TypeAdapterFactory
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
+
+# Vungle/Google Android Advertising ID
+-keep class com.google.android.gms.internal.** { *; }
+-dontwarn com.google.android.gms.ads.identifier.**
 
 # MyTarget
 -keep class com.my.target.** { *; }
@@ -234,6 +248,5 @@
 -keep class android.support.v7.widget.RecyclerView { *; }
 -keep class android.support.v7.widget.LinearLayoutManager { *; }
 
-# Retrofit
--dontwarn okio.**
--dontwarn retrofit2.Platform$Java8
+#MultiDex
+-keepnames class android.support.multidex.MultiDex
