@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ import com.appodeal.test.layout.SlidingTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends FragmentActivity {
 
@@ -699,10 +701,46 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    private void fillLocalNativeContainer() {
+        if (nativeAds.isEmpty()) {
+            HorizontalNumberPicker numberPicker = findViewById(R.id.nativeAdsCountPicker);
+            nativeAds = Appodeal.getNativeAds(numberPicker.getNumber());
+        }
+    }
+
+    public void isNativeHasVideoButton(View v) {
+        fillLocalNativeContainer();
+        List<String> containsVideoList = new ArrayList<>();
+        for (NativeAd nativeAd : nativeAds) {
+            String logString = String.format(Locale.getDefault(), "%s - %.2f, containsVideo? - %b",
+                    nativeAd.getAdProvider(), nativeAd.getPredictedEcpm(), nativeAd.containsVideo());
+            containsVideoList.add(logString);
+            android.util.Log.d("Appodeal", logString);
+        }
+        if (containsVideoList.isEmpty()) {
+            containsVideoList.add("no ads");
+            android.util.Log.d("Appodeal", "no ads");
+        }
+
+        ArrayAdapter<String> networksAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, containsVideoList);
+        ListView listView = new ListView(this);
+        listView.setAdapter(networksAdapter);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.isNativeHasVideoButton));
+        builder.setView(listView);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
     public void nativeShowButton(View v) {
         hideNativeAds();
-        HorizontalNumberPicker numberPicker = findViewById(R.id.nativeAdsCountPicker);
-        nativeAds = Appodeal.getNativeAds(numberPicker.getNumber());
+        fillLocalNativeContainer();
         LinearLayout nativeAdsListView = findViewById(R.id.nativeAdsListView);
         Spinner nativeTemplateSpinner = findViewById(R.id.native_template_list);
         NativeListAdapter nativeListViewAdapter = new NativeListAdapter(nativeAdsListView, nativeTemplateSpinner.getSelectedItemPosition());
@@ -711,6 +749,7 @@ public class MainActivity extends FragmentActivity {
         }
         nativeAdsListView.setTag(nativeListViewAdapter);
         nativeListViewAdapter.rebuild();
+        nativeAds.clear();
     }
 
     public void nativeHideButton(View v) {
