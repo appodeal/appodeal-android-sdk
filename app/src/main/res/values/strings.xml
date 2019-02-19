@@ -75,6 +75,7 @@
     <string name="destroy">destroy</string>
 
     <string-array name="banner_networks">
+        <item>appodealx</item>
         <item>admob</item>
         <item>amazon_ads</item>
         <item>applovin</item>
@@ -84,30 +85,31 @@
         <item>inmobi</item>
         <item>inner-active</item>
         <item>mailru</item>
-        <item>mmedia</item>
         <item>mopub</item>
         <item>mraid</item>
         <item>openx</item>
         <item>smaato</item>
         <item>startapp</item>
         <item>yandex</item>
-        <item>zplay</item>
     </string-array>
 
     <string-array name="mrec_networks">
+        <item>appodealx</item>
         <item>admob</item>
         <item>amazon_ads</item>
         <item>applovin</item>
         <item>facebook</item>
         <item>inmobi</item>
         <item>inner-active</item>
-        <item>mmedia</item>
+        <item>mailru</item>
         <item>mopub</item>
         <item>mraid</item>
+        <item>startapp</item>
         <item>yandex</item>
     </string-array>
 
     <string-array name="interstitial_networks">
+        <item>appodealx</item>
         <item>adcolony</item>
         <item>admob</item>
         <item>amazon_ads</item>
@@ -120,7 +122,7 @@
         <item>inner-active</item>
         <item>ironsource</item>
         <item>mailru</item>
-        <item>mmedia</item>
+        <item>mobvista</item>
         <item>mopub</item>
         <item>mraid</item>
         <item>mraid_va</item>
@@ -128,14 +130,16 @@
         <item>openx</item>
         <item>smaato</item>
         <item>startapp</item>
+        <item>tapjoy</item>
         <item>unity_ads</item>
         <item>vast</item>
+        <item>vpaid</item>
         <item>vungle</item>
         <item>yandex</item>
-        <item>zplay</item>
     </string-array>
 
     <string-array name="rewarded_video_networks">
+        <item>appodealx</item>
         <item>adcolony</item>
         <item>admob</item>
         <item>applovin</item>
@@ -145,6 +149,7 @@
         <item>inmobi</item>
         <item>ironsource</item>
         <item>mailru</item>
+        <item>mobvista</item>
         <item>mopub</item>
         <item>mraid</item>
         <item>mraid_va</item>
@@ -152,27 +157,27 @@
         <item>tapjoy</item>
         <item>unity_ads</item>
         <item>vast</item>
+        <item>vpaid</item>
         <item>vungle</item>
     </string-array>
 
     <string-array name="native_networks">
+        <item>appodealx</item>
         <item>adcolony</item>
+        <item>admob</item>
         <item>applovin</item>
-        <item>appnext</item>
         <item>appodeal</item>
-        <item>avocarrot</item>
         <item>facebook</item>
         <item>flurry</item>
         <item>inmobi</item>
         <item>inner-active</item>
         <item>mailru</item>
-        <item>mmedia</item>
+        <item>mobvista</item>
         <item>mopub</item>
         <item>nast</item>
         <item>pubnative</item>
         <item>smaato</item>
         <item>startapp</item>
-        <item>zplay</item>
     </string-array>
 
     <string-array name="nativeTemplates">
