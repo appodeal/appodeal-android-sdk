@@ -37,23 +37,25 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     //Requesting Consent from European Users
     //https://developers.google.com/admob/android/eu-consent
-    implementation 'com.google.android.ads.consent:consent-library:1.0.3'
+    implementation('com.google.android.ads.consent:consent-library:1.0.3') {
+        exclude module: 'gson'
+    }
 
     implementation 'com.google.android.gms:play-services-ads:15.0.0'
     implementation 'com.google.android.gms:play-services-location:15.0.0'
 
     implementation name: 'adcolony-3.3.5', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-alphab', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-common', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-interstitial', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-interstitialvideo', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-mtgdownloads', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-mtgjscommon', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-mtgnative', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-nativeex', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-playercommon', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-reward', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-videocommon', ext: 'aar'
-    implementation name: 'mobvista-9.0.0-videojs', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-alphab', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-common', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-interstitial', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-interstitialvideo', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-mtgdownloads', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-mtgjscommon', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-mtgnative', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-nativeex', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-playercommon', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-reward', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-videocommon', ext: 'aar'
+    implementation name: 'mintegral-9.0.0-videojs', ext: 'aar'
     implementation name: 'ogury-3.0.22', ext: 'aar'
 }

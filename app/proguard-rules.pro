@@ -20,8 +20,9 @@
 
 # Appodeal
 -keep class com.appodeal.** { *; }
+-dontwarn com.appodeal.**
 -keep class com.appodealx.** { *; }
--keep class org.nexage.** { *; }
+-dontwarn com.appodealx.**
 -keepattributes EnclosingMethod, InnerClasses, Signature, JavascriptInterface
 
 # Amazon
@@ -105,24 +106,48 @@
 -keepclassmembers class com.adcolony.sdk.ADCNative** { *; }
 
 # Vungle
--dontwarn com.vungle.warren.**
 -keep class com.vungle.warren.** { *; }
--dontwarn com.google.android.gms.ads.identifier.**
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
--keep class com.google.android.gms.internal.** { *; }
+-dontwarn com.vungle.warren.error.VungleError$ErrorCode
+
+# Vungle/Moat SDK
 -keep class com.moat.** { *; }
 -dontwarn com.moat.**
+
+# Vungle/Fetch
+-keepnames class com.tonyodev.fetch.Fetch
+
+# Vungle/Okio
+-keepnames class okio.Okio
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+# Vungle/Retrofit
+-dontwarn okio.**
+-dontwarn retrofit2.Platform$Java8
+-keepnames class retrofit2.converter.gson.GsonConverterFactory
+-keepnames class retrofit2.Retrofit
+
+# Vungle/Gson
+-keepattributes Signature
+-keepattributes *Annotation*
 -dontwarn sun.misc.**
 -keep class com.google.gson.examples.android.model.** { *; }
 -keep class * implements com.google.gson.TypeAdapterFactory
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
 
+# Vungle/Google Android Advertising ID
+-keep class com.google.android.gms.internal.** { *; }
+-dontwarn com.google.android.gms.ads.identifier.**
+
+# Vungle/okhttp3
+-keep class okhttp3.logging.HttpLoggingInterceptor
+-keepnames class okhttp3.HttpUrl
+
 # MyTarget
 -keep class com.my.target.** { *; }
 -dontwarn com.my.target.**
 
-# Mobvista
+# Mintegral
 -keepattributes Signature
 -keepattributes *Annotation*
 -keep class com.mintegral.** {*; }
@@ -234,10 +259,8 @@
 -keep class android.support.v4.view.ViewPager { *; }
 -keep class android.support.v4.content.ContextCompat { *; }
 
-# support-v7-recyclerview
--keep class android.support.v7.widget.RecyclerView { *; }
--keep class android.support.v7.widget.LinearLayoutManager { *; }
+# support-v7-widget
+-keep class android.support.v7.widget.** { *; }
 
-# Retrofit
--dontwarn okio.**
--dontwarn retrofit2.Platform$Java8
+#MultiDex
+-keepnames class android.support.multidex.MultiDex

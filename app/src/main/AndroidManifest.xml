@@ -77,12 +77,8 @@
             android:theme="@android:style/Theme.Translucent" />
 
         <activity
-            android:name="org.nexage.sourcekit.vast.activity.VASTActivity"
+            android:name="com.appodeal.iab.vast.activity.VastActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-
-        <activity
-            android:name="org.nexage.sourcekit.vast.activity.VPAIDActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity
@@ -116,8 +112,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name="com.mopub.mobileads.MoPubActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name="com.mopub.mobileads.MraidActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
@@ -289,7 +284,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"></activity>
         <!-- End Flurry-ads -->
 
-        <!-- Mobvista -->
+        <!-- Mintegral -->
         <activity
             android:name="com.mintegral.msdk.activity.MTGCommonActivity"
             android:configChanges="keyboard|orientation"
@@ -310,7 +305,7 @@
             android:name="com.mintegral.msdk.interstitial.view.MTGInterstitialActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!-- End Mobvista -->
+        <!-- End Mintegral -->
 
         <!-- Tapjoy -->
         <!--suppress AndroidDomInspection -->
@@ -378,11 +373,11 @@
             tools:ignore="UnusedAttribute" />
         <!-- End Inmobi -->
 
-        <!-- Mailru -->
+        <!-- MyTarget -->
         <activity
             android:name="com.my.target.common.MyTargetActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
-        <!-- End Mailru -->
+        <!-- End MyTarget -->
 
     </application>
 
