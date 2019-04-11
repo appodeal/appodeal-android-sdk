@@ -5,9 +5,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--optional -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!--optional-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--optional-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!--optional-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!--optional-->
+    <uses-permission android:name="android.permission.VIBRATE" /><!--optional-->
 
     <uses-feature
         android:name="android.hardware.location"
@@ -101,6 +104,9 @@
         <activity
             android:name="com.applovin.adview.AppLovinConfirmationActivity"
             android:configChanges="orientation|screenSize" />
+        <activity
+            android:name="com.applovin.sdk.AppLovinWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <!-- End Applovin -->
 
         <!-- Mopub -->
@@ -131,16 +137,17 @@
         <!-- End Amazon_ads -->
 
         <!-- Facebook -->
-        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.facebook.ads.AudienceNetworkActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.facebook.ads.internal.ipc.RemoteANActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
-            android:process=":adnw" />
+            android:process=":adnw"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <service
             android:name="com.facebook.ads.internal.ipc.AdsProcessPriorityService"
@@ -156,24 +163,23 @@
         <activity
             android:name="com.startapp.android.publish.ads.list3d.List3DActivity"
             android:theme="@android:style/Theme" />
-        <!--suppress AndroidDomInspection -->
+
         <activity
             android:name="com.startapp.android.publish.adsCommon.activities.OverlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent" />
-        <!--suppress AndroidDomInspection -->
+
         <activity
             android:name="com.startapp.android.publish.adsCommon.activities.FullScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme" />
-        <!--suppress AndroidDomInspection -->
+
         <service android:name="com.startapp.android.publish.common.metaData.PeriodicMetaDataService" />
-        <!--suppress AndroidDomInspection -->
         <service android:name="com.startapp.android.publish.common.metaData.InfoEventService" />
-        <!--suppress AndroidDomInspection -->
         <service
             android:name="com.startapp.android.publish.common.metaData.PeriodicJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <receiver android:name="com.startapp.android.publish.common.metaData.BootCompleteListener">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -195,19 +201,19 @@
             </intent-filter>
             <meta-data
                 android:name="metrica:api:level"
-                android:value="70" />
+                android:value="76" />
         </service>
         <service
             android:name="com.yandex.metrica.ConfigurationService"
             android:enabled="true"
-            android:exported="true"
+            android:exported="false"
             android:process=":Metrica"
             tools:ignore="ExportedService">
             <meta-data
                 android:name="metrica:configuration:api:level"
-                android:value="2" />
+                android:value="3" />
             <intent-filter>
-                <action android:name="com.yandex.metrica.configuration.ACTION_START" />
+                <action android:name="com.yandex.metrica.configuration.ACTION_INIT" />
             </intent-filter>
         </service>
         <service
@@ -237,25 +243,25 @@
 
         <!-- Unity_ads -->
         <activity
-            android:name="com.unity3d.ads.adunit.AdUnitActivity"
+            android:name="com.unity3d.services.ads.adunit.AdUnitActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name="com.unity3d.ads.adunit.AdUnitSoftwareActivity"
-            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
-            android:hardwareAccelerated="false"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name="com.unity3d.ads.adunit.AdUnitTransparentActivity"
+            android:name="com.unity3d.services.ads.adunit.AdUnitTransparentActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
         <activity
-            android:name="com.unity3d.ads.adunit.AdUnitTransparentSoftwareActivity"
+            android:name="com.unity3d.services.ads.adunit.AdUnitTransparentSoftwareActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:hardwareAccelerated="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="com.unity3d.services.ads.adunit.AdUnitSoftwareActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+            android:hardwareAccelerated="false"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <!-- End Unity_ads -->
 
         <!-- Vungle -->
@@ -291,6 +297,12 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <receiver android:name="com.mintegral.msdk.click.AppReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
         <service android:name="com.mintegral.msdk.shell.MTGService">
             <intent-filter>
                 <action android:name="com.mintegral.msdk.download.action" />
@@ -308,21 +320,17 @@
         <!-- End Mintegral -->
 
         <!-- Tapjoy -->
-        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.tapjoy.TJAdUnitActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.tapjoy.mraid.view.ActionHandler"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.tapjoy.mraid.view.Browser"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.tapjoy.TJContentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -351,14 +359,8 @@
         <!-- End Ironsource -->
 
         <!-- Adcolony -->
-        <!--suppress AndroidDomInspection -->
         <activity
             android:name="com.adcolony.sdk.AdColonyInterstitialActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:hardwareAccelerated="true" />
-        <!--suppress AndroidDomInspection -->
-        <activity
-            android:name="com.adcolony.sdk.AdColonyAdViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:hardwareAccelerated="true" />
         <!-- End Adcolony -->

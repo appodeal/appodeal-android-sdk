@@ -53,11 +53,22 @@
 }
 
 # Applovin
--keep class com.applovin.** { *; }
+-keepattributes Signature,InnerClasses,Exceptions,*Annotation*
+-keep public class com.applovin.sdk.AppLovinSdk { *; }
+-keep public class com.applovin.sdk.AppLovin* { public protected *; }
+-keep public class com.applovin.nativeAds.AppLovin* { public protected *; }
+-keep public class com.applovin.adview.* { public protected *; }
+-keep public class com.applovin.mediation.* { public protected *; }
+-keep public class com.applovin.mediation.ads.* { public protected *; }
+-keep public class com.applovin.impl.**.AppLovin* { public protected *; }
+-keep public class com.applovin.impl.**.*Impl { public protected *; }
+-keepclassmembers class com.applovin.sdk.AppLovinSdkSettings { private java.util.Map localSettings; }
+-keep class com.applovin.mediation.adapters.** { *; }
+-keep class com.applovin.mediation.adapter.** { *; }
 -dontwarn com.applovin.**
 
 # Facebook
--keep class com.facebook.ads.** { *; }
+-keepnames public class com.facebook.ads.** { public protected *; }
 -keeppackagenames com.facebook.*
 -dontwarn com.facebook.ads.**
 
@@ -67,12 +78,17 @@
 
 # Unity Ads
 -keepattributes SourceFile,LineNumberTable
--keep class com.unity3d.** { *; }
--dontwarn com.unity3d.**
+-keepattributes JavascriptInterface
+-keep class android.webkit.JavascriptInterface { *; }
+-keep class com.unity3d.ads.** { *; }
+-keep class com.unity3d.services.** { *; }
+-dontwarn com.google.ar.core.**
 
 # Yandex
--keep class com.yandex.metrica.** { *; }
--dontwarn com.yandex.metrica.**
+-keep class com.yandex.metrica.impl.** { *; }
+-dontwarn com.yandex.metrica.impl.**
+-keep class com.yandex.metrica.* { *; }
+-dontwarn com.yandex.metrica.*
 -keep class com.yandex.mobile.ads.** { *; }
 -dontwarn com.yandex.mobile.ads.**
 -keepattributes *Annotation*
@@ -94,16 +110,11 @@
 -keepclasseswithmembers class * {
   public <init>(android.content.Context, android.util.AttributeSet, int);
 }
-
-# Adcolony
--keep class com.jirbo.adcolony.** { *;}
--keep class com.adcolony.** { *;}
--keep class com.immersion.** { *;}
--dontnote com.immersion.**
--dontwarn android.webkit.**
--dontwarn com.jirbo.adcolony.**
--dontwarn com.adcolony.**
--keepclassmembers class com.adcolony.sdk.ADCNative** { *; }
+-keep class * extends java.util.ListResourceBundle { protected Object[][] getContents(); }
+-keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable { public static final *** NULL; }
+-keepnames @com.google.android.gms.common.annotation.KeepName class *
+-keepclassmembernames class * { @com.google.android.gms.common.annotation.KeepName *; }
+-keepnames class * implements android.os.Parcelable { public static final ** CREATOR; }
 
 # Vungle
 -keep class com.vungle.warren.** { *; }
@@ -130,10 +141,7 @@
 -keepattributes Signature
 -keepattributes *Annotation*
 -dontwarn sun.misc.**
--keep class com.google.gson.examples.android.model.** { *; }
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
+-keep class com.google.gson.** { *; }
 
 # Vungle/Google Android Advertising ID
 -keep class com.google.android.gms.internal.** { *; }
@@ -146,6 +154,33 @@
 # MyTarget
 -keep class com.my.target.** { *; }
 -dontwarn com.my.target.**
+-dontwarn com.my.target.nativeads.mediation.**
+-dontwarn com.my.target.core.net.cookie.**
+-dontwarn com.my.target.ads.mediation.MyTargetAdmobCustomEventBanner**
+-dontwarn com.my.target.ads.mediation.MyTargetAdmobCustomEventInterstitial**
+-dontwarn com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded**
+-dontwarn com.my.target.ads.mediation.MyTargetMopubCustomEventBanner**
+-dontwarn com.my.target.ads.mediation.MyTargetAdmobCustomEventInterstitial**
+-dontwarn com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded**
+-dontwarn com.my.target.ads.mediation.MyTargetMopubCustomEventBanner**
+-keep class com.mopub.MopubCustomParamsUtils**{ *; }
+-keep class com.mopub.mobileads.MyTargetMopubCustomEventInterstitial**{ *; }
+-keep class com.mopub.mobileads.MyTargetMopubCustomEventRewardedVideo**{ *; }
+-keep class com.mopub.nativeads.MyTargetCustomEventNative**{ *; }
+-keep class com.mopub.nativeads.MyTargetStaticNativeAd**{ *; }
+-dontwarn com.mopub.MopubCustomParamsUtils**
+-dontwarn com.mopub.mobileads.MyTargetMopubCustomEventInterstitial**
+-dontwarn com.mopub.mobileads.MyTargetMopubCustomEventRewardedVideo**
+-dontwarn com.mopub.nativeads.MyTargetCustomEventNative**
+-dontwarn com.mopub.nativeads.MyTargetStaticNativeAd**
+-keep class com.google.android.exoplayer2.** { *; }
+-keep class com.google.android.gms.ads.identifier.AdvertisingIdClient {
+    com.google.android.gms.ads.identifier.AdvertisingIdClient$Info getAdvertisingIdInfo(android.content.Context);
+}
+-keep class com.google.android.gms.ads.identifier.AdvertisingIdClient$Info {
+    java.lang.String getId();
+    boolean isLimitAdTrackingEnabled();
+}
 
 # Mintegral
 -keepattributes Signature
@@ -164,17 +199,26 @@
 # Tapjoy
 -keep class com.tapjoy.** { *; }
 -keep class com.moat.** { *; }
+-keepattributes JavascriptInterface
+-keepattributes *Annotation*
+-keep class * extends java.util.ListResourceBundle { protected Object[][] getContents(); }
+-keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable { public static final *** NULL; }
+-keepnames @com.google.android.gms.common.annotation.KeepName class *
+-keepclassmembernames class * { @com.google.android.gms.common.annotation.KeepName *; }
+-keepnames class * implements android.os.Parcelable { public static final ** CREATOR; }
+-keep class com.google.android.gms.ads.identifier.** { *; }
 -dontwarn com.tapjoy.**
 
 # IronSource
 -keepclassmembers class com.ironsource.sdk.controller.IronSourceWebView$JSInterface { public *; }
 -keepclassmembers class * implements android.os.Parcelable { public static final android.os.Parcelable$Creator *; }
 -keep public class com.google.android.gms.ads.** { public *; }
+-keep class com.ironsource.adapters.** { *; }
+-keepnames class com.ironsource.mediationsdk.IronSource
+-dontwarn com.ironsource.mediationsdk.**
+-dontwarn com.ironsource.adapters.**
 -dontwarn com.moat.**
 -keep class com.moat.** { public protected private *; }
--keep class com.ironsource.adapters.** { *; }
--keepnames class com.ironsource.mediationsdk.IronSource { *; }
--dontwarn com.ironsource.**
 
 # AdColonyV3
 -keepclassmembers class * { @android.webkit.JavascriptInterface <methods>; }
@@ -183,26 +227,33 @@
 -dontwarn android.app.Activity
 
 # Inmobi
+-keepattributes SourceFile,LineNumberTable
 -keep class com.inmobi.** { *; }
 -dontwarn com.inmobi.**
 -keep public class com.google.android.gms.**
+-dontwarn com.google.android.gms.**
 -dontwarn com.squareup.picasso.**
--keep class com.google.android.gms.ads.identifier.AdvertisingIdClient{
-     public *;
-}
--keep class com.google.android.gms.ads.identifier.AdvertisingIdClient$Info{ *; }
+-keep class com.google.android.gms.ads.identifier.AdvertisingIdClient{public *;}
+-keep class com.google.android.gms.ads.identifier.AdvertisingIdClient$Info{public *;}
+
+# Picasso
 -keep class com.squareup.picasso.** {*;}
 -dontwarn com.squareup.picasso.**
 -dontwarn com.squareup.okhttp.**
+
+# Moat
 -keep class com.moat.** {*;}
 -dontwarn com.moat.**
--keep class com.integralads.avid.library.* {*;}
+
+# AVID
+-keep class com.integralads.avid.library.** {*;}
 
 # Ogury
 -dontwarn io.presage.**
 
 # Google
--keep class com.google.android.gms.common.GooglePlayServicesUtil {*;}
+-keep class com.google.android.gms.common.GooglePlayServicesUtil { *; }
+-keep class com.google.android.gms.common.GoogleApiAvailability { *; }
 -keep class com.google.android.gms.ads.identifier.** { *; }
 -dontwarn com.google.android.gms.**
 
@@ -262,5 +313,29 @@
 # support-v7-widget
 -keep class android.support.v7.widget.** { *; }
 
-#MultiDex
+# MultiDex
 -keepnames class android.support.multidex.MultiDex
+
+# AndroidX
+-keep @interface androidx.annotation.Keep
+-keep @androidx.annotation.Keep class *
+-keepclasseswithmembers class * {
+  @androidx.annotation.Keep <fields>;
+}
+-keepclasseswithmembers class * {
+  @androidx.annotation.Keep <methods>;
+}
+-keep class androidx.fragment.app.Fragment { *; }
+-keep class androidx.fragment.app.FragmentActivity{ *; }
+-keep class androidx.fragment.app.FragmentManager { *; }
+-keep class androidx.fragment.app.FragmentTransaction { *; }
+-keep class androidx.core.content.ContextCompat { *; }
+-keep class androidx.localbroadcastmanager.content.LocalBroadcastManager { *; }
+-keep class androidx.collection.LruCache { *; }
+-keep class androidx.viewpager.widget.PagerAdapter { *; }
+-keep class androidx.viewpager.widget.ViewPager { *; }
+-keep class androidx.core.content.ContextCompat { *; }
+-keep class androidx.appcompat.widget.** { *; }
+
+# AndroidX Multidex
+-keepnames class androidx.multidex.MultiDex
