@@ -154,7 +154,33 @@
 # MyTarget
 -keep class com.my.target.** { *; }
 -dontwarn com.my.target.**
+-dontwarn com.my.target.nativeads.mediation.**
+-dontwarn com.my.target.core.net.cookie.**
+-dontwarn com.my.target.ads.mediation.MyTargetAdmobCustomEventBanner**
+-dontwarn com.my.target.ads.mediation.MyTargetAdmobCustomEventInterstitial**
+-dontwarn com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded**
+-dontwarn com.my.target.ads.mediation.MyTargetMopubCustomEventBanner**
+-dontwarn com.my.target.ads.mediation.MyTargetAdmobCustomEventInterstitial**
+-dontwarn com.my.target.ads.mediation.MyTargetAdmobCustomEventRewarded**
+-dontwarn com.my.target.ads.mediation.MyTargetMopubCustomEventBanner**
+-keep class com.mopub.MopubCustomParamsUtils**{ *; }
+-keep class com.mopub.mobileads.MyTargetMopubCustomEventInterstitial**{ *; }
+-keep class com.mopub.mobileads.MyTargetMopubCustomEventRewardedVideo**{ *; }
+-keep class com.mopub.nativeads.MyTargetCustomEventNative**{ *; }
+-keep class com.mopub.nativeads.MyTargetStaticNativeAd**{ *; }
+-dontwarn com.mopub.MopubCustomParamsUtils**
+-dontwarn com.mopub.mobileads.MyTargetMopubCustomEventInterstitial**
+-dontwarn com.mopub.mobileads.MyTargetMopubCustomEventRewardedVideo**
+-dontwarn com.mopub.nativeads.MyTargetCustomEventNative**
+-dontwarn com.mopub.nativeads.MyTargetStaticNativeAd**
 -keep class com.google.android.exoplayer2.** { *; }
+-keep class com.google.android.gms.ads.identifier.AdvertisingIdClient {
+    com.google.android.gms.ads.identifier.AdvertisingIdClient$Info getAdvertisingIdInfo(android.content.Context);
+}
+-keep class com.google.android.gms.ads.identifier.AdvertisingIdClient$Info {
+    java.lang.String getId();
+    boolean isLimitAdTrackingEnabled();
+}
 
 # Mintegral
 -keepattributes Signature
