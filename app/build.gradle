@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.appodeal.test"
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -25,6 +25,8 @@ android {
 repositories {
     google()
     jcenter()
+    maven { url 'https://maven.google.com' }
+    maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
     flatDir {
         dirs 'libs-aar'
     }
@@ -41,22 +43,29 @@ dependencies {
         exclude module: 'gson'
     }
 
+    api('com.mopub:mopub-sdk:5.7.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+        exclude module: 'mopub-sdk-native-video'
+    }
+
     implementation 'com.google.android.gms:play-services-ads:15.0.0'
     implementation 'com.google.android.gms:play-services-location:15.0.0'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.8.4' //mytarget
     implementation 'com.google.android.exoplayer:exoplayer-hls:2.8.4'  //mytarget
 
-    implementation name: 'mintegral-9.8.0-alphab', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-common', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-interstitial', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-interstitialvideo', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-mtgdownloads', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-mtgjscommon', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-mtgnative', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-nativeex', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-playercommon', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-reward', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-videocommon', ext: 'aar'
-    implementation name: 'mintegral-9.8.0-videojs', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-alphab', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-common', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-interstitial', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-interstitialvideo', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-mtgdownloads', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-mtgjscommon', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-mtgnative', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-nativeex', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-playercommon', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-reward', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-videocommon', ext: 'aar'
+    implementation name: 'mintegral-9.11.01-videojs', ext: 'aar'
     implementation name: 'ogury-3.0.36', ext: 'aar'
 }
