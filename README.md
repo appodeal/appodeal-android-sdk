@@ -1,11 +1,11 @@
 # appodeal-android-demo
 Appodeal Android SDK Demo Project
 
-Beta branch ver. 2.5.3
+Beta branch ver. 2.5.4
 
 [![](https://img.shields.io/badge/docs-Beta-green.svg?style=flat-square)](https://www.appodeal.com/sdk/android_beta)
 
-Beta version of Appodeal SDK is **2.5.3**.
+Beta version of Appodeal SDK is **2.5.4**.
 Documentation: [docs](https://www.appodeal.com/sdk/android_beta)
 
 ## Requesting Consent from European Users
