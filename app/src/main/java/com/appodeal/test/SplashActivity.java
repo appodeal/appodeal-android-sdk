@@ -20,7 +20,7 @@ public class SplashActivity extends Activity {
         Requesting Consent from European Users
         https://developers.google.com/admob/android/eu-consent
         IMPORTANT: YOU MUST SPECIFY YOUR PUBLISHER_IDS
-        HERE A TEST PUBLISHERIDS
+        HERE A TEST PUBLISHER_IDS
          */
         String[] publisherIds = {"pub-0123456789012345"};
         consentInformation.requestConsentInfoUpdate(publisherIds, new ConsentInfoUpdateListener() {

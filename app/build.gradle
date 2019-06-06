@@ -26,46 +26,43 @@ repositories {
     google()
     jcenter()
     maven { url 'https://maven.google.com' }
+    // Add Appodeal repository
+    maven { url "https://artifactory.appodeal.com/appodeal" }
+    // Add Mopub repository
     maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
-    flatDir {
-        dirs 'libs-aar'
-    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
-    //Requesting Consent from European Users
-    //https://developers.google.com/admob/android/eu-consent
+    // Requesting Consent from European Users
+    // https://developers.google.com/admob/android/eu-consent
     implementation('com.google.android.ads.consent:consent-library:1.0.3') {
         exclude module: 'gson'
     }
 
-    api('com.mopub:mopub-sdk:5.7.0@aar') {
+    // Include Appodeal SDK
+    implementation 'com.appodeal.ads:nodex:2.5.4'
+
+    // Include optional Appodeal SDK dependencies
+    implementation 'com.appodeal.optional:flurry-ads:11.6.0'
+    implementation 'com.appodeal.optional:flurry-analytics:11.6.0'
+    implementation 'com.appodeal.optional:picasso:2.5.2'
+
+    implementation('com.mopub:mopub-sdk:5.7.0@aar') {
         transitive = true
-        exclude module: 'libAvid-mopub' // To exclude AVID
-        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+        // To exclude AVID
+        exclude module: 'libAvid-mopub'
+        // To exclude Moat
+        exclude module: 'moat-mobile-app-kit'
+        // Exclude, since Appodeal SDK not support mopub native video
         exclude module: 'mopub-sdk-native-video'
     }
+    // Include myTarget required dependencies
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.4'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.8.4'
 
+    // Google Play services
     implementation 'com.google.android.gms:play-services-ads:15.0.0'
     implementation 'com.google.android.gms:play-services-location:15.0.0'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.4' //mytarget
-    implementation 'com.google.android.exoplayer:exoplayer-hls:2.8.4'  //mytarget
-
-    implementation name: 'mintegral-9.11.01-alphab', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-common', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-interstitial', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-interstitialvideo', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-mtgdownloads', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-mtgjscommon', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-mtgnative', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-nativeex', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-playercommon', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-reward', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-videocommon', ext: 'aar'
-    implementation name: 'mintegral-9.11.01-videojs', ext: 'aar'
-    implementation name: 'ogury-3.0.36', ext: 'aar'
 }
