@@ -6,7 +6,7 @@ Beta branch ver. 2.5.4
 [![](https://img.shields.io/badge/docs-Beta-green.svg?style=flat-square)](https://www.appodeal.com/sdk/android_beta)
 
 Beta version of Appodeal SDK is **2.5.4**.
-Documentation: [docs](https://www.appodeal.com/sdk/android_beta)
+Documentation: [docs](https://wiki.appodeal.com/en/android/2-5-4-beta-android-sdk-integration-guide)
 
 ## Requesting Consent from European Users
 https://developers.google.com/admob/android/eu-consent
