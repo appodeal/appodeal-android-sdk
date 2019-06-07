@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.appodeal.test">
 
+    <!-- Required, because MoPub SDK minSdkVersion (16) conflicts with Appodeal SDK minSdkVersion (14) -->
+    <uses-sdk tools:overrideLibrary="com.mopub.mobileads,com.mopub.mobileads.banner,com.mopub.mobileads.rewarded_video,com.mopub.mobileads.interstitial,com.mopub.mobileads.native_video,com.mopub.mobileads.native_static,com.mopub.mobileads.base" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional-->
