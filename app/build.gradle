@@ -42,12 +42,11 @@ dependencies {
     }
 
     // Include Appodeal SDK
-    implementation 'com.appodeal.ads:nodex:2.5.5'
+    implementation 'com.appodeal.ads:nodex:2.5.6'
 
     // Include optional Appodeal SDK dependencies
     implementation 'com.appodeal.optional:flurry-ads:11.6.0'
     implementation 'com.appodeal.optional:flurry-analytics:11.6.0'
-    implementation 'com.appodeal.optional:picasso:2.5.2'
 
     implementation('com.mopub:mopub-sdk:5.7.0@aar') {
         transitive = true
