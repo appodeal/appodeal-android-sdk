@@ -42,7 +42,7 @@ dependencies {
     }
 
     // Include Appodeal SDK
-    implementation 'com.appodeal.ads:nodex:2.5.7'
+    implementation 'com.appodeal.ads:nodex:2.5.8'
 
     // Include optional Appodeal SDK dependencies
     implementation 'com.appodeal.optional:flurry-ads:11.6.0'
