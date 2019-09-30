@@ -1,9 +1,10 @@
 package com.appodeal.test.layout;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.viewpager.widget.ViewPager;
 
 public class AdTypeViewPager extends ViewPager {
 

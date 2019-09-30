@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.appodeal.test"
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -23,8 +23,6 @@ android {
 }
 
 repositories {
-    google()
-    jcenter()
     maven { url 'https://maven.google.com' }
     // Add Appodeal repository
     maven { url "https://artifactory.appodeal.com/appodeal" }
@@ -33,8 +31,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     // Requesting Consent from European Users
     // https://developers.google.com/admob/android/eu-consent
     implementation('com.google.android.ads.consent:consent-library:1.0.3') {
