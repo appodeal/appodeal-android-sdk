@@ -327,6 +327,7 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
             if (nativeAd.containsVideo()) {
                 nativeAdView.setNativeMediaView(nativeMediaView);
+                nativeMediaView.setVisibility(View.VISIBLE);
             } else {
                 nativeMediaView.setVisibility(View.GONE);
             }
