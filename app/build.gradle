@@ -20,6 +20,10 @@ android {
         maxProcessCount 2
         javaMaxHeapSize "2g"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 repositories {
@@ -30,6 +34,13 @@ repositories {
     maven { url "https://artifactory.appodeal.com/appodeal" }
     // Add Mopub repository
     maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
+    maven {
+        url 'https://artifactory.appodeal.com:443/appodeal-private'
+        credentials {
+            username = System.getenv("APD_USERNAME")
+            password = System.getenv("APD_USERPASSWORD")
+        }
+    }
 }
 
 dependencies {
@@ -42,7 +53,7 @@ dependencies {
     }
 
     // Include Appodeal SDK
-    implementation 'com.appodeal.ads:nodex:2.5.8'
+    implementation 'com.appodeal.ads:nodex:2.5.9'
 
     // Include optional Appodeal SDK dependencies
     implementation 'com.appodeal.optional:flurry-ads:11.6.0'
