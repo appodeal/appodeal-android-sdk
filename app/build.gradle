@@ -34,13 +34,6 @@ repositories {
     maven { url "https://artifactory.appodeal.com/appodeal" }
     // Add Mopub repository
     maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
-    maven {
-        url 'https://artifactory.appodeal.com:443/appodeal-private'
-        credentials {
-            username = System.getenv("APD_USERNAME")
-            password = System.getenv("APD_USERPASSWORD")
-        }
-    }
 }
 
 dependencies {
