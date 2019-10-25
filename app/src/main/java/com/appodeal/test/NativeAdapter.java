@@ -1,32 +1,32 @@
 package com.appodeal.test;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NativeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Integer> publisherList = new ArrayList<>();
+    private final List<Integer> publisherList;
 
-
-    public NativeAdapter(List<Integer> publisherList) {
+    NativeAdapter(List<Integer> publisherList) {
         this.publisherList = publisherList;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = new TextView(parent.getContext());
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new TextViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((TextViewHolder) holder).setText(publisherList.get(position));
     }
 
@@ -35,7 +35,7 @@ public class NativeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return publisherList != null ? publisherList.size() : 0;
     }
 
-    public int getLastValue() {
+    int getLastValue() {
         if (publisherList != null && publisherList.size() > 0) {
             return publisherList.get(publisherList.size() - 1);
         }
@@ -43,7 +43,7 @@ public class NativeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return 0;
     }
 
-    public void addPack(List<Integer> additionalStringTestList) {
+    void addPack(List<Integer> additionalStringTestList) {
         if (publisherList != null) {
             int startPosition = getItemCount();
 
@@ -53,7 +53,7 @@ public class NativeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public void clearContent() {
+    void clearContent() {
         if (publisherList != null) {
             publisherList.clear();
 
@@ -64,7 +64,7 @@ public class NativeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class TextViewHolder extends RecyclerView.ViewHolder {
 
-        public TextViewHolder(View itemView) {
+        TextViewHolder(View itemView) {
             super(itemView);
         }
 

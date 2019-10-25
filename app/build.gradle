@@ -39,33 +39,12 @@ repositories {
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
+
     // Requesting Consent from European Users
     // https://developers.google.com/admob/android/eu-consent
-    implementation('com.google.android.ads.consent:consent-library:1.0.3') {
-        exclude module: 'gson'
-    }
+    implementation 'com.google.android.ads.consent:consent-library:1.0.7'
 
-    // Include Appodeal SDK
-    implementation 'com.appodeal.ads:nodex:2.5.9'
-
-    // Include optional Appodeal SDK dependencies
-    implementation 'com.appodeal.optional:flurry-ads:11.6.0'
-    implementation 'com.appodeal.optional:flurry-analytics:11.6.0'
-
-    implementation('com.mopub:mopub-sdk:5.7.0@aar') {
-        transitive = true
-        // To exclude AVID
-        exclude module: 'libAvid-mopub'
-        // To exclude Moat
-        exclude module: 'moat-mobile-app-kit'
-        // Exclude, since Appodeal SDK not support mopub native video
-        exclude module: 'mopub-sdk-native-video'
-    }
-    // Include myTarget required dependencies
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.4'
-    implementation 'com.google.android.exoplayer:exoplayer-hls:2.8.4'
-
-    // Google Play services
-    implementation 'com.google.android.gms:play-services-ads:15.0.0'
-    implementation 'com.google.android.gms:play-services-location:15.0.0'
+    implementation 'com.appodeal.ads:sdk:2.6.0.0'
+    implementation 'com.appodeal.ads.sdk.networks:flurry:2.6.0.1' // optional network
+    implementation 'com.appodeal.ads.sdk.networks:mopub:2.6.0.1'  // optional network
 }

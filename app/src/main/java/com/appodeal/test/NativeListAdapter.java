@@ -22,60 +22,54 @@ import java.util.List;
 
 class NativeListAdapter {
 
-    private List<NativeAd> mAds = new LinkedList<>();
-    private final LinearLayout mNativeListView;
-    private int mType = 0;
+    private final List<NativeAd> nativeAdList = new LinkedList<>();
+    private final LinearLayout nativeListView;
+    private int type;
 
     NativeListAdapter(LinearLayout nativeListView, int type) {
-        mNativeListView = nativeListView;
-        mType = type;
+        this.nativeListView = nativeListView;
+        this.type = type;
     }
 
     void addNativeAd(NativeAd nativeAd) {
-        mAds.add(nativeAd);
+        nativeAdList.add(nativeAd);
     }
 
     void setTemplate(int type) {
-        mType = type;
-    }
-
-    int getCount() {
-        return mAds.size();
-    }
-
-    Object getItem(int position) {
-        return mAds.get(position);
+        this.type = type;
     }
 
     void rebuild() {
-        mNativeListView.removeAllViews();
-        for (NativeAd nativeAd : mAds) {
-            mNativeListView.addView(getView(nativeAd));
+        nativeListView.removeAllViews();
+        for (NativeAd nativeAd : nativeAdList) {
+            nativeListView.addView(getView(nativeAd));
         }
     }
 
     void clear() {
-        for (NativeAd nativeAd : mAds) {
+        for (NativeAd nativeAd : nativeAdList) {
             nativeAd.destroy();
         }
-
-        mAds = new LinkedList<>();
+        nativeAdList.clear();
     }
 
     private View getView(NativeAd nativeAd) {
         NativeAdView nativeAdView = null;
-        switch (mType) {
+        switch (type) {
             case 0:
                 nativeAdView = fillCustomNativeAdView(nativeAd);
                 break;
             case 1:
-                nativeAdView = new NativeAdViewNewsFeed(mNativeListView.getContext(), nativeAd, ((MainActivity) mNativeListView.getContext()).mPlacementName);
+                nativeAdView = new NativeAdViewNewsFeed(nativeListView.getContext(), nativeAd, ((MainActivity) nativeListView
+                        .getContext()).placementName);
                 break;
             case 2:
-                nativeAdView = new NativeAdViewAppWall(mNativeListView.getContext(), nativeAd, ((MainActivity) mNativeListView.getContext()).mPlacementName);
+                nativeAdView = new NativeAdViewAppWall(nativeListView.getContext(), nativeAd, ((MainActivity) nativeListView
+                        .getContext()).placementName);
                 break;
             case 3:
-                nativeAdView = new NativeAdViewContentStream(mNativeListView.getContext(), nativeAd, ((MainActivity) mNativeListView.getContext()).mPlacementName);
+                nativeAdView = new NativeAdViewContentStream(nativeListView.getContext(), nativeAd, ((MainActivity) nativeListView
+                        .getContext()).placementName);
                 break;
             case 4:
                 nativeAdView = fillCustomWithoutIconNativeAdView(nativeAd);
@@ -85,7 +79,8 @@ class NativeListAdapter {
     }
 
     private NativeAdView fillCustomNativeAdView(NativeAd nativeAd) {
-        NativeAdView nativeAdView = (NativeAdView) LayoutInflater.from(mNativeListView.getContext()).inflate(R.layout.include_native_ads, mNativeListView, false);
+        NativeAdView nativeAdView = (NativeAdView) LayoutInflater.from(nativeListView.getContext()).inflate(R.layout.include_native_ads,
+                                                                                                            nativeListView, false);
         TextView tvTitle = nativeAdView.findViewById(R.id.tv_title);
         tvTitle.setText(nativeAd.getTitle());
         nativeAdView.setTitleView(tvTitle);
@@ -106,7 +101,7 @@ class NativeListAdapter {
         nativeAdView.setCallToActionView(ctaButton);
         NativeIconView nativeIconView = nativeAdView.findViewById(R.id.icon);
         nativeAdView.setNativeIconView(nativeIconView);
-        View providerView = nativeAd.getProviderView(mNativeListView.getContext());
+        View providerView = nativeAd.getProviderView(nativeListView.getContext());
         if (providerView != null) {
             if (providerView.getParent() != null && providerView.getParent() instanceof ViewGroup) {
                 ((ViewGroup) providerView.getParent()).removeView(providerView);
@@ -125,13 +120,14 @@ class NativeListAdapter {
         }
         NativeMediaView nativeMediaView = nativeAdView.findViewById(R.id.appodeal_media_view_content);
         nativeAdView.setNativeMediaView(nativeMediaView);
-        nativeAdView.registerView(nativeAd, ((MainActivity) mNativeListView.getContext()).mPlacementName);
+        nativeAdView.registerView(nativeAd, ((MainActivity) nativeListView.getContext()).placementName);
         nativeAdView.setVisibility(View.VISIBLE);
         return nativeAdView;
     }
 
     private NativeAdView fillCustomWithoutIconNativeAdView(NativeAd nativeAd) {
-        NativeAdView nativeAdView = (NativeAdView) LayoutInflater.from(mNativeListView.getContext()).inflate(R.layout.native_ads_without_icon, mNativeListView, false);
+        NativeAdView nativeAdView = (NativeAdView) LayoutInflater.from(nativeListView.getContext()).inflate(R.layout.native_ads_without_icon,
+                                                                                                            nativeListView, false);
         TextView tvTitle = nativeAdView.findViewById(R.id.tv_title);
         tvTitle.setText(nativeAd.getTitle());
         nativeAdView.setTitleView(tvTitle);
@@ -150,7 +146,7 @@ class NativeListAdapter {
         Button ctaButton = nativeAdView.findViewById(R.id.b_cta);
         ctaButton.setText(nativeAd.getCallToAction());
         nativeAdView.setCallToActionView(ctaButton);
-        View providerView = nativeAd.getProviderView(mNativeListView.getContext());
+        View providerView = nativeAd.getProviderView(nativeListView.getContext());
         if (providerView != null) {
             if (providerView.getParent() != null && providerView.getParent() instanceof ViewGroup) {
                 ((ViewGroup) providerView.getParent()).removeView(providerView);
@@ -169,7 +165,7 @@ class NativeListAdapter {
         }
         NativeMediaView nativeMediaView = nativeAdView.findViewById(R.id.appodeal_media_view_content);
         nativeAdView.setNativeMediaView(nativeMediaView);
-        nativeAdView.registerView(nativeAd, ((MainActivity) mNativeListView.getContext()).mPlacementName);
+        nativeAdView.registerView(nativeAd, ((MainActivity) nativeListView.getContext()).placementName);
         nativeAdView.setVisibility(View.VISIBLE);
         return nativeAdView;
     }

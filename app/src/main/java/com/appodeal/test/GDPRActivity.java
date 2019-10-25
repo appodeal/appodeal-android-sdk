@@ -137,12 +137,11 @@ public class GDPRActivity extends Activity implements AdvertisingInfoListener {
     }
 
 
-
     private static class AdvertisingInfo extends AsyncTask<Context, Void, AdvertisingIdClient.Info> {
 
-        private AdvertisingInfoListener advertisingInfoListener;
+        private final AdvertisingInfoListener advertisingInfoListener;
 
-        public AdvertisingInfo(AdvertisingInfoListener advertisingInfoListener) {
+        AdvertisingInfo(AdvertisingInfoListener advertisingInfoListener) {
             this.advertisingInfoListener = advertisingInfoListener;
         }
 

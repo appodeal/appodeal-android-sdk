@@ -1,45 +1,46 @@
 package com.appodeal.test;
 
 import android.app.Activity;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import com.appodeal.ads.NativeAd;
 import com.appodeal.ads.NativeCallbacks;
 
-import java.util.List;
-
 public class AppodealNativeCallbacks implements NativeCallbacks {
 
-    private final Activity mActivity;
+    private final Activity activity;
 
     AppodealNativeCallbacks(Activity activity) {
-        mActivity = activity;
+        this.activity = activity;
     }
 
     @Override
     public void onNativeLoaded() {
-        Utils.showToast(mActivity, "onNativeLoaded");
+        Utils.showToast(activity, "onNativeLoaded");
     }
 
     @Override
     public void onNativeFailedToLoad() {
-        Utils.showToast(mActivity, "onNativeFailedToLoad");
+        Utils.showToast(activity, "onNativeFailedToLoad");
     }
 
     @Override
     public void onNativeShown(NativeAd nativeAd) {
-        Utils.showToast(mActivity, "onNativeShown");
+        Utils.showToast(activity, "onNativeShown");
+    }
+
+    @Override
+    public void onNativeShowFailed(NativeAd nativeAd) {
+        Utils.showToast(activity, "onNativeShowFailed");
     }
 
     @Override
     public void onNativeClicked(NativeAd nativeAd) {
-        Utils.showToast(mActivity, "onNativeClicked");
+        Utils.showToast(activity, "onNativeClicked");
     }
 
     @Override
     public void onNativeExpired() {
-        Utils.showToast(mActivity, "onNativeExpired");
+        Utils.showToast(activity, "onNativeExpired");
     }
 
 }

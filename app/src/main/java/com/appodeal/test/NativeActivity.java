@@ -3,6 +3,7 @@ package com.appodeal.test;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -76,7 +77,7 @@ public class NativeActivity extends FragmentActivity {
             }
         });
 
-        nativeAdapter = new NativeAdapter(new ArrayList<Integer>());
+        nativeAdapter = new NativeAdapter(new ArrayList<>());
         appodealWrapperAdapter = new AppodealWrapperAdapter(nativeAdapter, 2, nativeTemplateType);
 
         linearLayoutManager = new LinearLayoutManager(this);
@@ -87,7 +88,7 @@ public class NativeActivity extends FragmentActivity {
         rvNative.setLayoutManager(linearLayoutManager);
         rvNative.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 if (dy > 0) {

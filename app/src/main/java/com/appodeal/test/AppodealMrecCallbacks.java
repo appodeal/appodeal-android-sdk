@@ -6,35 +6,40 @@ import com.appodeal.ads.MrecCallbacks;
 
 class AppodealMrecCallbacks implements MrecCallbacks {
 
-    private final Activity mActivity;
+    private final Activity activity;
 
     AppodealMrecCallbacks(Activity activity) {
-        mActivity = activity;
+        this.activity = activity;
     }
 
     @Override
     public void onMrecLoaded(boolean isPrecache) {
-        Utils.showToast(mActivity, String.format("onMrecLoaded, isPrecache: %s", isPrecache));
+        Utils.showToast(activity, String.format("onMrecLoaded, isPrecache: %s", isPrecache));
     }
 
     @Override
     public void onMrecFailedToLoad() {
-        Utils.showToast(mActivity, "onMrecFailedToLoad");
+        Utils.showToast(activity, "onMrecFailedToLoad");
     }
 
     @Override
     public void onMrecShown() {
-        Utils.showToast(mActivity, "onMrecShown");
+        Utils.showToast(activity, "onMrecShown");
+    }
+
+    @Override
+    public void onMrecShowFailed() {
+        Utils.showToast(activity, "onMrecShowFailed");
     }
 
     @Override
     public void onMrecClicked() {
-        Utils.showToast(mActivity, "onMrecClicked");
+        Utils.showToast(activity, "onMrecClicked");
     }
 
     @Override
     public void onMrecExpired() {
-        Utils.showToast(mActivity, "onMrecExpired");
+        Utils.showToast(activity, "onMrecExpired");
     }
 
 }

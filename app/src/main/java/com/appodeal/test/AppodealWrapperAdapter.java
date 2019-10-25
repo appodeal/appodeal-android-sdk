@@ -1,5 +1,6 @@
 package com.appodeal.test;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -28,8 +29,6 @@ import java.util.List;
  */
 public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements NativeCallbacks {
 
-    private static final int DEFAULT_NATIVE_STEP = 5;
-
     private static final int NATIVE_TYPE_NEWS_FEED = 1;
     private static final int NATIVE_TYPE_APP_WALL = 2;
     private static final int NATIVE_TYPE_CONTENT_STREAM = 3;
@@ -38,29 +37,29 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final int VIEW_HOLDER_NATIVE_AD_TYPE = 600;
 
 
-    private RecyclerView.Adapter<RecyclerView.ViewHolder> userAdapter;
-    private int nativeStep = DEFAULT_NATIVE_STEP;
-    private int nativeTemplateType = 0;
+    private final RecyclerView.Adapter<RecyclerView.ViewHolder> userAdapter;
+    private final int nativeStep;
+    private final int nativeTemplateType;
 
-    private SparseArray<NativeAd> nativeAdList = new SparseArray<>();
+    private final SparseArray<NativeAd> nativeAdList = new SparseArray<>();
 
     /**
      * @param userAdapter user adapter
      * @param nativeStep  step show {@link com.appodeal.ads.NativeAd}
      */
-    public AppodealWrapperAdapter(RecyclerView.Adapter<RecyclerView.ViewHolder> userAdapter, int nativeStep, int nativeTemplateType) {
+    AppodealWrapperAdapter(RecyclerView.Adapter<RecyclerView.ViewHolder> userAdapter,
+                           int nativeStep,
+                           int nativeTemplateType) {
         this.userAdapter = userAdapter;
         this.nativeStep = nativeStep + 1;
         this.nativeTemplateType = nativeTemplateType;
 
         userAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-
             @Override
             public void onChanged() {
                 super.onChanged();
 
                 AppodealWrapperAdapter.this.notifyDataSetChanged();
-
                 fillListWithAd();
             }
 
@@ -69,19 +68,17 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 super.onItemRangeInserted(positionStart, itemCount);
 
                 AppodealWrapperAdapter.this.notifyDataSetChanged();
-
                 fillListWithAd();
             }
         });
 
         Appodeal.setNativeCallbacks(this);
-
         fillListWithAd();
     }
 
-
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_HOLDER_NATIVE_AD_TYPE) {
             View view;
             switch (nativeTemplateType) {
@@ -95,10 +92,12 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     view = new NativeAdViewContentStream(parent.getContext());
                     return new NativeCreatedAdViewHolder(view);
                 case NATIVE_WITHOUT_ICON:
-                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_ads_without_icon, parent, false);
+                    view = LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.native_ads_without_icon, parent, false);
                     return new NativeWithoutIconHolder(view);
                 default:
-                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.include_native_ads, parent, false);
+                    view = LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.include_native_ads, parent, false);
                     return new NativeCustomAdViewHolder(view);
             }
         } else {
@@ -107,7 +106,7 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NativeAdViewHolder) {
             ((NativeAdViewHolder) holder).fillNative(nativeAdList.get(position));
         } else {
@@ -135,7 +134,7 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
 
         if (holder instanceof NativeAdViewHolder) {
@@ -146,15 +145,12 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     /**
      * Destroy all used native ads
      */
-    public void destroyNativeAds() {
-        if (nativeAdList != null) {
-            for (int i = 0; i < nativeAdList.size(); i++) {
-                NativeAd nativeAd = nativeAdList.valueAt(i);
-                nativeAd.destroy();
-            }
-
-            nativeAdList.clear();
+    void destroyNativeAds() {
+        for (int i = 0; i < nativeAdList.size(); i++) {
+            NativeAd nativeAd = nativeAdList.valueAt(i);
+            nativeAd.destroy();
         }
+        nativeAdList.clear();
     }
 
     @Override
@@ -173,6 +169,11 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
+    public void onNativeShowFailed(NativeAd nativeAd) {
+
+    }
+
+    @Override
     public void onNativeClicked(NativeAd nativeAd) {
 
     }
@@ -187,11 +188,7 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
      * @return count of loaded ads {@link com.appodeal.ads.NativeAd}
      */
     private int getNativeAdsCount() {
-        if (nativeAdList != null) {
-            return nativeAdList.size();
-        }
-
-        return 0;
+        return nativeAdList.size();
     }
 
     /**
@@ -316,7 +313,9 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ViewGroup) providerView.getParent()).removeView(providerView);
                 }
                 providerViewContainer.removeAllViews();
-                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
                 providerViewContainer.addView(providerView, layoutParams);
             }
             if (nativeAd.getAgeRestrictions() != null) {
@@ -393,7 +392,9 @@ public class AppodealWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ViewGroup) providerView.getParent()).removeView(providerView);
                 }
                 providerViewContainer.removeAllViews();
-                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
                 providerViewContainer.addView(providerView, layoutParams);
             }
 

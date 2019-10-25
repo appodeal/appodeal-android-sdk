@@ -46,7 +46,7 @@ public class MainActivity extends FragmentActivity {
     public static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
     private String[] interstitial_networks, rewarded_video_networks, mrec_networks, native_networks, banner_networks;
     private List<NativeAd> nativeAds = new ArrayList<>();
-    String mPlacementName = "default";
+    String placementName = "default";
     boolean[] interstitialNetworks;
     boolean[] bannerNetworks;
     boolean[] mrecNetworks;
@@ -55,49 +55,29 @@ public class MainActivity extends FragmentActivity {
     boolean[] checkedValues;
     boolean consent;
 
-
     public enum AdType {
         Interstitial(Appodeal.INTERSTITIAL), RVideo(Appodeal.REWARDED_VIDEO), Banner(Appodeal.BANNER), Mrec(Appodeal.MREC), Native(Appodeal.NATIVE);
-        private final int mValue;
+        private final int value;
 
         AdType(int value) {
-            mValue = value;
+            this.value = value;
         }
 
         public int getValue() {
-            return mValue;
-        }
-
-        public static AdType fromInteger(Integer x) {
-            if (x == null) {
-                return null;
-            }
-            switch (x) {
-                case Appodeal.INTERSTITIAL:
-                    return Interstitial;
-                case Appodeal.REWARDED_VIDEO:
-                    return RVideo;
-                case Appodeal.BANNER:
-                    return Banner;
-                case Appodeal.MREC:
-                    return Mrec;
-                case Appodeal.NATIVE:
-                    return Native;
-            }
-            return null;
+            return value;
         }
     }
 
     public enum BannerPosition {
         BANNER(Appodeal.BANNER), BOTTOM(Appodeal.BANNER_BOTTOM), TOP(Appodeal.BANNER_TOP), VIEW(Appodeal.BANNER_VIEW);
-        private final int mValue;
+        private final int value;
 
         BannerPosition(int value) {
-            mValue = value;
+            this.value = value;
         }
 
         public int getValue() {
-            return mValue;
+            return value;
         }
     }
 
@@ -106,20 +86,20 @@ public class MainActivity extends FragmentActivity {
         RVideo(R.layout.rewarded_video, R.id.rewardedVideoLayout), Banner(R.layout.banner, R.id.bannerLayout),
         MREC(R.layout.mrec, R.id.MrecLayout), Native(R.layout.native_ad, R.id.nativeLayout);
 
-        private final int mLayout;
-        private final int mId;
+        private final int layout;
+        private final int id;
 
         AdTypePages(int layout, int id) {
-            mLayout = layout;
-            mId = id;
+            this.layout = layout;
+            this.id = id;
         }
 
         public int getLayout() {
-            return mLayout;
+            return layout;
         }
 
         public int getId() {
-            return mId;
+            return id;
         }
     }
 
@@ -169,10 +149,10 @@ public class MainActivity extends FragmentActivity {
             Appodeal.requestAndroidMPermissions(this, new AppodealPermissionCallbacks(this));
         }
 
-        TextView sdkTextView = (TextView) findViewById(R.id.sdkTextView);
+        TextView sdkTextView = findViewById(R.id.sdkTextView);
         sdkTextView.setText(getString(R.string.sdkTextView, Appodeal.getVersion()));
 
-        CompoundButton testModeSwitch = (CompoundButton) findViewById(R.id.testModeSwitch);
+        CompoundButton testModeSwitch = findViewById(R.id.testModeSwitch);
         testModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -180,7 +160,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        Spinner logLevelSpinner = (Spinner) findViewById(R.id.logLevelList);
+        Spinner logLevelSpinner = findViewById(R.id.logLevelList);
         Appodeal.setLogLevel(Log.LogLevel.none);
         ArrayAdapter<String> logLevelAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.logLevels));
         logLevelSpinner.setAdapter(logLevelAdapter);
@@ -213,12 +193,12 @@ public class MainActivity extends FragmentActivity {
             public void onChildViewAdded(View parent, View child) {
                 if (child.findViewById(AdTypePages.Interstitial.getId()) != null && child.getTag() == null) {
                     child.setTag(true);
-                    CompoundButton autoCacheInterstitialSwitch = (CompoundButton) findViewById(R.id.autoCacheInterstitialSwitch);
+                    CompoundButton autoCacheInterstitialSwitch = findViewById(R.id.autoCacheInterstitialSwitch);
                     autoCacheInterstitialSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             Appodeal.setAutoCache(Appodeal.INTERSTITIAL, isChecked);
-                            Button interstitialCacheButton = (Button) findViewById(R.id.interstitialCacheButton);
+                            Button interstitialCacheButton = findViewById(R.id.interstitialCacheButton);
                             if (isChecked) {
                                 interstitialCacheButton.setVisibility(View.GONE);
                             } else {
@@ -227,7 +207,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
-                    final CompoundButton onLoadedSwitch = (CompoundButton) findViewById(R.id.onLoadedInterstitialSwitch);
+                    final CompoundButton onLoadedSwitch = findViewById(R.id.onLoadedInterstitialSwitch);
                     onLoadedSwitch.setText(getString(R.string.onLoadedInterstitialSwitch, "expensive"));
                     onLoadedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
@@ -244,12 +224,12 @@ public class MainActivity extends FragmentActivity {
 
                 if (child.findViewById(AdTypePages.RVideo.getId()) != null && child.getTag() == null) {
                     child.setTag(true);
-                    CompoundButton autoCacheRewardedVideoSwitch = (CompoundButton) findViewById(R.id.autoCacheRewardedVideoSwitch);
+                    CompoundButton autoCacheRewardedVideoSwitch = findViewById(R.id.autoCacheRewardedVideoSwitch);
                     autoCacheRewardedVideoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             Appodeal.setAutoCache(Appodeal.REWARDED_VIDEO, isChecked);
-                            Button rewardedVideoCacheButton = (Button) findViewById(R.id.rewardedVideoCacheButton);
+                            Button rewardedVideoCacheButton = findViewById(R.id.rewardedVideoCacheButton);
                             if (isChecked) {
                                 rewardedVideoCacheButton.setVisibility(View.GONE);
                             } else {
@@ -261,7 +241,7 @@ public class MainActivity extends FragmentActivity {
 
                 if (child.findViewById(AdTypePages.Native.getId()) != null && child.getTag() == null) {
                     child.setTag(true);
-                    CompoundButton autoCacheNativeSwitch = (CompoundButton) findViewById(R.id.autoCacheNativeSwitch);
+                    CompoundButton autoCacheNativeSwitch = findViewById(R.id.autoCacheNativeSwitch);
                     autoCacheNativeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -292,7 +272,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
-                    Spinner nativeTemplateSpinner = (Spinner) findViewById(R.id.native_template_list);
+                    Spinner nativeTemplateSpinner = findViewById(R.id.native_template_list);
                     ArrayAdapter<String> nativeTemplateAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.nativeTemplates));
                     nativeTemplateSpinner.setAdapter(nativeTemplateAdapter);
                     nativeTemplateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -307,7 +287,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
-                    Spinner nativeTypeSpinner = (Spinner) findViewById(R.id.native_type_list);
+                    Spinner nativeTypeSpinner = findViewById(R.id.native_type_list);
                     ArrayAdapter<String> nativeTypeAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.nativeTypes));
                     nativeTypeSpinner.setAdapter(nativeTypeAdapter);
                     nativeTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -335,12 +315,12 @@ public class MainActivity extends FragmentActivity {
 
                 if (child.findViewById(AdTypePages.Banner.getId()) != null && child.getTag() == null) {
                     child.setTag(true);
-                    CompoundButton autoCacheBannerSwitch = (CompoundButton) findViewById(R.id.autoCacheBannerSwitch);
+                    CompoundButton autoCacheBannerSwitch = findViewById(R.id.autoCacheBannerSwitch);
                     autoCacheBannerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             Appodeal.setAutoCache(Appodeal.BANNER, isChecked);
-                            Button bannerCacheButton = (Button) findViewById(R.id.bannerCacheButton);
+                            Button bannerCacheButton = findViewById(R.id.bannerCacheButton);
                             if (isChecked) {
                                 bannerCacheButton.setVisibility(View.GONE);
                             } else {
@@ -349,7 +329,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
-                    CompoundButton smartBannersSwitch = (CompoundButton) findViewById(R.id.smartBannersSwitch);
+                    CompoundButton smartBannersSwitch = findViewById(R.id.smartBannersSwitch);
                     smartBannersSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -357,7 +337,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
-                    CompoundButton bigBannersSwitch = (CompoundButton) findViewById(R.id.bigBannersSwitch);
+                    CompoundButton bigBannersSwitch = findViewById(R.id.bigBannersSwitch);
                     bigBannersSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -365,7 +345,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
-                    CompoundButton bannersAnimateSwitch = (CompoundButton) findViewById(R.id.bannersAnimateBannersSwitch);
+                    CompoundButton bannersAnimateSwitch = findViewById(R.id.bannersAnimateBannersSwitch);
                     bannersAnimateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -373,7 +353,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
-                    Spinner bannerPositionSpinner = (Spinner) findViewById(R.id.bannerPositionList);
+                    Spinner bannerPositionSpinner = findViewById(R.id.bannerPositionList);
                     ArrayAdapter<BannerPosition> bannerPositionsAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, BannerPosition.values());
                     bannerPositionSpinner.setAdapter(bannerPositionsAdapter);
                 }
@@ -381,12 +361,12 @@ public class MainActivity extends FragmentActivity {
 
                 if (child.findViewById(AdTypePages.MREC.getId()) != null && child.getTag() == null) {
                     child.setTag(true);
-                    CompoundButton autoCacheMrecSwitch = (CompoundButton) findViewById(R.id.autoCacheMrecSwitch);
+                    CompoundButton autoCacheMrecSwitch = findViewById(R.id.autoCacheMrecSwitch);
                     autoCacheMrecSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             Appodeal.setAutoCache(Appodeal.MREC, isChecked);
-                            Button MrecCacheButton = (Button) findViewById(R.id.mrecCacheButton);
+                            Button MrecCacheButton = findViewById(R.id.mrecCacheButton);
                             if (isChecked) {
                                 MrecCacheButton.setVisibility(View.GONE);
                             } else {
@@ -405,7 +385,7 @@ public class MainActivity extends FragmentActivity {
         AdTypeAdapter adTypeAdapter = new AdTypeAdapter(getSupportFragmentManager());
         pager.setAdapter(adTypeAdapter);
 
-        SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.slidingTabLayout);
+        SlidingTabLayout slidingTabLayout = findViewById(R.id.slidingTabLayout);
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(pager);
     }
@@ -420,7 +400,7 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+        ViewGroup root = findViewById(android.R.id.content);
         for (int i = 0; i < root.getChildCount(); i++) {
             View child = root.getChildAt(i);
             Object tag = child.getTag();
@@ -434,9 +414,8 @@ public class MainActivity extends FragmentActivity {
 
     public void initSdkButton(View v) {
         //Add user settings
-        Appodeal.getUserSettings(this)
-                .setAge(25)
-                .setGender(UserSettings.Gender.MALE);
+        Appodeal.setUserAge(25);
+        Appodeal.setUserGender(UserSettings.Gender.MALE);
         Appodeal.initialize(this, APP_KEY, Appodeal.NONE, consent);
     }
 
@@ -638,7 +617,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void bannerShowButton(View v) {
-        Spinner bannerPositionSpinner = (Spinner) findViewById(R.id.bannerPositionList);
+        Spinner bannerPositionSpinner = findViewById(R.id.bannerPositionList);
         BannerPosition bannerPosition = (BannerPosition) bannerPositionSpinner.getSelectedItem();
         boolean isShown = Appodeal.show(this, bannerPosition.getValue());
         Toast.makeText(this, String.valueOf(isShown), Toast.LENGTH_SHORT).show();
@@ -775,7 +754,7 @@ public class MainActivity extends FragmentActivity {
 
     public static class AdTypeAdapter extends FragmentPagerAdapter {
 
-        public AdTypeAdapter(FragmentManager fm) {
+        AdTypeAdapter(FragmentManager fm) {
             super(fm);
         }
 

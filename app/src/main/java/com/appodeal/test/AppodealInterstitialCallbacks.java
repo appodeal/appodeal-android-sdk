@@ -6,40 +6,45 @@ import com.appodeal.ads.InterstitialCallbacks;
 
 class AppodealInterstitialCallbacks implements InterstitialCallbacks {
 
-    private final Activity mActivity;
+    private final Activity activity;
 
     AppodealInterstitialCallbacks(Activity activity) {
-        mActivity = activity;
+        this.activity = activity;
     }
 
     @Override
     public void onInterstitialLoaded(boolean isPrecache) {
-        Utils.showToast(mActivity, String.format("onInterstitialLoaded, isPrecache: %s", isPrecache));
+        Utils.showToast(activity, String.format("onInterstitialLoaded, isPrecache: %s", isPrecache));
     }
 
     @Override
     public void onInterstitialFailedToLoad() {
-        Utils.showToast(mActivity, "onInterstitialFailedToLoad");
+        Utils.showToast(activity, "onInterstitialFailedToLoad");
     }
 
     @Override
     public void onInterstitialShown() {
-        Utils.showToast(mActivity, "onInterstitialShown");
+        Utils.showToast(activity, "onInterstitialShown");
+    }
+
+    @Override
+    public void onInterstitialShowFailed() {
+        Utils.showToast(activity, "onInterstitialShowFailed");
     }
 
     @Override
     public void onInterstitialClicked() {
-        Utils.showToast(mActivity, "onInterstitialClicked");
+        Utils.showToast(activity, "onInterstitialClicked");
     }
 
     @Override
     public void onInterstitialClosed() {
-        Utils.showToast(mActivity, "onInterstitialClosed");
+        Utils.showToast(activity, "onInterstitialClosed");
     }
 
     @Override
     public void onInterstitialExpired() {
-        Utils.showToast(mActivity, "onInterstitialExpired");
+        Utils.showToast(activity, "onInterstitialExpired");
     }
 
 }
