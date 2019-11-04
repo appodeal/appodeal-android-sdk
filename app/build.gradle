@@ -20,6 +20,10 @@ android {
         maxProcessCount 2
         javaMaxHeapSize "2g"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 repositories {
@@ -40,7 +44,7 @@ dependencies {
     }
 
     // Include Appodeal SDK
-    implementation 'com.appodeal.ads:nodex:2.5.8'
+    implementation 'com.appodeal.ads:nodex:2.5.10'
 
     // Include optional Appodeal SDK dependencies
     implementation 'com.appodeal.optional:flurry-ads:11.6.0'
