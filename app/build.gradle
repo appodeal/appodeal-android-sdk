@@ -33,7 +33,13 @@ repositories {
     // Add Appodeal repository
     maven { url "https://artifactory.appodeal.com/appodeal" }
     // Add Mopub repository
-    maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
+    // https://github.com/mopub/mopub-android-sdk/issues/341#issuecomment-521563460
+    maven {
+        url "https://s3.amazonaws.com/moat-sdk-builds"
+        content {
+            includeGroupByRegex "com\\.moat.*"
+        }
+    }
 }
 
 dependencies {
