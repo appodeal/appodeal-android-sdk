@@ -1,46 +1,85 @@
 package com.appodeal.test;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.google.ads.consent.ConsentInfoUpdateListener;
-import com.google.ads.consent.ConsentInformation;
-import com.google.ads.consent.ConsentStatus;
+import com.explorestack.consent.Consent;
+import com.explorestack.consent.ConsentForm;
+import com.explorestack.consent.ConsentFormListener;
+import com.explorestack.consent.ConsentInfoUpdateListener;
+import com.explorestack.consent.ConsentManager;
+import com.explorestack.consent.exception.ConsentManagerException;
+
+import static com.appodeal.test.MainActivity.APP_KEY;
 
 public class SplashActivity extends Activity {
+
+    private ConsentForm consentForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        ConsentInformation consentInformation = ConsentInformation.getInstance(this);
         /*
         Requesting Consent from European Users
-        https://developers.google.com/admob/android/eu-consent
-        IMPORTANT: YOU MUST SPECIFY YOUR PUBLISHER_IDS
-        HERE A TEST PUBLISHER_IDS
          */
-        String[] publisherIds = {"pub-0123456789012345"};
-        consentInformation.requestConsentInfoUpdate(publisherIds, new ConsentInfoUpdateListener() {
+        ConsentManager consentManager = ConsentManager.getInstance(this);
+        consentManager.requestConsentInfoUpdate(APP_KEY, new ConsentInfoUpdateListener() {
             @Override
-            public void onConsentInfoUpdated(ConsentStatus consentStatus) {
-                if (ConsentInformation.getInstance(SplashActivity.this).isRequestLocationInEeaOrUnknown()) {
-                    startActivity(new Intent(SplashActivity.this, GDPRActivity.class));
+            public void onConsentInfoUpdated(Consent consent) {
+                Log.d("Appodeal[Consent]", "onConsentInfoUpdated");
+                if (consentManager.shouldShowConsentDialog() == Consent.ShouldShow.TRUE) {
+                    loadConsentForm();
                 } else {
-                    startMainActivityWithDefaultConsent();
+                    startMainActivity();
                 }
             }
 
             @Override
-            public void onFailedToUpdateConsentInfo(String errorDescription) {
-                startMainActivityWithDefaultConsent();
+            public void onFailedToUpdateConsentInfo(ConsentManagerException e) {
+                Log.d("Appodeal", "onFailedToUpdateConsentInfo - "
+                        + e.getReason() + " " + e.getCode());
+                startMainActivity();
             }
         });
     }
 
-    private void startMainActivityWithDefaultConsent() {
-        startActivity(MainActivity.getIntent(this, true));
+    private void loadConsentForm() {
+        consentForm = new ConsentForm.Builder(this)
+                .withListener(new ConsentFormListener() {
+                    @Override
+                    public void onConsentFormLoaded() {
+                        Log.d("Appodeal[Consent]", "onConsentFormLoaded");
+                        consentForm.showAsActivity();
+                    }
+
+                    @Override
+                    public void onConsentFormError(ConsentManagerException e) {
+                        Log.d("Appodeal[Consent]", "ConsentManagerException - "
+                                + e.getReason() + " " + e.getCode());
+                        startMainActivity();
+                    }
+
+                    @Override
+                    public void onConsentFormOpened() {
+                        Log.d("Appodeal[Consent]", "onConsentFormOpened");
+                    }
+
+                    @Override
+                    public void onConsentFormClosed(Consent consent) {
+                        Log.d("Appodeal[Consent]", "onConsentFormClosed");
+                        startMainActivity(consent.getStatus() == Consent.Status.PERSONALIZED);
+                    }
+                }).build();
+        consentForm.load();
+    }
+
+    private void startMainActivity() {
+        startMainActivity(true);
+    }
+
+    private void startMainActivity(boolean consent) {
+        startActivity(MainActivity.getIntent(this, consent));
     }
 }

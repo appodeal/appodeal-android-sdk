@@ -3,10 +3,7 @@
     <string name="app_name">Appodeal Demo</string>
 
     <string name="sdkTextView">SDK v%s</string>
-    <string name="disableNetworksButton">Disable</string>
     <string name="testModeSwitch">Test Mode</string>
-    <string name="loggingSwitch">Logging</string>
-    <string name="toastSwitch">Show toasts</string>
     <string name="initSdkButton">Init SDK</string>
     <string name="chooseNetworks">Choose networks</string>
     <string name="logLevelTextView">Log level</string>
@@ -17,11 +14,9 @@
     <string name="onLoadedInterstitialSwitch">Trigger onLoaded for %s</string>
     <string name="initInterstitialSdkButton">Init Interstitials</string>
     <string name="isInterstitialLoadedButton">Loaded?</string>
-    <string name="isInterstitialLoadedWithPriceFloorButton">W price floor?</string>
     <string name="isInterstitialLoadedPrecacheButton">Precache?</string>
     <string name="interstitialCacheButton">Cache</string>
     <string name="interstitialShowButton">Show</string>
-    <string name="interstitialShowWithPriceFloorButton">Show w price floor</string>
 
     <string name="autoCacheRewardedVideoSwitch">Auto Cache</string>
     <string name="initRewardedVideoSdkButton">Init Rewarded Video</string>
@@ -43,14 +38,9 @@
     <string name="autoCacheMrecSwitch">Auto Cache</string>
     <string name="initMrecSdkButton">Init MREC</string>
     <string name="isMrecLoadedButton">Loaded?</string>
-    <string name="isMrecLoadedWithPriceFloorButton">Loaded PF?</string>
     <string name="mrecCacheButton">Cache</string>
     <string name="mrecShowButton">Show</string>
     <string name="mrecHideButton">Hide</string>
-    <string name="mrecShowWithPriceFloorButton">Show PF</string>
-    <string name="debugMrecTextView">Debug</string>
-    <string name="mrecCacheDebugButton">Cache</string>
-    <string name="mrecShowDebugButton">Show</string>
     <string name="mrecDestroyButton">Destroy</string>
 
     <string name="autoCacheNativeSwitch">Auto Cache</string>
@@ -58,12 +48,9 @@
     <string name="isNativeLoadedButton">Loaded?</string>
     <string name="nativeCacheButton">Cache</string>
     <string name="nativeHideButton">Hide</string>
-    <string name="debugNativeTextView">Debug</string>
     <string name="media_assets">Media Assets</string>
     <string name="templateNativeTextView">Template</string>
     <string name="typeNativeTextView">Type</string>
-    <string name="nativeCacheDebugButton">Cache</string>
-    <string name="nativeCacheMultipleButton">Cache multiple ads</string>
     <string name="nativeAdMessage">Ad</string>
     <string name="nativeShowButton">Show</string>
 
@@ -211,17 +198,5 @@
         <item>debug</item>
         <item>verbose</item>
     </string-array>
-
-    <string name="gdpr_title">Personalize Your Ad Experience</string>
-    <string name="gdpr_main_text">%s personalizes your advertising experience using Appodeal. Appodeal and its partners may collect and process personal data such as device identifiers, location data, and other demographic and interest data to provide advertising experience tailored to you. By consenting to this improved ad experience, you`ll see ads that Appodeal and its partners believe are more relevant to you. Learn more.\n\nBy agreeing, you confirm that you are over the age of 16 and would like a personalized ad experience.</string>
-    <string name="gdpr_agree_text">Great. We hope you enjoy your personalized ad experience. If you ever change your mind, you can withdraw your consent by enabling "Opt out of Ads Personalization" under Settings/Google/Ads on your Android device and then restarting this app.</string>
-    <string name="gdpr_disagree_text">Appodeal won`t collect your data for personalized advertising in this app. However, if you authorize Appodeal to personalize your advertising experience in a different app, we will collect your data in that other app.</string>
-    <string name="gdpr_agree">Yes, I agree</string>
-    <string name="gdpr_disagree">No, thank you</string>
-    <string name="gdpr_understand">I understand that I will still see ads, but they may not be as relevant to my interests.</string>
-    <string name="gdpr_close">Close window</string>
-
-    <string name="gdpr_consent_not_granted">GDPR consent wasn`t granted. SDK not initialized</string>
-    <string name="gdpr_opt_out_enabled">Opt out of Ads Personalization enabled. SDK not initialized</string>
 
 </resources>

@@ -40,10 +40,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     // Requesting Consent from European Users
-    // https://developers.google.com/admob/android/eu-consent
-    implementation('com.google.android.ads.consent:consent-library:1.0.3') {
-        exclude module: 'gson'
-    }
+    implementation 'com.explorestack:consent:1.0.0'
 
     // Include Appodeal SDK
     implementation 'com.appodeal.ads:nodex:2.5.10'
