@@ -50,7 +50,8 @@ dependencies {
     // https://developers.google.com/admob/android/eu-consent
     implementation 'com.google.android.ads.consent:consent-library:1.0.7'
 
-    implementation 'com.appodeal.ads:sdk:2.6.0.0'
+    implementation 'com.appodeal.ads:sdk:2.6.0.1'
     implementation 'com.appodeal.ads.sdk.networks:flurry:2.6.0.1' // optional network
     implementation 'com.appodeal.ads.sdk.networks:mopub:2.6.0.1'  // optional network
+    implementation 'com.appodeal.ads.sdk.networks:fyber:2.6.0.1'  // optional network
 }
