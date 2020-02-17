@@ -5,6 +5,7 @@
     <string name="sdkTextView">SDK v%s</string>
     <string name="disableNetworksButton">Disable</string>
     <string name="testModeSwitch">Test Mode</string>
+    <string name="consentSwitch">Has Consent</string>
     <string name="loggingSwitch">Logging</string>
     <string name="toastSwitch">Show toasts</string>
     <string name="initSdkButton">Init SDK</string>
