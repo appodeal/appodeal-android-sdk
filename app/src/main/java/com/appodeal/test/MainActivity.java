@@ -2,7 +2,6 @@ package com.appodeal.test;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,29 +44,9 @@ public class MainActivity extends FragmentActivity {
     private static final String CONSENT = "consent";
 
     public static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
-    private String[] interstitial_networks, rewarded_video_networks, mrec_networks, native_networks, banner_networks;
     private List<NativeAd> nativeAds = new ArrayList<>();
     String placementName = "default";
-    boolean[] interstitialNetworks;
-    boolean[] bannerNetworks;
-    boolean[] mrecNetworks;
-    boolean[] rewardedNetworks;
-    boolean[] nativeNetworks;
-    boolean[] checkedValues;
     boolean consent;
-
-    public enum AdType {
-        Interstitial(Appodeal.INTERSTITIAL), RVideo(Appodeal.REWARDED_VIDEO), Banner(Appodeal.BANNER), Mrec(Appodeal.MREC), Native(Appodeal.NATIVE);
-        private final int value;
-
-        AdType(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
 
     public enum BannerPosition {
         BANNER(Appodeal.BANNER), BOTTOM(Appodeal.BANNER_BOTTOM), TOP(Appodeal.BANNER_TOP), VIEW(Appodeal.BANNER_VIEW);
@@ -118,32 +98,6 @@ public class MainActivity extends FragmentActivity {
 
         android.util.Log.d("Appodeal", "Consent: " + consent);
 
-        interstitial_networks = getResources().getStringArray(R.array.interstitial_networks);
-        interstitialNetworks = new boolean[interstitial_networks.length];
-        for (int i = 0; i < interstitial_networks.length; i++) {
-            interstitialNetworks[i] = true;
-        }
-        mrec_networks = getResources().getStringArray(R.array.mrec_networks);
-        mrecNetworks = new boolean[mrec_networks.length];
-        for (int i = 0; i < mrec_networks.length; i++) {
-            mrecNetworks[i] = true;
-        }
-        banner_networks = getResources().getStringArray(R.array.banner_networks);
-        bannerNetworks = new boolean[banner_networks.length];
-        for (int i = 0; i < banner_networks.length; i++) {
-            bannerNetworks[i] = true;
-        }
-        rewarded_video_networks = getResources().getStringArray(R.array.rewarded_video_networks);
-        rewardedNetworks = new boolean[rewarded_video_networks.length];
-        for (int i = 0; i < rewarded_video_networks.length; i++) {
-            rewardedNetworks[i] = true;
-        }
-        native_networks = getResources().getStringArray(R.array.native_networks);
-        nativeNetworks = new boolean[native_networks.length];
-        for (int i = 0; i < native_networks.length; i++) {
-            nativeNetworks[i] = true;
-        }
-
         if (Build.VERSION.SDK_INT >= 23 && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             Appodeal.requestAndroidMPermissions(this, new AppodealPermissionCallbacks(this));
@@ -164,7 +118,7 @@ public class MainActivity extends FragmentActivity {
         Appodeal.setLogLevel(Log.LogLevel.none);
         ArrayAdapter<String> logLevelAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.logLevels));
         logLevelSpinner.setAdapter(logLevelAdapter);
-        logLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        logLevelSpinner.setOnItemSelectedListener(new SimpleOnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -178,11 +132,6 @@ public class MainActivity extends FragmentActivity {
                         Appodeal.setLogLevel(Log.LogLevel.verbose);
                         break;
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -251,7 +200,7 @@ public class MainActivity extends FragmentActivity {
 
                     Spinner sMediaAssets = findViewById(R.id.s_media_assets);
                     sMediaAssets.setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.native_media_assets)));
-                    sMediaAssets.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    sMediaAssets.setOnItemSelectedListener(new SimpleOnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             switch (position) {
@@ -266,31 +215,22 @@ public class MainActivity extends FragmentActivity {
                                     break;
                             }
                         }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-                        }
                     });
 
                     Spinner nativeTemplateSpinner = findViewById(R.id.native_template_list);
                     ArrayAdapter<String> nativeTemplateAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.nativeTemplates));
                     nativeTemplateSpinner.setAdapter(nativeTemplateAdapter);
-                    nativeTemplateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    nativeTemplateSpinner.setOnItemSelectedListener(new SimpleOnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             updateNativeList(position);
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
                         }
                     });
 
                     Spinner nativeTypeSpinner = findViewById(R.id.native_type_list);
                     ArrayAdapter<String> nativeTypeAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.nativeTypes));
                     nativeTypeSpinner.setAdapter(nativeTypeAdapter);
-                    nativeTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    nativeTypeSpinner.setOnItemSelectedListener(new SimpleOnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             switch (position) {
@@ -304,11 +244,6 @@ public class MainActivity extends FragmentActivity {
                                     Appodeal.setNativeAdType(Native.NativeAdType.Video);
                                     break;
                             }
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
                         }
                     });
                 }
@@ -390,7 +325,6 @@ public class MainActivity extends FragmentActivity {
         slidingTabLayout.setViewPager(pager);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -419,12 +353,33 @@ public class MainActivity extends FragmentActivity {
         Appodeal.initialize(this, APP_KEY, Appodeal.NONE, consent);
     }
 
-    public void disableNetworks(boolean[] adNetworks, String[] networksList, AdType adType) {
-        for (int i = 0; i < adNetworks.length; i++) {
-            if (!adNetworks[i]) {
-                Appodeal.disableNetwork(this, networksList[i], adType.getValue());
+    private void disableNetworks(int adType) {
+        ListView listView = new ListView(this);
+        List<String> networks = Appodeal.getNetworks(this, adType);
+        final ArrayAdapter<String> networksAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                networks);
+        listView.setAdapter(networksAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Appodeal.disableNetwork(MainActivity.this,
+                        networksAdapter.getItem(position),
+                        adType);
+                networksAdapter.remove(networksAdapter.getItem(position));
+                networksAdapter.notifyDataSetChanged();
             }
-        }
+        });
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.disableNetworks));
+        builder.setView(listView);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     public void setChildDirectedTreatment(View v) {
@@ -432,25 +387,8 @@ public class MainActivity extends FragmentActivity {
         Appodeal.setChildDirectedTreatment(true);
     }
 
-
     public void interstitialChooseNetworks(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        checkedValues = interstitialNetworks.clone();
-        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(interstitial_networks, checkedValues,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    public void onClick(DialogInterface dialog, int item, boolean isChecked) {
-                    }
-                });
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                interstitialNetworks = checkedValues;
-                disableNetworks(interstitialNetworks, interstitial_networks, AdType.Interstitial);
-            }
-        });
-
-        Dialog dialog = builder.create();
-        dialog.show();
+        disableNetworks(Appodeal.INTERSTITIAL);
     }
 
     public void initInterstitialSdkButton(View v) {
@@ -484,23 +422,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void rewardedVideoChooseNetworks(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        checkedValues = rewardedNetworks.clone();
-        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(rewarded_video_networks, checkedValues,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    public void onClick(DialogInterface dialog, int item, boolean isChecked) {
-                    }
-                });
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                rewardedNetworks = checkedValues;
-                disableNetworks(rewardedNetworks, rewarded_video_networks, AdType.RVideo);
-            }
-        });
-
-        Dialog dialog = builder.create();
-        dialog.show();
+        disableNetworks(Appodeal.REWARDED_VIDEO);
     }
 
     public void initRewardedVideoSdkButton(View v) {
@@ -526,23 +448,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void mrecChooseNetworks(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        checkedValues = mrecNetworks.clone();
-        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(mrec_networks, checkedValues,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    public void onClick(DialogInterface dialog, int item, boolean isChecked) {
-                    }
-                });
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mrecNetworks = checkedValues;
-                disableNetworks(mrecNetworks, mrec_networks, AdType.Mrec);
-            }
-        });
-
-        Dialog dialog = builder.create();
-        dialog.show();
+        disableNetworks(Appodeal.MREC);
     }
 
     public void initMrecSdkButton(View v) {
@@ -577,25 +483,8 @@ public class MainActivity extends FragmentActivity {
         Appodeal.destroy(Appodeal.MREC);
     }
 
-
     public void bannerChooseNetworks(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        checkedValues = bannerNetworks.clone();
-        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(banner_networks, checkedValues,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    public void onClick(DialogInterface dialog, int item, boolean isChecked) {
-                    }
-                });
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                bannerNetworks = checkedValues;
-                disableNetworks(bannerNetworks, banner_networks, AdType.Banner);
-            }
-        });
-
-        Dialog dialog = builder.create();
-        dialog.show();
+        disableNetworks(Appodeal.BANNER);
     }
 
     public void initBannerSdkButton(View v) {
@@ -631,32 +520,14 @@ public class MainActivity extends FragmentActivity {
         Appodeal.destroy(Appodeal.BANNER);
     }
 
-
     public void initNativeSdkButton(View v) {
         Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
         Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE, consent);
     }
 
     public void nativeChooseNetworks(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        checkedValues = nativeNetworks.clone();
-        builder.setTitle(getString(R.string.selectNetworks)).setMultiChoiceItems(native_networks, checkedValues,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    public void onClick(DialogInterface dialog, int item, boolean isChecked) {
-                    }
-                });
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                nativeNetworks = checkedValues;
-                disableNetworks(nativeNetworks, native_networks, AdType.Native);
-            }
-        });
-
-        Dialog dialog = builder.create();
-        dialog.show();
+        disableNetworks(Appodeal.NATIVE);
     }
-
 
     public void nativeCacheButton(View v) {
         hideNativeAds();
@@ -750,6 +621,17 @@ public class MainActivity extends FragmentActivity {
     public void showInRecyclerView(View v) {
         Spinner nativeTemplateSpinner = findViewById(R.id.native_template_list);
         startActivity(NativeActivity.newIntent(this, nativeTemplateSpinner.getSelectedItemPosition()));
+    }
+
+    public static class SimpleOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
     }
 
     public static class AdTypeAdapter extends FragmentPagerAdapter {
