@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:onClick="rewardedVideoChooseNetworks"
         android:layout_margin="5dp"
-        android:text="@string/chooseNetworks" />
+        android:onClick="rewardedVideoChooseNetworks"
+        android:text="@string/disableNetworks" />
 
     <include layout="@layout/rewarded_video_switch" />
 
@@ -21,8 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:onClick="initRewardedVideoSdkButton"
         android:layout_margin="5dp"
+        android:onClick="initRewardedVideoSdkButton"
         android:text="@string/initRewardedVideoSdkButton" />
 
     <LinearLayout

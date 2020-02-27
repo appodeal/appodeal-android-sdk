@@ -3,12 +3,8 @@
     <string name="app_name">Appodeal Demo</string>
 
     <string name="sdkTextView">SDK v%s</string>
-    <string name="disableNetworksButton">Disable</string>
     <string name="testModeSwitch">Test Mode</string>
-    <string name="loggingSwitch">Logging</string>
-    <string name="toastSwitch">Show toasts</string>
     <string name="initSdkButton">Init SDK</string>
-    <string name="chooseNetworks">Choose networks</string>
     <string name="logLevelTextView">Log level</string>
 
     <string name="set_child_directed_treatment">Set Child Directed Treatment</string>
@@ -17,11 +13,9 @@
     <string name="onLoadedInterstitialSwitch">Trigger onLoaded for %s</string>
     <string name="initInterstitialSdkButton">Init Interstitials</string>
     <string name="isInterstitialLoadedButton">Loaded?</string>
-    <string name="isInterstitialLoadedWithPriceFloorButton">W price floor?</string>
     <string name="isInterstitialLoadedPrecacheButton">Precache?</string>
     <string name="interstitialCacheButton">Cache</string>
     <string name="interstitialShowButton">Show</string>
-    <string name="interstitialShowWithPriceFloorButton">Show w price floor</string>
 
     <string name="autoCacheRewardedVideoSwitch">Auto Cache</string>
     <string name="initRewardedVideoSdkButton">Init Rewarded Video</string>
@@ -43,14 +37,9 @@
     <string name="autoCacheMrecSwitch">Auto Cache</string>
     <string name="initMrecSdkButton">Init MREC</string>
     <string name="isMrecLoadedButton">Loaded?</string>
-    <string name="isMrecLoadedWithPriceFloorButton">Loaded PF?</string>
     <string name="mrecCacheButton">Cache</string>
     <string name="mrecShowButton">Show</string>
     <string name="mrecHideButton">Hide</string>
-    <string name="mrecShowWithPriceFloorButton">Show PF</string>
-    <string name="debugMrecTextView">Debug</string>
-    <string name="mrecCacheDebugButton">Cache</string>
-    <string name="mrecShowDebugButton">Show</string>
     <string name="mrecDestroyButton">Destroy</string>
 
     <string name="autoCacheNativeSwitch">Auto Cache</string>
@@ -58,133 +47,17 @@
     <string name="isNativeLoadedButton">Loaded?</string>
     <string name="nativeCacheButton">Cache</string>
     <string name="nativeHideButton">Hide</string>
-    <string name="debugNativeTextView">Debug</string>
     <string name="media_assets">Media Assets</string>
     <string name="templateNativeTextView">Template</string>
     <string name="typeNativeTextView">Type</string>
-    <string name="nativeCacheDebugButton">Cache</string>
-    <string name="nativeCacheMultipleButton">Cache multiple ads</string>
     <string name="nativeAdMessage">Ad</string>
     <string name="nativeShowButton">Show</string>
 
-    <string name="selectNetworks">Select networks</string>
+    <string name="disableNetworks">Disable Networks</string>
     <string name="show_in_recycler_view">Show in recycler view</string>
     <string name="registerNativeAds">register</string>
     <string name="unRegisterNativeAds">unregister</string>
     <string name="destroy">destroy</string>
-
-    <string-array name="banner_networks">
-        <item>admob</item>
-        <item>amazon_ads</item>
-        <item>applovin</item>
-        <item>appnexus</item>
-        <item>appodealx</item>
-        <item>facebook</item>
-        <item>flurry</item>
-        <item>inmobi</item>
-        <item>inner-active</item>
-        <item>mraid</item>
-        <item>mopub</item>
-        <item>my_target</item>
-        <item>openx</item>
-        <item>pubnative</item>
-        <item>smaato</item>
-        <item>startapp</item>
-        <item>unity_ads</item>
-        <item>yandex</item>
-    </string-array>
-
-    <string-array name="mrec_networks">
-        <item>admob</item>
-        <item>amazon_ads</item>
-        <item>applovin</item>
-        <item>facebook</item>
-        <item>inmobi</item>
-        <item>inner-active</item>
-        <item>mraid</item>
-        <item>mopub</item>
-        <item>my_target</item>
-        <item>pubnative</item>
-        <item>smaato</item>
-        <item>startapp</item>
-        <item>yandex</item>
-    </string-array>
-
-    <string-array name="interstitial_networks">
-        <item>adcolony</item>
-        <item>admob</item>
-        <item>amazon_ads</item>
-        <item>applovin</item>
-        <item>appnexus</item>
-        <item>appodealx</item>
-        <item>chartboost</item>
-        <item>facebook</item>
-        <item>flurry</item>
-        <item>inmobi</item>
-        <item>inner-active</item>
-        <item>ironsource</item>
-        <item>mraid</item>
-        <item>mraid_va</item>
-        <item>mintegral</item>
-        <item>mopub</item>
-        <item>my_target</item>
-        <item>ogury</item>
-        <item>openx</item>
-        <item>pubnative</item>
-        <item>smaato</item>
-        <item>startapp</item>
-        <item>tapjoy</item>
-        <item>unity_ads</item>
-        <item>vast</item>
-        <item>vpaid</item>
-        <item>vungle</item>
-        <item>yandex</item>
-    </string-array>
-
-    <string-array name="rewarded_video_networks">
-        <item>adcolony</item>
-        <item>admob</item>
-        <item>applovin</item>
-        <item>appodealx</item>
-        <item>chartboost</item>
-        <item>facebook</item>
-        <item>flurry</item>
-        <item>inmobi</item>
-        <item>ironsource</item>
-        <item>mraid</item>
-        <item>mraid_va</item>
-        <item>mintegral</item>
-        <item>mopub</item>
-        <item>my_target</item>
-        <item>startapp</item>
-        <item>ogury</item>
-        <item>pubnative</item>
-        <item>smaato</item>
-        <item>startapp</item>
-        <item>tapjoy</item>
-        <item>unity_ads</item>
-        <item>vast</item>
-        <item>vpaid</item>
-        <item>vungle</item>
-    </string-array>
-
-    <string-array name="native_networks">
-        <item>admob</item>
-        <item>applovin</item>
-        <item>appodeal</item>
-        <item>appodealx</item>
-        <item>facebook</item>
-        <item>flurry</item>
-        <item>inmobi</item>
-        <item>inner-active</item>
-        <item>mintegral</item>
-        <item>mopub</item>
-        <item>my_target</item>
-        <item>nast</item>
-        <item>pubnative</item>
-        <item>smaato</item>
-        <item>startapp</item>
-    </string-array>
 
     <string-array name="nativeTemplates">
         <item>Custom</item>
@@ -220,8 +93,5 @@
     <string name="gdpr_disagree">No, thank you</string>
     <string name="gdpr_understand">I understand that I will still see ads, but they may not be as relevant to my interests.</string>
     <string name="gdpr_close">Close window</string>
-
-    <string name="gdpr_consent_not_granted">GDPR consent wasn`t granted. SDK not initialized</string>
-    <string name="gdpr_opt_out_enabled">Opt out of Ads Personalization enabled. SDK not initialized</string>
 
 </resources>

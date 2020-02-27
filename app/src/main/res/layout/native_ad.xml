@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:onClick="nativeChooseNetworks"
-        android:text="@string/chooseNetworks" />
+        android:text="@string/disableNetworks" />
 
     <include layout="@layout/native_switch" />
 
