@@ -38,10 +38,10 @@ import com.appodeal.test.layout.AdTypeViewPager;
 import com.appodeal.test.layout.HorizontalNumberPicker;
 import com.appodeal.test.layout.SlidingTabLayout;
 import com.explorestack.consent.Consent;
+import com.explorestack.consent.ConsentForm;
 import com.explorestack.consent.ConsentFormListener;
 import com.explorestack.consent.ConsentManager;
 import com.explorestack.consent.exception.ConsentManagerException;
-import com.google.ads.consent.ConsentForm;
 
 import java.util.ArrayList;
 import java.util.List;
