@@ -39,8 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GDPRActivity" />
-        <activity android:name=".GDPRResultActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" />
