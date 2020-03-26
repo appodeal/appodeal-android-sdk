@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:onClick="bannerChooseNetworks"
         android:layout_margin="5dp"
-        android:text="@string/chooseNetworks" />
+        android:onClick="bannerChooseNetworks"
+        android:text="@string/disableNetworks" />
 
     <include layout="@layout/banner_switch" />
 
@@ -21,8 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:onClick="initBannerSdkButton"
         android:layout_margin="5dp"
+        android:onClick="initBannerSdkButton"
         android:text="@string/initBannerSdkButton" />
 
     <LinearLayout
