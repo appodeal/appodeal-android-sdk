@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.explorestack:consent:1.0.1'
     implementation 'com.google.android.gms:play-services-ads-identifier:15.0.0'
 
-    implementation 'com.appodeal.ads:sdk:2.6.2.0'
+    implementation 'com.appodeal.ads:sdk:2.6.3.0'
     implementation 'com.appodeal.ads.sdk.networks:a4g:2.6.0.1'    // optional network
     implementation 'com.appodeal.ads.sdk.networks:flurry:2.6.0.1' // optional network
     implementation 'com.appodeal.ads.sdk.networks:mopub:2.6.0.1'  // optional network
