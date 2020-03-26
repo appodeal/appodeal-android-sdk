@@ -83,9 +83,7 @@ public class SplashActivity extends Activity {
 
                         @Override
                         public void onConsentFormClosed(Consent consent) {
-                            boolean hasConsent =
-                                    consent.getStatus() == Consent.Status.PERSONALIZED &&
-                                            consent.getStatus() != Consent.Status.NON_PERSONALIZED;
+                            boolean hasConsent = consent.getStatus() == Consent.Status.PERSONALIZED;
                             // Start our main activity with resolved Consent value
                             startMainActivity(hasConsent);
                         }

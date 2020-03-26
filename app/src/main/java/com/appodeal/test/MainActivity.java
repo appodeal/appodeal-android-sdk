@@ -724,9 +724,7 @@ public class MainActivity extends FragmentActivity {
 
                         @Override
                         public void onConsentFormClosed(Consent consent) {
-                            boolean hasConsent =
-                                    consent.getStatus() == Consent.Status.PERSONALIZED &&
-                                            consent.getStatus() != Consent.Status.NON_PERSONALIZED;
+                            boolean hasConsent = consent.getStatus() == Consent.Status.PERSONALIZED;
                             consentSwitch.setChecked(hasConsent);
                             // Update local Consent value with resolved Consent value
                             MainActivity.this.consent = hasConsent;
