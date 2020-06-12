@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.appodeal.test"
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -32,27 +32,16 @@ repositories {
     maven { url 'https://maven.google.com' }
     // Add Appodeal repository
     maven { url "https://artifactory.appodeal.com/appodeal" }
-    // Add Mopub repository
-    // https://github.com/mopub/mopub-android-sdk/issues/341#issuecomment-521563460
-    maven {
-        url "https://s3.amazonaws.com/moat-sdk-builds"
-        content {
-            includeGroupByRegex "com\\.moat.*"
-        }
-    }
 }
 
 dependencies {
-    implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     // Stack ConsentManager (required for requesting Consent from European Users)
     implementation 'com.explorestack:consent:1.0.1'
-    implementation 'com.google.android.gms:play-services-ads-identifier:15.0.0'
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 
-    implementation 'com.appodeal.ads:sdk:2.7.1.0'
-    implementation 'com.appodeal.ads.sdk.networks:a4g:2.7.1.1'    // optional network
-    implementation 'com.appodeal.ads.sdk.networks:flurry:2.7.1.1' // optional network
-    implementation 'com.appodeal.ads.sdk.networks:mopub:2.7.1.1'  // optional network
-    implementation 'com.appodeal.ads.sdk.networks:fyber:2.7.1.2'  // optional network
+    implementation 'com.appodeal.ads:sdk:2.7.2.0'
 }
