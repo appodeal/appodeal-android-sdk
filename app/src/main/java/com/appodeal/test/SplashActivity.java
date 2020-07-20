@@ -2,8 +2,9 @@ package com.appodeal.test;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.explorestack.consent.Consent;
 import com.explorestack.consent.ConsentForm;
@@ -41,8 +42,14 @@ public class SplashActivity extends Activity {
                         if (consentShouldShow == Consent.ShouldShow.TRUE) {
                             showConsentForm();
                         } else {
-                            // Start our main activity with default Consent value
-                            startMainActivity();
+                            if (consent.getStatus() == Consent.Status.UNKNOWN) {
+                                // Start our main activity with default Consent value
+                                startMainActivity();
+                            } else {
+                                boolean hasConsent = consent.getStatus() == Consent.Status.PERSONALIZED;
+                                // Start our main activity with resolved Consent value
+                                startMainActivity(hasConsent);
+                            }
                         }
                     }
 
@@ -83,9 +90,7 @@ public class SplashActivity extends Activity {
 
                         @Override
                         public void onConsentFormClosed(Consent consent) {
-                            boolean hasConsent =
-                                    consent.getStatus() == Consent.Status.PERSONALIZED &&
-                                            consent.getStatus() != Consent.Status.NON_PERSONALIZED;
+                            boolean hasConsent = consent.getStatus() == Consent.Status.PERSONALIZED;
                             // Start our main activity with resolved Consent value
                             startMainActivity(hasConsent);
                         }

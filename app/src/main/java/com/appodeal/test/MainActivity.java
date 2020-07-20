@@ -8,12 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +21,13 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.appodeal.ads.Appodeal;
 import com.appodeal.ads.Native;
@@ -59,7 +60,13 @@ public class MainActivity extends FragmentActivity {
     private ConsentForm consentForm;
 
     public enum BannerPosition {
-        BANNER(Appodeal.BANNER), BOTTOM(Appodeal.BANNER_BOTTOM), TOP(Appodeal.BANNER_TOP), VIEW(Appodeal.BANNER_VIEW);
+        BANNER(Appodeal.BANNER),
+        BOTTOM(Appodeal.BANNER_BOTTOM),
+        TOP(Appodeal.BANNER_TOP),
+        VIEW(Appodeal.BANNER_VIEW),
+        LEFT(Appodeal.BANNER_LEFT),
+        RIGHT(Appodeal.BANNER_RIGHT);
+
         private final int value;
 
         BannerPosition(int value) {
