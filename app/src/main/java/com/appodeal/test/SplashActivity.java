@@ -41,8 +41,14 @@ public class SplashActivity extends Activity {
                         if (consentShouldShow == Consent.ShouldShow.TRUE) {
                             showConsentForm();
                         } else {
-                            // Start our main activity with default Consent value
-                            startMainActivity();
+                            if (consent.getStatus() == Consent.Status.UNKNOWN) {
+                                // Start our main activity with default Consent value
+                                startMainActivity();
+                            } else {
+                                boolean hasConsent = consent.getStatus() == Consent.Status.PERSONALIZED;
+                                // Start our main activity with resolved Consent value
+                                startMainActivity(hasConsent);
+                            }
                         }
                     }
 
