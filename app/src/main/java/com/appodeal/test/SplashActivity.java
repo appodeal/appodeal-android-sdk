@@ -2,8 +2,9 @@ package com.appodeal.test;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.explorestack.consent.Consent;
 import com.explorestack.consent.ConsentForm;
