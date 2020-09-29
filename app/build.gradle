@@ -4,7 +4,7 @@ android {
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.appodeal.test"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -43,5 +43,5 @@ dependencies {
     implementation 'com.explorestack:consent:1.0.2'
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 
-    implementation 'com.appodeal.ads:sdk:2.7.3.+'
+    implementation 'com.appodeal.ads:sdk:2.8.0.+'
 }
