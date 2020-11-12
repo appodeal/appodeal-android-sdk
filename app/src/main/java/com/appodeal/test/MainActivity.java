@@ -147,6 +147,15 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        Switch sharedAdsInstanceSwitch = findViewById(R.id.sharedAdsInstanceSwitch);
+        sharedAdsInstanceSwitch.setChecked(Appodeal.isSharedAdsInstanceAcrossActivities());
+        sharedAdsInstanceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Appodeal.setSharedAdsInstanceAcrossActivities(isChecked);
+            }
+        });
+
         Spinner logLevelSpinner = findViewById(R.id.logLevelList);
         Appodeal.setLogLevel(Log.LogLevel.none);
         ArrayAdapter<String> logLevelAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.logLevels));
@@ -356,13 +365,6 @@ public class MainActivity extends FragmentActivity {
         SlidingTabLayout slidingTabLayout = findViewById(R.id.slidingTabLayout);
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(pager);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Appodeal.onResume(this, Appodeal.BANNER);
-        Appodeal.onResume(this, Appodeal.MREC);
     }
 
     @Override
