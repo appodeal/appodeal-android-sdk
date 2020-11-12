@@ -5,6 +5,7 @@
     <string name="sdkTextView">SDK v%s</string>
     <string name="testModeSwitch">Test Mode</string>
     <string name="consentSwitch">Has Consent</string>
+    <string name="sharedAdsInstanceSwitch">Shared View Ads Across Activities</string>
     <string name="initSdkButton">Init SDK</string>
     <string name="logLevelTextView">Log level</string>
 
