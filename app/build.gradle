@@ -40,7 +40,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     // Stack ConsentManager (required for requesting Consent from European Users)
-    implementation 'com.explorestack:consent:1.0.2'
+    implementation 'com.explorestack:consent:1.0.4'
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 
     implementation 'com.appodeal.ads:sdk:2.8.1.+'
