@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+
 android {
     compileSdkVersion 30
     defaultConfig {
@@ -26,9 +27,6 @@ android {
 }
 
 repositories {
-    google()
-    jcenter()
-    maven { url 'https://maven.google.com' }
     // Add Appodeal repository
     maven { url "https://artifactory.appodeal.com/appodeal" }
 }
@@ -39,7 +37,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     // Stack ConsentManager (required for requesting Consent from European Users)
-    implementation 'com.explorestack:consent:1.0.4'
+    implementation 'com.explorestack:consent:1.0.5'
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
     implementation 'com.appodeal.ads:sdk:2.10.2.+'
 }
