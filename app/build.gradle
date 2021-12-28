@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.appodeal.test"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -39,5 +39,5 @@ dependencies {
     // Stack ConsentManager (required for requesting Consent from European Users)
     implementation 'com.explorestack:consent:1.0.5'
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
-    implementation 'com.appodeal.ads:sdk:2.10.3.+'
+    implementation 'com.appodeal.ads:sdk:2.11.0.+'
 }
