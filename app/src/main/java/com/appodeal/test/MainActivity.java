@@ -1,12 +1,9 @@
 package com.appodeal.test;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,11 +127,6 @@ public class MainActivity extends FragmentActivity {
         });
 
         android.util.Log.d("Appodeal", "Consent: " + consent);
-
-        if (Build.VERSION.SDK_INT >= 23 && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            Appodeal.requestAndroidMPermissions(this, new AppodealPermissionCallbacks(this));
-        }
 
         TextView sdkTextView = findViewById(R.id.sdkTextView);
         sdkTextView.setText(getString(R.string.sdkTextView, Appodeal.getVersion()));
