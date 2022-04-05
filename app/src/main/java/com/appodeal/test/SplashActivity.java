@@ -1,8 +1,8 @@
 package com.appodeal.test;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -25,10 +25,10 @@ public class SplashActivity extends Activity {
         resolveUserConsent();
     }
 
-    // Requesting Consent from European Users using Stack ConsentManager (https://wiki.appodeal.com/en/android/consent-manager).
+    // Requesting Consent from European Users using Stack ConsentManager (https://wiki.appodeal.com/en/android/get-started/data-protection/gdpr-and-ccpa).
     private void resolveUserConsent() {
         // Note: YOU MUST SPECIFY YOUR APPODEAL SDK KET HERE
-        String appodealAppKey = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
+        String appodealAppKey = BuildConfig.APP_KEY;
         ConsentManager consentManager = ConsentManager.getInstance(this);
         // Requesting Consent info update
         consentManager.requestConsentInfoUpdate(
@@ -42,20 +42,14 @@ public class SplashActivity extends Activity {
                         if (consentShouldShow == Consent.ShouldShow.TRUE) {
                             showConsentForm();
                         } else {
-                            if (consent.getStatus() == Consent.Status.UNKNOWN) {
-                                // Start our main activity with default Consent value
-                                startMainActivity();
-                            } else {
-                                boolean hasConsent = consent.getStatus() == Consent.Status.PERSONALIZED;
-                                // Start our main activity with resolved Consent value
-                                startMainActivity(hasConsent);
-                            }
+                            // Start main activity with resolved Consent value
+                            startMainActivity();
                         }
                     }
 
                     @Override
                     public void onFailedToUpdateConsentInfo(ConsentManagerException e) {
-                        // Start our main activity with default Consent value
+                        // Start main activity with default Consent value
                         startMainActivity();
                     }
                 });
@@ -74,12 +68,7 @@ public class SplashActivity extends Activity {
 
                         @Override
                         public void onConsentFormError(ConsentManagerException error) {
-                            Toast.makeText(
-                                    SplashActivity.this,
-                                    "Consent form error: " + error.getReason(),
-                                    Toast.LENGTH_SHORT
-                            ).show();
-                            // Start our main activity with default Consent value
+                            // Start main activity with default Consent value
                             startMainActivity();
                         }
 
@@ -90,9 +79,8 @@ public class SplashActivity extends Activity {
 
                         @Override
                         public void onConsentFormClosed(Consent consent) {
-                            boolean hasConsent = consent.getStatus() == Consent.Status.PERSONALIZED;
-                            // Start our main activity with resolved Consent value
-                            startMainActivity(hasConsent);
+                            // Start main activity with resolved Consent value
+                            startMainActivity();
                         }
                     }).build();
         }
@@ -104,13 +92,8 @@ public class SplashActivity extends Activity {
         }
     }
 
-    // Start our main activity with default Consent value
+    // Start main activity
     private void startMainActivity() {
-        startMainActivity(true);
-    }
-
-    // Start our main activity with resolved Consent value
-    private void startMainActivity(boolean hasConsent) {
-        startActivity(MainActivity.getIntent(this, hasConsent));
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

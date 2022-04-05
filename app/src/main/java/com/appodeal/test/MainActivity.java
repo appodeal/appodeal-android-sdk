@@ -1,9 +1,7 @@
 package com.appodeal.test;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +17,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -46,17 +45,15 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity {
 
-    private static final String CONSENT = "consent";
-
-    public static final String APP_KEY = "fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f";
     private List<NativeAd> nativeAds = new ArrayList<>();
     String placementName = "default";
-    boolean consent;
-    private Switch consentSwitch;
+
+    private boolean booleanConsent = true;
+
     @Nullable
     private ConsentForm consentForm;
 
-    public enum BannerPosition {
+    private enum BannerPosition {
         BANNER(Appodeal.BANNER),
         BOTTOM(Appodeal.BANNER_BOTTOM),
         TOP(Appodeal.BANNER_TOP),
@@ -75,10 +72,12 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public enum AdTypePages {
+    private enum AdTypePages {
         Interstitial(R.layout.interstitial, R.id.interstitialLayout),
-        RVideo(R.layout.rewarded_video, R.id.rewardedVideoLayout), Banner(R.layout.banner, R.id.bannerLayout),
-        MREC(R.layout.mrec, R.id.MrecLayout), Native(R.layout.native_ad, R.id.nativeLayout);
+        RVideo(R.layout.rewarded_video, R.id.rewardedVideoLayout),
+        Banner(R.layout.banner, R.id.bannerLayout),
+        MREC(R.layout.mrec, R.id.MrecLayout),
+        Native(R.layout.native_ad, R.id.nativeLayout);
 
         private final int layout;
         private final int id;
@@ -97,36 +96,23 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public static Intent getIntent(Context context, boolean consent) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(CONSENT, consent);
-        return intent;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            consent = getIntent().getBooleanExtra(CONSENT, false);
-        } else {
-            Consent.Status consentStatus = ConsentManager.getInstance(this).getConsentStatus();
-            consent = consentStatus == Consent.Status.PERSONALIZED
-                    || consentStatus == Consent.Status.PARTLY_PERSONALIZED;
-        }
-        consentSwitch = findViewById(R.id.consentSwitch);
-        consentSwitch.setChecked(consent);
-        consentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.isPressed()) {
-                    showUpdateConsentForm();
-                }
+        Consent.Status consentStatus = ConsentManager.getInstance(this).getConsentStatus();
+        booleanConsent = consentStatus == Consent.Status.PERSONALIZED
+                || consentStatus == Consent.Status.PARTLY_PERSONALIZED;
+        Switch consentSwitch = findViewById(R.id.consentSwitch);
+        consentSwitch.setChecked(booleanConsent);
+        consentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed()) {
+                showUpdateConsentForm();
             }
         });
 
-        android.util.Log.d("Appodeal", "Consent: " + consent);
+        android.util.Log.d("Appodeal", "Consent: " + booleanConsent);
 
         TextView sdkTextView = findViewById(R.id.sdkTextView);
         sdkTextView.setText(getString(R.string.sdkTextView, Appodeal.getVersion()));
@@ -136,15 +122,6 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Appodeal.setTesting(isChecked);
-            }
-        });
-
-        Switch sharedAdsInstanceSwitch = findViewById(R.id.sharedAdsInstanceSwitch);
-        sharedAdsInstanceSwitch.setChecked(Appodeal.isSharedAdsInstanceAcrossActivities());
-        sharedAdsInstanceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Appodeal.setSharedAdsInstanceAcrossActivities(isChecked);
             }
         });
 
@@ -377,7 +354,7 @@ public class MainActivity extends FragmentActivity {
         //Add user settings
         Appodeal.setUserAge(25);
         Appodeal.setUserGender(UserSettings.Gender.MALE);
-        Appodeal.initialize(this, APP_KEY, Appodeal.NONE, consent);
+        Appodeal.initialize(this, BuildConfig.APP_KEY, Appodeal.NONE, booleanConsent);
     }
 
     private void disableNetworks(int adType) {
@@ -419,7 +396,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initInterstitialSdkButton(View v) {
-        Appodeal.initialize(this, APP_KEY, Appodeal.INTERSTITIAL, consent);
+        Appodeal.initialize(this, BuildConfig.APP_KEY, Appodeal.INTERSTITIAL, booleanConsent);
         Appodeal.setInterstitialCallbacks(new AppodealInterstitialCallbacks(this));
     }
 
@@ -453,7 +430,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initRewardedVideoSdkButton(View v) {
-        Appodeal.initialize(this, APP_KEY, Appodeal.REWARDED_VIDEO, consent);
+        Appodeal.initialize(this, BuildConfig.APP_KEY, Appodeal.REWARDED_VIDEO, booleanConsent);
         Appodeal.setRewardedVideoCallbacks(new AppodealRewardedVideoCallbacks(this));
     }
 
@@ -480,7 +457,7 @@ public class MainActivity extends FragmentActivity {
 
     public void initMrecSdkButton(View v) {
         Appodeal.setMrecViewId(R.id.appodealMrecView);
-        Appodeal.initialize(this, APP_KEY, Appodeal.MREC, consent);
+        Appodeal.initialize(this, BuildConfig.APP_KEY, Appodeal.MREC, booleanConsent);
         Appodeal.setMrecCallbacks(new AppodealMrecCallbacks(this));
     }
 
@@ -516,7 +493,7 @@ public class MainActivity extends FragmentActivity {
 
     public void initBannerSdkButton(View v) {
         Appodeal.setBannerViewId(R.id.appodealBannerView);
-        Appodeal.initialize(this, APP_KEY, Appodeal.BANNER, consent);
+        Appodeal.initialize(this, BuildConfig.APP_KEY, Appodeal.BANNER, booleanConsent);
         Appodeal.setBannerCallbacks(new AppodealBannerCallbacks(this));
     }
 
@@ -549,7 +526,7 @@ public class MainActivity extends FragmentActivity {
 
     public void initNativeSdkButton(View v) {
         Appodeal.setNativeCallbacks(new AppodealNativeCallbacks(this));
-        Appodeal.initialize(this, APP_KEY, Appodeal.NATIVE, consent);
+        Appodeal.initialize(this, BuildConfig.APP_KEY, Appodeal.NATIVE, booleanConsent);
     }
 
     public void nativeChooseNetworks(View v) {
@@ -672,6 +649,7 @@ public class MainActivity extends FragmentActivity {
             return AdTypePages.values().length;
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = new AdTypeFragment();
@@ -688,7 +666,6 @@ public class MainActivity extends FragmentActivity {
     }
 
     public static class AdTypeFragment extends Fragment {
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             Bundle args = getArguments();
@@ -698,7 +675,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     // Displaying ConsentManger Consent request form
-    public void showUpdateConsentForm() {
+    private void showUpdateConsentForm() {
         if (consentForm == null) {
             consentForm = new ConsentForm.Builder(this)
                     .withListener(new ConsentFormListener() {
@@ -710,11 +687,7 @@ public class MainActivity extends FragmentActivity {
 
                         @Override
                         public void onConsentFormError(ConsentManagerException error) {
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    "Consent form error: " + error.getReason(),
-                                    Toast.LENGTH_SHORT
-                            ).show();
+                            //ignore
                         }
 
                         @Override
@@ -724,14 +697,10 @@ public class MainActivity extends FragmentActivity {
 
                         @Override
                         public void onConsentFormClosed(Consent consent) {
-                            boolean hasConsent =
-                                    consent.getStatus() == Consent.Status.PERSONALIZED &&
-                                            consent.getStatus() != Consent.Status.NON_PERSONALIZED;
-                            consentSwitch.setChecked(hasConsent);
-                            // Update local Consent value with resolved Consent value
-                            MainActivity.this.consent = hasConsent;
                             // Update Appodeal SDK Consent value with resolved Consent value
-                            Appodeal.updateConsent(hasConsent);
+                            booleanConsent = consent.getStatus() == Consent.Status.PERSONALIZED &&
+                                             consent.getStatus() != Consent.Status.NON_PERSONALIZED;
+                            Appodeal.updateConsent(booleanConsent);
                         }
                     }).build();
         }
