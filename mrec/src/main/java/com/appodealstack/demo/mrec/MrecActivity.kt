@@ -16,7 +16,6 @@ class MrecActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMrecBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         binding = ActivityMrecBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -24,6 +23,7 @@ class MrecActivity : AppCompatActivity() {
     }
 
     private fun setUpAppodealSDK() {
+        Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.setMrecViewId(R.id.appodealMrecView)
         Appodeal.initialize(

@@ -1,5 +1,6 @@
 package com.appodealstack.demo.nativead
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,9 @@ class NativeListFragment : Fragment() {
 
     private var _binding: NativeListFragmentBinding? = null
     private val binding get() = _binding!!
-    val adapter = NativeListAdapter()
-    val recyclerList: CopyOnWriteArrayList<DiffItem<*>> = getUserData()
+    private var detachListener: FragmentDetachListener? = null
+    private val adapter = NativeListAdapter()
+    private val recyclerList: CopyOnWriteArrayList<DiffItem<*>> = getUserData()
 
     private val nativeCallbacks: NativeCallbacks = object : NativeCallbacks {
         override fun onNativeLoaded() {
@@ -28,6 +30,13 @@ class NativeListFragment : Fragment() {
         override fun onNativeShowFailed(nativeAd: NativeAd?) {}
         override fun onNativeClicked(nativeAd: NativeAd?) {}
         override fun onNativeExpired() {}
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentDetachListener) {
+            detachListener = context
+        }
     }
 
     override fun onCreateView(
@@ -58,16 +67,16 @@ class NativeListFragment : Fragment() {
     private fun addPack(loadedAds: MutableList<NativeAd?>) {
         var tempSteps = 0
         for (i in recyclerList) {
-            if (i is DiffItem.DiffNative) {
+            if (i is DiffItem.DiffNativeAd) {
                 tempSteps = 0
                 continue
             } else {
                 tempSteps++
             }
-            if (tempSteps == NativeListAdapter.STEP) {
+            if (tempSteps == STEPS) {
                 if (loadedAds.isNotEmpty()) {
                     recyclerList.add(recyclerList.indexOf(i),
-                        DiffItem.DiffNative(loadedAds.removeAt(loadedAds.lastIndex))
+                        DiffItem.DiffNativeAd(loadedAds.removeAt(loadedAds.lastIndex))
                     )
                     adapter.submitList(recyclerList)
                     adapter.notifyItemChanged(recyclerList.indexOf(i))
@@ -83,8 +92,14 @@ class NativeListFragment : Fragment() {
         _binding = null
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        detachListener?.onFragmentDetached()
+    }
+
     companion object {
         private const val USER_DATA_SIZE = 200
+        private const val STEPS = 5
         val TAG = NativeListFragment::class.java.simpleName
     }
 }

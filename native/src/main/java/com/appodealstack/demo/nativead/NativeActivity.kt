@@ -18,7 +18,7 @@ import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
 import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.nativead.databinding.ActivityNativeBinding
 
-class NativeActivity : AppCompatActivity() {
+class NativeActivity : AppCompatActivity(), FragmentDetachListener {
 
     private lateinit var binding: ActivityNativeBinding
 
@@ -27,8 +27,34 @@ class NativeActivity : AppCompatActivity() {
      * */
     private val nativeAdViewType = NativeAdViewAppWall::class
 
+    private val nativeCallback = object : NativeCallbacks {
+        override fun onNativeLoaded() {
+            showToast("Native was loaded")
+        }
+
+        override fun onNativeFailedToLoad() {
+            showToast("Native failed to load")
+        }
+
+        override fun onNativeClicked(nativeAd: NativeAd?) {
+            showToast("Native was clicked")
+        }
+
+        override fun onNativeShowFailed(nativeAd: NativeAd?) {
+            showToast("Native failed to show")
+        }
+
+        override fun onNativeShown(nativeAd: NativeAd?) {
+            showToast("Native was shown")
+        }
+
+        override fun onNativeExpired() {
+            showToast("Native was expired")
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         Appodeal.setLogLevel(LogLevel.verbose)
         binding = ActivityNativeBinding.inflate(layoutInflater)
@@ -37,6 +63,7 @@ class NativeActivity : AppCompatActivity() {
     }
 
     private fun setUpAppodealSDK() {
+        Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.initialize(
             this,
@@ -97,33 +124,7 @@ class NativeActivity : AppCompatActivity() {
                 .commitAllowingStateLoss()
         }
 
-        Appodeal.setNativeCallbacks(object : NativeCallbacks {
-
-            override fun onNativeLoaded() {
-                showToast("Native was loaded")
-            }
-
-            override fun onNativeFailedToLoad() {
-                showToast("Native failed to load")
-            }
-
-            override fun onNativeClicked(nativeAd: NativeAd?) {
-                showToast("Native was clicked")
-            }
-
-            override fun onNativeShowFailed(nativeAd: NativeAd?) {
-                showToast("Native failed to show")
-            }
-
-            override fun onNativeShown(nativeAd: NativeAd?) {
-                showToast("Native was shown")
-            }
-
-            override fun onNativeExpired() {
-                showToast("Native was expired")
-            }
-
-        })
+        Appodeal.setNativeCallbacks(nativeCallback)
     }
 
     private fun showToast(message: String) {
@@ -134,4 +135,13 @@ class NativeActivity : AppCompatActivity() {
         private const val placementName = "default"
         private val TAG = NativeActivity::class.java.simpleName
     }
+
+    override fun onFragmentDetached() {
+        Appodeal.setNativeCallbacks(nativeCallback)
+    }
+}
+
+interface FragmentDetachListener {
+
+    fun onFragmentDetached()
 }

@@ -16,7 +16,6 @@ class RewardedActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRewardedBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         binding = ActivityRewardedBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -24,6 +23,7 @@ class RewardedActivity : AppCompatActivity() {
     }
 
     private fun setUpAppodealSDK() {
+        Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.initialize(
             this,
