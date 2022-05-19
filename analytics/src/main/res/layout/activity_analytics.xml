@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,46 +7,38 @@
     android:fitsSystemWindows="true"
     tools:context="com.appodealstack.demo.analytics.AnalyticsActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/base_margin">
+    <Button
+        android:id="@+id/validate_inapp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/validate_inapp"
+        app:layout_constraintBottom_toTopOf="@+id/validate_subscription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
+    <Button
+        android:id="@+id/validate_subscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/validate_subscription"
+        app:layout_constraintBottom_toTopOf="@+id/log_event"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/validate_inapp" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="350dp" />
+    <Button
+        android:id="@+id/log_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/log_event"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/validate_subscription" />
 
-        <Button
-            android:id="@+id/validate_inapp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/validate_inapp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/validate_subscription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/validate_subscription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guideline" />
-
-        <Button
-            android:id="@+id/log_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/log_event"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/validate_subscription" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

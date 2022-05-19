@@ -15,9 +15,8 @@ class BillingUseCase(context: Context) {
 
     private val _purchases: MutableLiveData<List<Purchase>> = MutableLiveData()
     val purchases: LiveData<List<Purchase>> get() = _purchases
-
-    private val knownInappProducts: List<String> = listOf(SKU_COINS)
-    private val knownSubscriptionProducts: List<String> = listOf(SKU_INFINITE_ACCESS_MONTHLY)
+    private val knownInappProducts: List<String> = listOf("coins")
+    private val knownSubscriptionProducts: List<String> = listOf("infinite_access_monthly")
 
     fun flow(activity: Activity, product: String) {
         val productDetails: ProductDetails = productDetailsMap[product] ?: return

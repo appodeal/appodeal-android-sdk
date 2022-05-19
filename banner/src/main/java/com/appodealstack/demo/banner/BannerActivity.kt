@@ -1,23 +1,25 @@
 package com.appodealstack.demo.banner
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.BannerCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
+import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.banner.databinding.ActivityBannerBinding
 
 class BannerActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityBannerBinding
+    private var _binding: ActivityBannerBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityBannerBinding.inflate(layoutInflater)
+        _binding = ActivityBannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpAppodealSDK()
     }
@@ -31,11 +33,11 @@ class BannerActivity : AppCompatActivity() {
             Appodeal.BANNER,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    if (errors.isNullOrEmpty()) {
-                        showToast("Appodeal initialized")
-                    } else {
-                        for (error in errors) {
-                            Log.e(TAG, error.message!!)
+                    showToast("Appodeal initialized "
+                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
+                    if (!errors.isNullOrEmpty()) {
+                        errors.forEach {
+                            Log.e(TAG, "onInitializationFinished: ", it)
                         }
                     }
                 }
@@ -79,13 +81,9 @@ class BannerActivity : AppCompatActivity() {
             }
         })
     }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    companion object {
-        private const val placementName = "default"
-        private val TAG = BannerActivity::class.java.simpleName
-    }
 }
+
+private const val placementName = "default"
+private val TAG = BannerActivity::class.java.simpleName
+private fun Context.showToast(message: String) =
+    Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()

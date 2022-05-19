@@ -1,5 +1,6 @@
 package com.appodealstack.demo.rewarded
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,15 +10,17 @@ import com.appodeal.ads.Appodeal
 import com.appodeal.ads.RewardedVideoCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
+import com.appodeal.ads.utils.Log.*
 import com.appodealstack.demo.rewarded.databinding.ActivityRewardedBinding
 
 class RewardedActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRewardedBinding
+    private var _binding: ActivityRewardedBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRewardedBinding.inflate(layoutInflater)
+        _binding = ActivityRewardedBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpAppodealSDK()
     }
@@ -31,11 +34,11 @@ class RewardedActivity : AppCompatActivity() {
             Appodeal.REWARDED_VIDEO,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    if (errors.isNullOrEmpty()) {
-                        showToast("Appodeal initialized")
-                    } else {
-                        for (error in errors) {
-                            Log.e(TAG, error.message!!)
+                    showToast("Appodeal initialized "
+                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
+                    if (!errors.isNullOrEmpty()) {
+                        errors.forEach {
+                            Log.e(TAG, "onInitializationFinished: ", it)
                         }
                     }
                 }
@@ -93,13 +96,9 @@ class RewardedActivity : AppCompatActivity() {
             }
         })
     }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    companion object {
-        private const val placementName = "default"
-        private val TAG = RewardedActivity::class.java.simpleName
-    }
 }
+
+private const val placementName = "default"
+private val TAG = RewardedActivity::class.java.simpleName
+private fun Context.showToast(message: String) =
+    Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()

@@ -9,8 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.appodeal.ads.Appodeal
+import com.appodeal.ads.inapp.InAppPurchase
+import com.appodeal.ads.inapp.InAppPurchaseValidateCallback
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
+import com.appodeal.ads.service.ServiceError
 import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.analytics.databinding.ActivityAnalyticsBinding
 
@@ -74,7 +77,7 @@ class AnalyticsActivity : AppCompatActivity() {
 
 
         val inAppPurchase: InAppPurchase = InAppPurchase.newBuilder(InAppPurchase.Type.InApp)
-            .withPublicKey(publicKey)
+            .withPublicKey(PUBLIC_KEY)
             .withSignature(purchase.signature)
             .withPurchaseData(purchase.originalJson)
             .withPurchaseToken(purchase.purchaseToken)
@@ -120,5 +123,3 @@ private fun Context.showToast(message: String) =
 private const val PUBLIC_KEY =
     "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm4QYg6oP6hxBPXTLIBIpgzUoAYd0UotmsuEQFogH4Pm5qSibwd2E2UlguDdIx4OTjBif4JfFMNhhRrENL6rPHcRudQWSGd0I54RGVYtex8B4bVkWEpBs0W5BJs6hTmgHbS2bBCyMeJRNaUwyfTbcwHQniDZ6n7eky3WPVaIA1kXit3vZFcpDCkeQKoAOf8iApFLFRuHSGtmGe56v5rZKsUuMhjwVU1NuH0lleuIWjRM42HRXlgFrCM0X7wwQr"
 private val TAG = AnalyticsActivity::class.java.simpleName
-private val SKU_INFINITE_ACCESS_MONTHLY = listOf("infinite_access_monthly")
-private val SKU_COINS = listOf("coins")

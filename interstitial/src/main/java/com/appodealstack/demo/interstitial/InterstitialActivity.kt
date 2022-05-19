@@ -33,12 +33,11 @@ class InterstitialActivity : AppCompatActivity() {
             Appodeal.INTERSTITIAL,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    if (errors.isNullOrEmpty()) {
-                        showToast("Appodeal initialized")
-                    } else {
-                        showToast("Appodeal initialized with error")
-                        for (error in errors) {
-                            Log.e(TAG, error.message.orEmpty())
+                    showToast("Appodeal initialized "
+                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
+                    if (!errors.isNullOrEmpty()) {
+                        errors.forEach {
+                            Log.e(TAG, "onInitializationFinished: ", it)
                         }
                     }
                 }

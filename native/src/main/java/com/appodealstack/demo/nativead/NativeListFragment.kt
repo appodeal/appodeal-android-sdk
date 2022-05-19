@@ -96,10 +96,7 @@ class NativeListFragment : Fragment() {
         super.onDetach()
         detachListener?.onFragmentDetached()
     }
-
-    companion object {
-        private const val USER_DATA_SIZE = 200
-        private const val STEPS = 5
-        val TAG = NativeListFragment::class.java.simpleName
-    }
 }
+
+private const val USER_DATA_SIZE = 200
+private const val STEPS = 5

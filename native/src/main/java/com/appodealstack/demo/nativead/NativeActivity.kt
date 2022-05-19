@@ -1,12 +1,12 @@
 package com.appodealstack.demo.nativead
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.NativeAd
 import com.appodeal.ads.NativeCallbacks
@@ -20,7 +20,8 @@ import com.appodealstack.demo.nativead.databinding.ActivityNativeBinding
 
 class NativeActivity : AppCompatActivity(), FragmentDetachListener {
 
-    private lateinit var binding: ActivityNativeBinding
+    private var _binding: ActivityNativeBinding? = null
+    private val binding get() = _binding!!
 
     /**
      * change to NativeAdViewNewsFeed::class || NativeAdViewContentStream::class || NativeAdViewAppWall::class to check other templates
@@ -57,7 +58,7 @@ class NativeActivity : AppCompatActivity(), FragmentDetachListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Appodeal.setLogLevel(LogLevel.verbose)
-        binding = ActivityNativeBinding.inflate(layoutInflater)
+        _binding = ActivityNativeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpAppodealSDK()
     }
@@ -71,11 +72,11 @@ class NativeActivity : AppCompatActivity(), FragmentDetachListener {
             Appodeal.NATIVE,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    if (errors.isNullOrEmpty()) {
-                        showToast("Appodeal initialized")
-                    } else {
-                        for (error in errors) {
-                            Log.e(TAG, error.message!!)
+                    showToast("Appodeal initialized "
+                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
+                    if (!errors.isNullOrEmpty()) {
+                        errors.forEach {
+                            Log.e(TAG, "onInitializationFinished: ", it)
                         }
                     }
                 }
@@ -120,20 +121,11 @@ class NativeActivity : AppCompatActivity(), FragmentDetachListener {
         binding.showInList.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.activity_root_container, NativeListFragment())
-                .addToBackStack(NativeListFragment.TAG)
+                .addToBackStack(TAG)
                 .commitAllowingStateLoss()
         }
 
         Appodeal.setNativeCallbacks(nativeCallback)
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    companion object {
-        private const val placementName = "default"
-        private val TAG = NativeActivity::class.java.simpleName
     }
 
     override fun onFragmentDetached() {
@@ -145,3 +137,8 @@ interface FragmentDetachListener {
 
     fun onFragmentDetached()
 }
+
+private const val placementName = "default"
+private val TAG = NativeActivity::class.java.simpleName
+private fun Context.showToast(message: String) =
+    Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()

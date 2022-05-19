@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.appodeal.ads.NativeAd
 import com.appodeal.ads.native_ad.views.NativeAdView
 import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
+import com.appodealstack.demo.nativead.DiffItem.DiffNativeAd.Companion.AD_ITEM
+import com.appodealstack.demo.nativead.DiffItem.DiffUserData.Companion.USER_ITEM
 import com.appodealstack.demo.nativead.databinding.UserItemBinding
 
 class NativeListAdapter() : ListAdapter<DiffItem<*>, RecyclerView.ViewHolder>(DiffUtils()) {
