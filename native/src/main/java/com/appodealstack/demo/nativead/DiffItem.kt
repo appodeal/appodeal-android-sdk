@@ -1,4 +1,4 @@
-package com.appodeal.test.nativead
+package com.appodealstack.demo.nativead
 
 import com.appodeal.ads.NativeAd
 

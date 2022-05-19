@@ -1,4 +1,4 @@
-package com.appodeal.test.nativead
+package com.appodealstack.demo.nativead
 
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +16,7 @@ import com.appodeal.ads.native_ad.views.NativeAdViewAppWall
 import com.appodeal.ads.native_ad.views.NativeAdViewContentStream
 import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
 import com.appodeal.ads.utils.Log.LogLevel
-import com.appodeal.test.nativead.databinding.ActivityNativeBinding
+import com.appodealstack.demo.nativead.databinding.ActivityNativeBinding
 
 class NativeActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package com.appodeal.test.nativead
+package com.appodealstack.demo.nativead
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.appodeal.ads.NativeAd
 import com.appodeal.ads.native_ad.views.NativeAdView
 import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
-import com.appodeal.test.nativead.databinding.UserItemBinding
+import com.appodealstack.demo.nativead.databinding.UserItemBinding
 
 class NativeListAdapter() : ListAdapter<DiffItem<*>, RecyclerView.ViewHolder>(DiffUtils()) {
 

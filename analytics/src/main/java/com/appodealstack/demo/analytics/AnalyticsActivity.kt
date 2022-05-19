@@ -1,4 +1,4 @@
-package com.appodeal.test.analytics
+package com.appodealstack.demo.analytics
 
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +16,7 @@ import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
 import com.appodeal.ads.service.ServiceError
 import com.appodeal.ads.utils.Log.*
-import com.appodeal.test.analytics.databinding.ActivityAnalyticsBinding
+import com.appodealstack.demo.analytics.databinding.ActivityAnalyticsBinding
 
 class AnalyticsActivity : AppCompatActivity() {
 

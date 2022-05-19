@@ -1,4 +1,4 @@
-package com.appodeal.test.analytics
+package com.appodealstack.demo.analytics
 
 import android.app.Activity
 import android.content.Context

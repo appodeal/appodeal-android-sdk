@@ -1,30 +1,32 @@
-package com.appodeal.test.interstitial
+package com.appodealstack.demo.interstitial
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.InterstitialCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
-import com.appodeal.test.interstitial.databinding.ActivityInterstitialBinding
+import com.appodeal.ads.utils.Log.LogLevel
+import com.appodealstack.demo.interstitial.databinding.ActivityInterstitialBinding
 
 class InterstitialActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityInterstitialBinding
+    private var _binding: ActivityInterstitialBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-        binding = ActivityInterstitialBinding.inflate(layoutInflater)
+        _binding = ActivityInterstitialBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpAppodealSDK()
     }
 
     private fun setUpAppodealSDK() {
         Appodeal.setTesting(true)
+        Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.initialize(
             this,
             BuildConfig.APP_KEY,
@@ -34,14 +36,16 @@ class InterstitialActivity : AppCompatActivity() {
                     if (errors.isNullOrEmpty()) {
                         showToast("Appodeal initialized")
                     } else {
+                        showToast("Appodeal initialized with error")
                         for (error in errors) {
-                            Log.e(TAG, error.message!!)
+                            Log.e(TAG, error.message.orEmpty())
                         }
                     }
                 }
-            })
+            }
+        )
 
-        binding.showInterstitial.setOnClickListener {
+        binding.show.setOnClickListener {
             if (Appodeal.canShow(Appodeal.INTERSTITIAL, placementName)) {
                 Appodeal.show(this, Appodeal.INTERSTITIAL, placementName)
             } else {
@@ -49,12 +53,12 @@ class InterstitialActivity : AppCompatActivity() {
             }
         }
 
-        binding.cacheInterstitial.setOnClickListener {
+        binding.cache.setOnClickListener {
             Appodeal.cache(this, Appodeal.INTERSTITIAL)
         }
 
-        binding.autocacheInterstitial.setOnCheckedChangeListener { _, isChecked ->
-            binding.cacheInterstitial.isEnabled = !isChecked
+        binding.autoCache.setOnCheckedChangeListener { _, isChecked ->
+            binding.cache.isEnabled = !isChecked
             Appodeal.setAutoCache(Appodeal.INTERSTITIAL, isChecked)
         }
 
@@ -88,13 +92,9 @@ class InterstitialActivity : AppCompatActivity() {
             }
         })
     }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    companion object {
-        private const val placementName = "default"
-        private val TAG = InterstitialActivity::class.java.simpleName
-    }
 }
+
+private const val placementName = "default"
+private val TAG = InterstitialActivity::class.java.simpleName
+private fun Context.showToast(message: String) =
+    Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()

@@ -1,4 +1,4 @@
-package com.appodeal.test.nativead
+package com.appodealstack.demo.nativead
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.NativeAd
 import com.appodeal.ads.NativeCallbacks
-import com.appodeal.test.nativead.databinding.NativeListFragmentBinding
+import com.appodealstack.demo.nativead.databinding.NativeListFragmentBinding
 import java.util.concurrent.CopyOnWriteArrayList
 
 class NativeListFragment : Fragment() {

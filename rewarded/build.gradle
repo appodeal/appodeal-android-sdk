@@ -7,8 +7,8 @@ android {
     compileSdkVersion 32
 
     defaultConfig {
-        buildConfigField "String", "APP_KEY", "\"fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f\""
-        applicationId "com.appodeal.test"
+        buildConfigField "String", "APP_KEY", "\"d908f77a97ae0993514bc8edba7e776a36593c77e5f44994\""
+        applicationId "com.appodealstack.demo"
         minSdkVersion 21
         targetSdkVersion 32
         versionCode 1

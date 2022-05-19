@@ -1,4 +1,4 @@
-package com.appodeal.test.mrec
+package com.appodealstack.demo.banner
 
 import android.os.Bundle
 import android.util.Log
@@ -6,30 +6,29 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.appodeal.ads.Appodeal
-import com.appodeal.ads.MrecCallbacks
+import com.appodeal.ads.BannerCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
-import com.appodeal.test.mrec.databinding.ActivityMrecBinding
+import com.appodealstack.demo.banner.databinding.ActivityBannerBinding
 
-class MrecActivity : AppCompatActivity() {
+class BannerActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMrecBinding
+    private lateinit var binding: ActivityBannerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-        binding = ActivityMrecBinding.inflate(layoutInflater)
+        binding = ActivityBannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpAppodealSDK()
     }
 
     private fun setUpAppodealSDK() {
         Appodeal.setTesting(true)
-        Appodeal.setMrecViewId(R.id.appodealMrecView)
         Appodeal.initialize(
             this,
             BuildConfig.APP_KEY,
-            Appodeal.MREC,
+            Appodeal.BANNER,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
                     if (errors.isNullOrEmpty()) {
@@ -42,40 +41,41 @@ class MrecActivity : AppCompatActivity() {
                 }
             })
 
-        binding.showMrec.setOnClickListener {
-            if (Appodeal.canShow(Appodeal.MREC, placementName)) {
-                Appodeal.show(this, Appodeal.MREC, placementName)
+        binding.showBanner.setOnClickListener {
+            if (Appodeal.canShow(Appodeal.BANNER, placementName)) {
+                Appodeal.show(this, Appodeal.BANNER_BOTTOM, placementName)
             } else {
-                showToast("Cannot show MREC")
+                showToast("Cannot show Banner")
             }
         }
-        binding.hideMrec.setOnClickListener {
-            Appodeal.hide(this, Appodeal.MREC)
+        binding.hideBanner.setOnClickListener {
+            Appodeal.hide(this, Appodeal.BANNER)
         }
 
-        Appodeal.setMrecCallbacks(object : MrecCallbacks {
-            override fun onMrecLoaded(isPrecache: Boolean) {
-                showToast("MREC was loaded, isPrecache: $isPrecache")
+        Appodeal.setBannerCallbacks(object : BannerCallbacks {
+
+            override fun onBannerLoaded(height: Int, isPrecache: Boolean) {
+                showToast("Banner was loaded, isPrecache: $isPrecache")
             }
 
-            override fun onMrecFailedToLoad() {
-                showToast("MREC failed to load")
+            override fun onBannerFailedToLoad() {
+                showToast("Banner failed to load")
             }
 
-            override fun onMrecClicked() {
-                showToast("MREC was clicked")
+            override fun onBannerClicked() {
+                showToast("Banner was clicked")
             }
 
-            override fun onMrecShowFailed() {
-                showToast("MREC failed to show")
+            override fun onBannerShowFailed() {
+                showToast("Banner failed to show")
             }
 
-            override fun onMrecShown() {
-                showToast("MREC was shown")
+            override fun onBannerShown() {
+                showToast("Banner was shown")
             }
 
-            override fun onMrecExpired() {
-                showToast("MREC was expired")
+            override fun onBannerExpired() {
+                showToast("Banner was expired")
             }
         })
     }
@@ -86,6 +86,6 @@ class MrecActivity : AppCompatActivity() {
 
     companion object {
         private const val placementName = "default"
-        private val TAG = MrecActivity::class.java.simpleName
+        private val TAG = BannerActivity::class.java.simpleName
     }
 }

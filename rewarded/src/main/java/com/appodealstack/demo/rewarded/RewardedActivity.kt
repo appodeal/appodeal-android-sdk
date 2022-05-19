@@ -1,4 +1,4 @@
-package com.appodeal.test.rewarded
+package com.appodealstack.demo.rewarded
 
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +9,7 @@ import com.appodeal.ads.Appodeal
 import com.appodeal.ads.RewardedVideoCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
-import com.appodeal.test.rewarded.databinding.ActivityRewardedBinding
+import com.appodealstack.demo.rewarded.databinding.ActivityRewardedBinding
 
 class RewardedActivity : AppCompatActivity() {
 
