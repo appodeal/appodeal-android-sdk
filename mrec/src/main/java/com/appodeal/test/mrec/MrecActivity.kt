@@ -9,6 +9,7 @@ import com.appodeal.ads.Appodeal
 import com.appodeal.ads.MrecCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
+import com.appodeal.ads.utils.Log.*
 import com.appodeal.test.mrec.databinding.ActivityMrecBinding
 
 class MrecActivity : AppCompatActivity() {
@@ -16,7 +17,6 @@ class MrecActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMrecBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         binding = ActivityMrecBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -24,6 +24,7 @@ class MrecActivity : AppCompatActivity() {
     }
 
     private fun setUpAppodealSDK() {
+        Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.setMrecViewId(R.id.appodealMrecView)
         Appodeal.initialize(

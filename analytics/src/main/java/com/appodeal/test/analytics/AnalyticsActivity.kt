@@ -37,7 +37,6 @@ class AnalyticsActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         binding = ActivityAnalyticsBinding.inflate(layoutInflater)
 

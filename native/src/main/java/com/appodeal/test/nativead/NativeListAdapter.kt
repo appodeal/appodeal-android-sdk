@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.appodeal.ads.NativeAd
 import com.appodeal.ads.native_ad.views.NativeAdView
 import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
+import com.appodeal.test.nativead.DiffItem.DiffNativeAd.Companion.AD_ITEM
+import com.appodeal.test.nativead.DiffItem.DiffUserData.Companion.USER_ITEM
 import com.appodeal.test.nativead.databinding.UserItemBinding
 
 class NativeListAdapter() : ListAdapter<DiffItem<*>, RecyclerView.ViewHolder>(DiffUtils()) {
@@ -23,8 +25,6 @@ class NativeListAdapter() : ListAdapter<DiffItem<*>, RecyclerView.ViewHolder>(Di
                  * change to NativeAdViewAppWall(parent.context) || NativeAdViewContentStream(parent.context) || NativeAdViewNewsFeed(parent.context) to check other templates
                  * */
                 nativeAdView = NativeAdViewNewsFeed(parent.context)
-//                nativeAdView =  NativeAdViewAppWall(parent.context)
-//                nativeAdView =  NativeAdViewContentStream(parent.context)
                 val params = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
                 nativeAdView.layoutParams = params
                 AdViewHolder(nativeAdView)
@@ -46,7 +46,7 @@ class NativeListAdapter() : ListAdapter<DiffItem<*>, RecyclerView.ViewHolder>(Di
 
     override fun getItemViewType(position: Int): Int {
         return when(currentList[position]) {
-            is DiffItem.DiffNative -> AD_ITEM
+            is DiffItem.DiffNativeAd -> AD_ITEM
             is DiffItem.DiffUserData -> USER_ITEM
         }
     }
@@ -64,12 +64,6 @@ class NativeListAdapter() : ListAdapter<DiffItem<*>, RecyclerView.ViewHolder>(Di
         fun bind(nativeAd: DiffItem<NativeAd>) {
             (itemView as NativeAdView).setNativeAd(nativeAd.getItemData())
         }
-    }
-
-    companion object {
-        const val STEP = 5
-        private const val AD_ITEM = 0
-        private const val USER_ITEM = 1
     }
 }
 

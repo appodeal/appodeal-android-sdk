@@ -6,22 +6,26 @@ sealed interface DiffItem<T> {
 
     fun getItemData(): T
 
-    fun getItemId(): Long
+    fun getItemId(): Int
 
     fun getItemHash(): Int
 
-    class DiffNative(private val nativeAd: NativeAd?) : DiffItem<NativeAd?> {
+    class DiffNativeAd(private val nativeAd: NativeAd?) : DiffItem<NativeAd?> {
 
         override fun getItemData(): NativeAd? {
             return nativeAd
         }
 
-        override fun getItemId(): Long {
-            return 1
+        override fun getItemId(): Int {
+            return AD_ITEM
         }
 
         override fun getItemHash(): Int {
-            return super.hashCode()
+            return nativeAd.hashCode()
+        }
+
+        companion object {
+            const val AD_ITEM = 1
         }
     }
 
@@ -31,12 +35,16 @@ sealed interface DiffItem<T> {
             return userData
         }
 
-        override fun getItemId(): Long {
-            return 2
+        override fun getItemId(): Int {
+            return USER_ITEM
         }
 
         override fun getItemHash(): Int {
-            return super.hashCode()
+            return userData.hashCode()
+        }
+
+        companion object {
+            const val USER_ITEM = 2
         }
     }
 }

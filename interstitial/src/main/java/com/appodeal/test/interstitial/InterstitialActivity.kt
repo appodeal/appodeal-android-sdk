@@ -9,6 +9,7 @@ import com.appodeal.ads.Appodeal
 import com.appodeal.ads.InterstitialCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
+import com.appodeal.ads.utils.Log.*
 import com.appodeal.test.interstitial.databinding.ActivityInterstitialBinding
 
 class InterstitialActivity : AppCompatActivity() {
@@ -16,7 +17,6 @@ class InterstitialActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInterstitialBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         binding = ActivityInterstitialBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -24,6 +24,7 @@ class InterstitialActivity : AppCompatActivity() {
     }
 
     private fun setUpAppodealSDK() {
+        Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.initialize(
             this,

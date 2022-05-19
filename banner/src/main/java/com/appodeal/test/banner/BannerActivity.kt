@@ -9,6 +9,7 @@ import com.appodeal.ads.Appodeal
 import com.appodeal.ads.BannerCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
+import com.appodeal.ads.utils.Log.*
 import com.appodeal.test.banner.databinding.ActivityBannerBinding
 
 class BannerActivity : AppCompatActivity() {
@@ -16,7 +17,6 @@ class BannerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBannerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         binding = ActivityBannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -24,6 +24,7 @@ class BannerActivity : AppCompatActivity() {
     }
 
     private fun setUpAppodealSDK() {
+        Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.initialize(
             this,
