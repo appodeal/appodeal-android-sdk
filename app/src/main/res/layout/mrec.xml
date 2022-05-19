@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/MrecLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/mrecChooseNetworks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:onClick="mrecChooseNetworks"
+        android:text="@string/disableNetworks" />
+
+    <include layout="@layout/mrec_switch" />
+
+    <Button
+        android:id="@+id/initMrecSdkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:onClick="initMrecSdkButton"
+        android:text="@string/initMrecSdkButton" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/isMrecLoadedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="isMrecLoadedButton"
+            android:text="@string/isMrecLoadedButton" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/mrecCacheButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="mrecCacheButton"
+            android:text="@string/mrecCacheButton"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/mrecShowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="mrecShowButton"
+            android:text="@string/mrecShowButton" />
+
+        <Button
+            android:id="@+id/mrecHideButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="mrecHideButton"
+            android:text="@string/mrecHideButton" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/mrecDestroyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="mrecDestroyButton"
+        android:text="@string/mrecDestroyButton" />
+
+</LinearLayout>

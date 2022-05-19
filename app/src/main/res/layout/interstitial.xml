@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/interstitialLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/interstitialChooseNetworks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:onClick="interstitialChooseNetworks"
+        android:text="@string/disableNetworks" />
+
+    <include layout="@layout/interstitial_switch" />
+
+    <Button
+        android:id="@+id/initInterstitialSdkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:onClick="initInterstitialSdkButton"
+        android:text="@string/initInterstitialSdkButton" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/isInterstitialLoadedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="isInterstitialLoadedButton"
+            android:text="@string/isInterstitialLoadedButton" />
+
+        <Button
+            android:id="@+id/isInterstitialLoadedPrecacheButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="isInterstitialLoadedPrecacheButton"
+            android:text="@string/isInterstitialLoadedPrecacheButton" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/interstitialCacheButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="interstitialCacheButton"
+            android:text="@string/interstitialCacheButton"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/interstitialShowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="interstitialShowButton"
+            android:text="@string/interstitialShowButton" />
+
+    </LinearLayout>
+</LinearLayout>
+

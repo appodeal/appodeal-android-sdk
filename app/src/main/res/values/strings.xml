@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Appodeal Demo</string>
+
+    <string name="sdkTextView">SDK v%s</string>
+    <string name="testModeSwitch">Test Mode</string>
+    <string name="consentSwitch">Has Consent</string>
+    <string name="sharedAdsInstanceSwitch">Shared View Ads Across Activities</string>
+    <string name="initSdkButton">Init SDK</string>
+    <string name="logLevelTextView">Log level</string>
+
+    <string name="set_child_directed_treatment">Set Child Directed Treatment</string>
+
+    <string name="autoCacheInterstitialSwitch">Auto Cache</string>
+    <string name="onLoadedInterstitialSwitch">Trigger onLoaded for %s</string>
+    <string name="initInterstitialSdkButton">Init Interstitials</string>
+    <string name="isInterstitialLoadedButton">Loaded?</string>
+    <string name="isInterstitialLoadedPrecacheButton">Precache?</string>
+    <string name="interstitialCacheButton">Cache</string>
+    <string name="interstitialShowButton">Show</string>
+
+    <string name="autoCacheRewardedVideoSwitch">Auto Cache</string>
+    <string name="initRewardedVideoSdkButton">Init Rewarded Video</string>
+    <string name="isRewardedVideoLoadedButton">Loaded?</string>
+    <string name="rewardedVideoCacheButton">Cache</string>
+    <string name="rewardedVideoShowButton">Show</string>
+
+    <string name="autoCacheBannerSwitch">Auto Cache</string>
+    <string name="smartBannersSwitch">Smart</string>
+    <string name="bigBannersSwitch">728*90</string>
+    <string name="bannersAnimateBannersSwitch">Animate</string>
+    <string name="initBannerSdkButton">Init Banners</string>
+    <string name="isBannerLoadedButton">Loaded?</string>
+    <string name="bannerCacheButton">Cache</string>
+    <string name="bannerShowButton">Show</string>
+    <string name="bannerHideButton">Hide</string>
+    <string name="bannerDestroyButton">Destroy</string>
+
+    <string name="autoCacheMrecSwitch">Auto Cache</string>
+    <string name="initMrecSdkButton">Init MREC</string>
+    <string name="isMrecLoadedButton">Loaded?</string>
+    <string name="mrecCacheButton">Cache</string>
+    <string name="mrecShowButton">Show</string>
+    <string name="mrecHideButton">Hide</string>
+    <string name="mrecDestroyButton">Destroy</string>
+
+    <string name="autoCacheNativeSwitch">Auto Cache</string>
+    <string name="initNativeSdkButton">Init Native</string>
+    <string name="isNativeLoadedButton">Loaded?</string>
+    <string name="nativeCacheButton">Cache</string>
+    <string name="nativeHideButton">Hide</string>
+    <string name="media_assets">Media Assets</string>
+    <string name="templateNativeTextView">Template</string>
+    <string name="typeNativeTextView">Type</string>
+    <string name="nativeAdMessage">Ad</string>
+    <string name="nativeShowButton">Show</string>
+
+    <string name="disableNetworks">Disable Networks</string>
+    <string name="show_in_recycler_view">Show in recycler view</string>
+    <string name="registerNativeAds">register</string>
+    <string name="unRegisterNativeAds">unregister</string>
+    <string name="destroy">destroy</string>
+
+    <string-array name="nativeTemplates">
+        <item>Custom</item>
+        <item>NewsFeed</item>
+        <item>AppWall</item>
+        <item>ContentStream</item>
+        <item>CustomWithoutIcon</item>
+    </string-array>
+
+    <string-array name="nativeTypes">
+        <item>Auto</item>
+        <item>NoVideo</item>
+        <item>Video</item>
+    </string-array>
+
+    <string-array name="native_media_assets">
+        <item>ALL</item>
+        <item>ICON</item>
+        <item>IMAGE</item>
+    </string-array>
+
+    <string-array name="logLevels">
+        <item>none</item>
+        <item>debug</item>
+        <item>verbose</item>
+    </string-array>
+
+</resources>

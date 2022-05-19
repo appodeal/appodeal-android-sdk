@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rewardedVideoLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/rewardedVideoChooseNetworks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:onClick="rewardedVideoChooseNetworks"
+        android:text="@string/disableNetworks" />
+
+    <include layout="@layout/rewarded_video_switch" />
+
+    <Button
+        android:id="@+id/initRewardedVideoSdkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:onClick="initRewardedVideoSdkButton"
+        android:text="@string/initRewardedVideoSdkButton" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/isRewardedVideoLoadedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="isRewardedVideoLoadedButton"
+            android:text="@string/isRewardedVideoLoadedButton" />
+
+        <Button
+            android:id="@+id/rewardedVideoCacheButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="rewardedVideoCacheButton"
+            android:text="@string/rewardedVideoCacheButton"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/rewardedVideoShowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="rewardedVideoShowButton"
+            android:text="@string/rewardedVideoShowButton" />
+    </LinearLayout>
+</LinearLayout>
+

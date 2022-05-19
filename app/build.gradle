@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 31
+    defaultConfig {
+        applicationId "com.appodeal.test"
+        minSdkVersion 16
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
+        buildConfigField "String", "APP_KEY", "\"fee50c333ff3825fd6ad6d38cff78154de3025546d47a84f\""
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+repositories {
+    // Add Appodeal repository
+    maven { url "https://artifactory.appodeal.com/appodeal" }
+}
+
+dependencies {
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.fragment:fragment:1.4.1'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    // Stack ConsentManager (required for requesting Consent from European Users)
+    implementation 'com.explorestack:consent:1.0.5'
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+    implementation 'com.appodeal.ads:sdk:2.11.1.+'
+}

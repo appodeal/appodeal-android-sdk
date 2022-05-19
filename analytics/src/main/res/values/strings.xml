@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Appodeal Analytics</string>
-    <string name="log_event">LOG EVENT</string>
-    <string name="validate_subscription">VALIDATE SUBSCRIPTION</string>
-    <string name="validate_inapp">VALIDATE INAPP</string>
-</resources>
