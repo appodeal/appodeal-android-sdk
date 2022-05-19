@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Appodeal interstitial</string>
+    <string name="show_interstitial">SHOW INTERSTITIAL</string>
+    <string name="autocache">Autocache</string>
+    <string name="cache_interstitial">CACHE INTERSTITIAL</string>
+</resources>

@@ -4,7 +4,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21'
+        classpath 'com.google.gms:google-services:4.3.10'  // Google Services plugin
     }
 }
 
@@ -12,6 +14,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        // Add Appodeal repository
+        maven { url "https://artifactory.appodeal.com/appodeal" }
     }
 }
 

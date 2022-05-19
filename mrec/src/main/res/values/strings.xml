@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name" translatable="false">Appodeal MREC</string>
+    <string name="show_mrec" translatable="false">SHOW MREC</string>
+    <string name="hide_mrec" translatable="false">HIDE MREC</string>
+</resources>
