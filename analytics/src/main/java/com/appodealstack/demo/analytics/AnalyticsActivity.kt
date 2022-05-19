@@ -6,6 +6,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.android.billingclient.api.ProductDetails
+import com.android.billingclient.api.Purchase
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
@@ -45,85 +47,71 @@ class AnalyticsActivity : AppCompatActivity() {
                     }
                 }
             })
-
-//        binding.validateInapp.setOnClickListener {
-//            flowInAppPurchase()
-//        }
-//        binding.validateSubscription.setOnClickListener {
-//            flowSubsPurchase()
-//        }
-//        binding.logEvent.setOnClickListener {
-//            logEvent()
-//        }
+        binding.validateInapp.setOnClickListener { viewModel.flowInAppPurchase(this) }
+        binding.validateSubscription.setOnClickListener { viewModel.flowSubsPurchase(this) }
+        binding.logEvent.setOnClickListener { logEvent() }
+        viewModel.purchases.observe(this) { purchases -> purchases.forEach { validatePurchase(it) } }
     }
 
-//    fun flowInAppPurchase() {
-//        billingClient.flow(this, SKU_COINS)
-//    }
-//
-//    fun flowSubsPurchase() {
-//        billingClient.flow(this, SKU_INFINITE_ACCESS_MONTHLY)
-//    }
-//
-//    private fun logEvent() {
-//        val params: MutableMap<String, Any> = HashMap()
-//        params["example_param_1"] = "Param1 value"
-//        params["example_param_2"] = 123
-//        Appodeal.logEvent("appodealstack_sdk_example_test_event", params)
-//    }
-//
-//    private fun validatePurchase(purchase: Purchase) {
-//        val product: String = purchase.products.first()
-//        val productDetails: ProductDetails? = billingClient.getProductDetails(product)
-//        if (productDetails == null) {
-//            Log.d("Appodeal App", "Product Details is null")
-//            return
-//        }
-//        val price = "1"
-//        val currency = "USD"
-//        val additionalEventValues: MutableMap<String, String> = java.util.HashMap()
-//        additionalEventValues["some_parameter"] = "some_value"
-//
-//
-//        val inAppPurchase: InAppPurchase = InAppPurchase.newBuilder(InAppPurchase.Type.InApp)
-//            .withPublicKey(publicKey)
-//            .withSignature(purchase.signature)
-//            .withPurchaseData(purchase.originalJson)
-//            .withPurchaseToken(purchase.purchaseToken)
-//            .withPurchaseTimestamp(purchase.purchaseTime)
-//            .withDeveloperPayload(purchase.developerPayload)
-//            .withOrderId(purchase.orderId)
-//            .withSku(product)
-//            .withPrice(price)
-//            .withCurrency(currency)
-//            .withAdditionalParams(additionalEventValues)
-//            .build()
-//
-//        // Validate InApp purchase
-//        Appodeal.validateInAppPurchase(this, inAppPurchase, object : InAppPurchaseValidateCallback {
-//            override fun onInAppPurchaseValidateSuccess(
-//                purchase: InAppPurchase,
-//                errors: List<ServiceError>?
-//            ) {
-//                Log.v(TAG, "onInAppPurchaseValidateSuccess")
-//                if (errors != null) {
-//                    for (error in errors) {
-//                        Log.e(TAG, "onInAppPurchaseValidateSuccess - $error")
-//                    }
-//                }
-//            }
-//
-//            override fun onInAppPurchaseValidateFail(
-//                purchase: InAppPurchase,
-//                errors: List<ServiceError>
-//            ) {
-//                Log.v(TAG, "onInAppPurchaseValidateFail")
-//                for (error in errors) {
-//                    Log.e(TAG, "onInAppPurchaseValidateFail - $error")
-//                }
-//            }
-//        })
-//    }
+    private fun logEvent() {
+        val params: MutableMap<String, Any> = HashMap()
+        params["example_param_1"] = "Param1 value"
+        params["example_param_2"] = 123
+        Appodeal.logEvent("appodealstack_sdk_example_test_event", params)
+    }
+
+    private fun validatePurchase(purchase: Purchase) {
+        val product: String = purchase.products.first()
+        val productDetails: ProductDetails = billingClient.getProductDetails(product)
+        if (productDetails == null) {
+            Log.d("Appodeal App", "Product Details is null")
+            return
+        }
+        val price = "1"
+        val currency = "USD"
+        val additionalEventValues: MutableMap<String, String> = java.util.HashMap()
+        additionalEventValues["some_parameter"] = "some_value"
+
+
+        val inAppPurchase: InAppPurchase = InAppPurchase.newBuilder(InAppPurchase.Type.InApp)
+            .withPublicKey(publicKey)
+            .withSignature(purchase.signature)
+            .withPurchaseData(purchase.originalJson)
+            .withPurchaseToken(purchase.purchaseToken)
+            .withPurchaseTimestamp(purchase.purchaseTime)
+            .withDeveloperPayload(purchase.developerPayload)
+            .withOrderId(purchase.orderId)
+            .withSku(product)
+            .withPrice(price)
+            .withCurrency(currency)
+            .withAdditionalParams(additionalEventValues)
+            .build()
+
+        // Validate InApp purchase
+        Appodeal.validateInAppPurchase(this, inAppPurchase, object : InAppPurchaseValidateCallback {
+            override fun onInAppPurchaseValidateSuccess(
+                purchase: InAppPurchase,
+                errors: List<ServiceError>?
+            ) {
+                Log.v(TAG, "onInAppPurchaseValidateSuccess")
+                if (errors != null) {
+                    for (error in errors) {
+                        Log.e(TAG, "onInAppPurchaseValidateSuccess - $error")
+                    }
+                }
+            }
+
+            override fun onInAppPurchaseValidateFail(
+                purchase: InAppPurchase,
+                errors: List<ServiceError>
+            ) {
+                Log.v(TAG, "onInAppPurchaseValidateFail")
+                for (error in errors) {
+                    Log.e(TAG, "onInAppPurchaseValidateFail - $error")
+                }
+            }
+        })
+    }
 }
 
 private fun Context.showToast(message: String) =
