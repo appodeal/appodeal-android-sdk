@@ -1,47 +1,38 @@
 package com.appodealstack.demo.analytics
 
 import android.app.Activity
-import android.app.Application
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
+import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.android.billingclient.api.*
-import java.util.concurrent.atomic.AtomicBoolean
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BillingUseCase(context: Context) {
 
-    private val _purchases: MutableLiveData<List<Purchase>> = MutableLiveData()
-    val purchases: LiveData<List<Purchase>> get() = _purchases
+    private val _purchases: MutableLiveData<List<Pair<SkuDetails?, Purchase>>> = MutableLiveData()
+    val purchases: LiveData<List<Pair<SkuDetails?, Purchase>>> get() = _purchases
     private val knownInappProducts: List<String> = listOf("coins")
     private val knownSubscriptionProducts: List<String> = listOf("infinite_access_monthly")
 
     fun flow(activity: Activity, product: String) {
-        val productDetails: ProductDetails = productDetailsMap[product] ?: return
-        val productDetailsParams = BillingFlowParams.ProductDetailsParams.newBuilder()
-            .setProductDetails(productDetails)
-            .build()
+        val productDetails: SkuDetails = skuDetailsMap[product] ?: return
         val billingFlowParams = BillingFlowParams.newBuilder()
-            .setProductDetailsParamsList(listOf(productDetailsParams))
+            .setSkuDetails(productDetails)
             .build()
         val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
             debug("Flow billing success")
-            billingFlowInProcess.set(true)
         } else {
             error("Flow billing failed: ${billingResult.debugMessage}")
         }
     }
 
-    // TODO: 19/05/2022 [glavatskikh]
-    private var reconnectMilliseconds = RECONNECT_TIMER_START_MILLISECONDS
-    private val billingSetupComplete = AtomicBoolean(false)
-    private val billingFlowInProcess = AtomicBoolean(false)
-
-    private val productDetailsMap: MutableMap<String, ProductDetails> = HashMap()
-    private val purchaseConsumptionInProcess: MutableSet<Purchase> = HashSet()
+    private val skuDetailsMap: MutableMap<String, SkuDetails> = mutableMapOf()
 
     private val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
         debug("onPurchasesUpdated: ${billingResult.responseCode} ${billingResult.debugMessage}")
@@ -62,8 +53,13 @@ class BillingUseCase(context: Context) {
                             "are using must be signed with release keys."
                 )
         }
-        billingFlowInProcess.set(false)
-        _purchases.postValue(purchases)
+        val skuPurchaseList: MutableList<Pair<SkuDetails?, Purchase>> = mutableListOf()
+        purchases?.forEach {
+            skuPurchaseList.add(
+                Pair(getSkuDetails(firstOrNull<String>(it.skus)), it)
+            )
+        }
+        _purchases.postValue(skuPurchaseList)
     }
 
     private val billingClientStateListener = object : BillingClientStateListener {
@@ -74,29 +70,23 @@ class BillingUseCase(context: Context) {
                 // The billing client is ready. You can query purchases here.
                 // This doesn't mean that your app is set up correctly in the console -- it just
                 // means that you have a connection to the Billing service.
-                reconnectMilliseconds += RECONNECT_TIMER_START_MILLISECONDS
-                billingSetupComplete.set(true)
-                queryProductDetailsAsync()
+                querySkuDetailsAsync()
                 refreshPurchasesAsync()
-            } else {
-                retryBillingServiceConnectionWithExponentialBackoff()
             }
         }
 
         override fun onBillingServiceDisconnected() {
             debug("onBillingServiceDisconnected")
-            billingSetupComplete.set(false)
-            retryBillingServiceConnectionWithExponentialBackoff()
         }
     }
 
-    private val onProductDetailsResponse =
-        ProductDetailsResponseListener { billingResult, productDetailsList ->
+    private val onSkuDetailsResponse =
+        SkuDetailsResponseListener { billingResult, skuDetailsList ->
             val responseCode = billingResult.responseCode
             val debugMessage = billingResult.debugMessage
             debug("onSkuDetailsResponse: $responseCode $debugMessage")
             if (responseCode == BillingClient.BillingResponseCode.OK) {
-                if (productDetailsList.isEmpty()) {
+                if (skuDetailsList.isNullOrEmpty()) {
                     error(
                         "onSkuDetailsResponse: " +
                                 "Found null or empty SkuDetails. " +
@@ -104,8 +94,8 @@ class BillingUseCase(context: Context) {
                                 "in the Google Play Console."
                     )
                 } else {
-                    for (productDetail: ProductDetails in productDetailsList) {
-                        productDetailsMap[productDetail.name] = productDetail
+                    skuDetailsList.forEach { skuDetail ->
+                        skuDetailsMap[skuDetail.sku] = skuDetail
                     }
                 }
             }
@@ -117,28 +107,18 @@ class BillingUseCase(context: Context) {
         .build()
         .apply { startConnection(billingClientStateListener) }
 
-    private fun queryProductDetailsAsync() {
-        billingClient.queryProductDetailsAsync(
-            QueryProductDetailsParams.newBuilder().setProductList(
-                listOf(
-                    QueryProductDetailsParams.Product.newBuilder()
-                        .setProductId(SKU_COINS)
-                        .setProductType(BillingClient.ProductType.INAPP)
-                        .build()
-                )
-            ).build(),
-            onProductDetailsResponse
+    private fun querySkuDetailsAsync() {
+        billingClient.querySkuDetailsAsync(
+            SkuDetailsParams.newBuilder()
+                .setType(BillingClient.ProductType.INAPP)
+                .setSkusList(knownInappProducts)
+                .build(), onSkuDetailsResponse
         )
-        billingClient.queryProductDetailsAsync(
-            QueryProductDetailsParams.newBuilder().setProductList(
-                listOf(
-                    QueryProductDetailsParams.Product.newBuilder()
-                        .setProductId(SKU_INFINITE_ACCESS_MONTHLY)
-                        .setProductType(BillingClient.ProductType.SUBS)
-                        .build()
-                )
-            ).build(),
-            onProductDetailsResponse
+        billingClient.querySkuDetailsAsync(
+            SkuDetailsParams.newBuilder()
+                .setType(BillingClient.ProductType.SUBS)
+                .setSkusList(knownSubscriptionProducts)
+                .build(), onSkuDetailsResponse
         )
     }
 
@@ -165,8 +145,6 @@ class BillingUseCase(context: Context) {
         debug("Refreshing purchases started.")
     }
 
-    private fun retryBillingServiceConnectionWithExponentialBackoff(): Nothing = TODO()
-
     private fun processPurchaseList(purchases: List<Purchase>?) {
         purchases
             ?.filter { purchase -> purchase.purchaseState == Purchase.PurchaseState.PURCHASED }
@@ -187,60 +165,62 @@ class BillingUseCase(context: Context) {
                         }
                     }
                 }
-                if (isConsumable) {
-                    consumePurchase(purchase)
-                } else if (!purchase.isAcknowledged) {
-                    acknowledgePurchase(purchase)
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (isConsumable) {
+                        consumePurchase(purchase)
+                    } else if (!purchase.isAcknowledged) {
+                        acknowledgePurchase(purchase)
+                    }
                 }
             } ?: debug("Empty purchase list.")
     }
 
-    private fun consumePurchase(purchase: Purchase) {
-        // TODO: 19/05/2022 [glavatskikh] we can remove it
-        if (purchaseConsumptionInProcess.contains(purchase)) {
-            return
-        }
+    private suspend fun consumePurchase(purchase: Purchase) {
         debug("Start consumption flow.")
-        purchaseConsumptionInProcess.add(purchase)
-        // TODO: 19/05/2022 [glavatskikh] use coroutines
-        billingClient.consumeAsync(
+        val consumeParams =
             ConsumeParams.newBuilder()
                 .setPurchaseToken(purchase.purchaseToken)
                 .build()
-        ) { billingResult: BillingResult, _: String? ->
-            purchaseConsumptionInProcess.remove(purchase)
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                debug("Consumption successful. Delivering entitlement.")
-            } else {
-                error("Error while consuming: ${billingResult.debugMessage}")
-            }
-            debug("End consumption flow.")
+        val billingResult = withContext(Dispatchers.IO) {
+            billingClient.consumePurchase(consumeParams).billingResult
         }
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+            debug("Consumption successful. Delivering entitlement.")
+        } else {
+            error("Error while consuming: ${billingResult.debugMessage}")
+        }
+        debug("End consumption flow.")
     }
 
-    private fun acknowledgePurchase(purchase: Purchase) {
+    private suspend fun acknowledgePurchase(purchase: Purchase) {
         debug("Start acknowledge flow.")
-        // TODO: 19/05/2022 [glavatskikh] use coroutines
-        billingClient.acknowledgePurchase(
-            AcknowledgePurchaseParams.newBuilder()
-                .setPurchaseToken(purchase.purchaseToken)
-                .build()
-        ) { billingResult: BillingResult ->
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                debug("Acknowledge successful.")
-            } else {
-                error("Error while acknowledge: ${billingResult.debugMessage}")
-            }
-            debug("End acknowledge flow.")
+        val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+            .setPurchaseToken(purchase.purchaseToken)
+        val ackPurchaseResult = withContext(Dispatchers.IO) {
+            billingClient.acknowledgePurchase(acknowledgePurchaseParams.build())
         }
+        if (ackPurchaseResult.responseCode == BillingClient.BillingResponseCode.OK) {
+            debug("Acknowledge successful.")
+        } else {
+            error("Error while acknowledge: ${ackPurchaseResult.debugMessage}")
+        }
+        debug("End acknowledge flow.")
     }
+
+    private fun getSkuDetails(sku: String?): SkuDetails? {
+        return if (!TextUtils.isEmpty(sku)) {
+            skuDetailsMap[sku]
+        } else null
+    }
+}
+
+private fun <T> firstOrNull(list: List<T>?): T? {
+    return if (list != null && list.isNotEmpty()) {
+        list[0]
+    } else null
 }
 
 private fun debug(message: String) = Log.d(TAG, message)
 private fun error(message: String) = Log.e(TAG, message)
 
 private const val TAG = "BillingClient"
-
-private val handler = Handler(Looper.getMainLooper())
-private const val RECONNECT_TIMER_START_MILLISECONDS = 1000L
-private const val RECONNECT_TIMER_MAX_TIME_MILLISECONDS = 1000L * 60L * 15L

@@ -4,10 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.SkuDetails
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.inapp.InAppPurchase
 import com.appodeal.ads.inapp.InAppPurchaseValidateCallback
@@ -21,14 +20,15 @@ class AnalyticsActivity : AppCompatActivity() {
 
     private var _binding: ActivityAnalyticsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<AnalyticsViewModel>()
+    private var _viewModel: AnalyticsViewModel? = null
+    private val viewModel get() = _viewModel!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAnalyticsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        _viewModel = ViewModelFactory(application).create(AnalyticsViewModel::class.java)
         setUpAppodealSdk()
-        viewModel
     }
 
     private fun setUpAppodealSdk() {
@@ -40,12 +40,11 @@ class AnalyticsActivity : AppCompatActivity() {
             Appodeal.REWARDED_VIDEO,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    if (errors.isNullOrEmpty()) {
-                        showToast("Appodeal initialized")
-                    } else {
-                        showToast("Appodeal initialized with error")
-                        for (error in errors) {
-                            Log.e(TAG, error.message.orEmpty())
+                    showToast("Appodeal initialized "
+                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
+                    if (!errors.isNullOrEmpty()) {
+                        errors.forEach {
+                            Log.e(TAG, "onInitializationFinished: ", it)
                         }
                     }
                 }
@@ -53,7 +52,11 @@ class AnalyticsActivity : AppCompatActivity() {
         binding.validateInapp.setOnClickListener { viewModel.flowInAppPurchase(this) }
         binding.validateSubscription.setOnClickListener { viewModel.flowSubsPurchase(this) }
         binding.logEvent.setOnClickListener { logEvent() }
-        viewModel.purchases.observe(this) { purchases -> purchases.forEach { validatePurchase(it) } }
+        viewModel.purchases.observe(this) { purchases ->
+            purchases.forEach {
+                validatePurchase(it)
+            }
+        }
     }
 
     private fun logEvent() {
@@ -63,18 +66,18 @@ class AnalyticsActivity : AppCompatActivity() {
         Appodeal.logEvent("appodealstack_sdk_example_test_event", params)
     }
 
-    private fun validatePurchase(purchase: Purchase) {
-        val product: String = purchase.products.first()
-        val productDetails: ProductDetails = billingClient.getProductDetails(product)
-        if (productDetails == null) {
+    private fun validatePurchase(purchasePair: Pair<SkuDetails?, Purchase>) {
+        val skuDetails = purchasePair.first
+        val purchase = purchasePair.second
+        if (skuDetails == null) {
             Log.d("Appodeal App", "Product Details is null")
             return
         }
-        val price = "1"
-        val currency = "USD"
+        val price = skuDetails.price
+        val currency = skuDetails.priceCurrencyCode
+
         val additionalEventValues: MutableMap<String, String> = java.util.HashMap()
         additionalEventValues["some_parameter"] = "some_value"
-
 
         val inAppPurchase: InAppPurchase = InAppPurchase.newBuilder(InAppPurchase.Type.InApp)
             .withPublicKey(PUBLIC_KEY)
@@ -84,7 +87,7 @@ class AnalyticsActivity : AppCompatActivity() {
             .withPurchaseTimestamp(purchase.purchaseTime)
             .withDeveloperPayload(purchase.developerPayload)
             .withOrderId(purchase.orderId)
-            .withSku(product)
+            .withSku(skuDetails.sku)
             .withPrice(price)
             .withCurrency(currency)
             .withAdditionalParams(additionalEventValues)
