@@ -4,9 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.inapp.InAppPurchase
@@ -19,16 +19,14 @@ import com.appodealstack.demo.analytics.databinding.ActivityAnalyticsBinding
 
 class AnalyticsActivity : AppCompatActivity() {
 
+    private val viewModel by viewModels<AnalyticsViewModel>()
     private var _binding: ActivityAnalyticsBinding? = null
     private val binding get() = _binding!!
-    private var _viewModel: AnalyticsViewModel? = null
-    private val viewModel get() = _viewModel!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAnalyticsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        _viewModel = ViewModelFactory(application).create(AnalyticsViewModel::class.java)
         setUpAppodealSdk()
     }
 
@@ -38,17 +36,14 @@ class AnalyticsActivity : AppCompatActivity() {
         Appodeal.initialize(
             this,
             BuildConfig.APP_KEY,
-            Appodeal.REWARDED_VIDEO,
+            Appodeal.NONE,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    showToast(
-                        "Appodeal initialized "
-                                + if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
-                    )
-                    if (!errors.isNullOrEmpty()) {
-                        errors.forEach {
-                            Log.e(TAG, "onInitializationFinished: ", it)
-                        }
+                    if (errors.isNullOrEmpty()) {
+                        showToast("Appodeal initialized successfully")
+                    } else {
+                        showToast("Appodeal initialized with ${errors.size} errors")
+                        errors.forEach { Log.e(TAG, "onInitializationFinished: ", it) }
                     }
                 }
             })
@@ -56,49 +51,41 @@ class AnalyticsActivity : AppCompatActivity() {
         binding.validateSubscription.setOnClickListener { viewModel.flowSubsPurchase(this) }
         binding.logEvent.setOnClickListener { logEvent() }
         viewModel.purchases.observe(this) { purchases ->
-            purchases.forEach {
-                validatePurchase(it)
-            }
+            purchases.forEach { validatePurchase(it) }
         }
     }
 
     private fun logEvent() {
-        val params: MutableMap<String, Any> = HashMap()
-        params["example_param_1"] = "Param1 value"
-        params["example_param_2"] = 123
+        val params = mapOf(
+            "example_param_1" to "Param1 value",
+            "example_param_2" to 123
+        )
         Appodeal.logEvent("appodealstack_sdk_example_test_event", params)
     }
 
-    private fun validatePurchase(purchasePair: Pair<ProductDetails?, Purchase>) {
-        val productDetails = purchasePair.first
-        val purchase = purchasePair.second
-        if (productDetails == null) {
-            Log.d("Appodeal App", "Product Details is null")
-            return
-        }
-        val isInApp = productDetails.productType == BillingClient.ProductType.INAPP
-        var price: String = ""
-        var currency: String = ""
-        if (isInApp) {
-            val offerDetail = productDetails.oneTimePurchaseOfferDetails ?: return
-            price = offerDetail.formattedPrice
-            currency = offerDetail.priceCurrencyCode
-        } else {
-            productDetails.subscriptionOfferDetails?.forEach {
-                val priceList = it.pricingPhases.pricingPhaseList
-                if (priceList.isEmpty()) {
-                    return
+    private fun validatePurchase(purchase: Purchase) = purchase.products.forEach { productId ->
+        val productDetails = viewModel.getProductDetails(productId) ?: error("Product details is null")
+        val apdPurchaseBuilder = when (productDetails.productType) {
+            BillingClient.ProductType.INAPP -> {
+                InAppPurchase.newInAppBuilder().apply {
+                    productDetails.oneTimePurchaseOfferDetails?.let {
+                        withPrice(it.formattedPrice)
+                        withCurrency(it.priceCurrencyCode)
+                    }
                 }
-                val priceItem = priceList.last()
-                price = priceItem.formattedPrice
-                currency = priceItem.priceCurrencyCode
             }
+            BillingClient.ProductType.SUBS -> {
+                InAppPurchase.newSubscriptionBuilder().apply {
+                    productDetails.subscriptionOfferDetails?.let {
+                        val pricingPhase = it.first().pricingPhases.pricingPhaseList.first()
+                        withPrice(pricingPhase.formattedPrice)
+                        withCurrency(pricingPhase.priceCurrencyCode)
+                    }
+                }
+            }
+            else -> error("Product type is incorrect")
         }
-
-        val additionalEventValues: MutableMap<String, String> = java.util.HashMap()
-        additionalEventValues["some_parameter"] = "some_value"
-
-        val inAppPurchase: InAppPurchase = InAppPurchase.newBuilder(InAppPurchase.Type.InApp)
+        val apdPurchase: InAppPurchase = apdPurchaseBuilder
             .withPublicKey(PUBLIC_KEY)
             .withSignature(purchase.signature)
             .withPurchaseData(purchase.originalJson)
@@ -106,23 +93,19 @@ class AnalyticsActivity : AppCompatActivity() {
             .withPurchaseTimestamp(purchase.purchaseTime)
             .withDeveloperPayload(purchase.developerPayload)
             .withOrderId(purchase.orderId)
-            .withSku(productDetails.name)
-            .withPrice(price)
-            .withCurrency(currency)
-            .withAdditionalParams(additionalEventValues)
+            .withSku(productId)
+            .withAdditionalParams(mapOf("some_parameter" to "some_value"))
             .build()
 
         // Validate InApp purchase
-        Appodeal.validateInAppPurchase(this, inAppPurchase, object : InAppPurchaseValidateCallback {
+        Appodeal.validateInAppPurchase(this, apdPurchase, object : InAppPurchaseValidateCallback {
             override fun onInAppPurchaseValidateSuccess(
                 purchase: InAppPurchase,
                 errors: List<ServiceError>?
             ) {
                 Log.v(TAG, "onInAppPurchaseValidateSuccess")
-                if (errors != null) {
-                    for (error in errors) {
-                        Log.e(TAG, "onInAppPurchaseValidateSuccess - $error")
-                    }
+                errors?.forEach { error ->
+                    Log.e(TAG, "onInAppPurchaseValidateSuccess - $error")
                 }
             }
 
@@ -131,7 +114,7 @@ class AnalyticsActivity : AppCompatActivity() {
                 errors: List<ServiceError>
             ) {
                 Log.v(TAG, "onInAppPurchaseValidateFail")
-                for (error in errors) {
+                errors.forEach { error ->
                     Log.e(TAG, "onInAppPurchaseValidateFail - $error")
                 }
             }
