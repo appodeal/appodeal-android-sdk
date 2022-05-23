@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
-import com.android.billingclient.api.SkuDetails
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.inapp.InAppPurchase
 import com.appodeal.ads.inapp.InAppPurchaseValidateCallback
@@ -66,15 +66,33 @@ class AnalyticsActivity : AppCompatActivity() {
         Appodeal.logEvent("appodealstack_sdk_example_test_event", params)
     }
 
-    private fun validatePurchase(purchasePair: Pair<SkuDetails?, Purchase>) {
-        val skuDetails = purchasePair.first
+    private fun validatePurchase(purchasePair: Pair<ProductDetails?, Purchase>) {
+        val productDetails = purchasePair.first
         val purchase = purchasePair.second
-        if (skuDetails == null) {
+        if (productDetails == null) {
             Log.d("Appodeal App", "Product Details is null")
             return
         }
-        val price = skuDetails.price
-        val currency = skuDetails.priceCurrencyCode
+        val isInApp = true //TODO
+        var price: String = ""
+        var currency: String = ""
+
+        if (!isInApp) {
+            productDetails.subscriptionOfferDetails?.forEach {
+                val priceList = it.pricingPhases.pricingPhaseList
+                if (priceList.isEmpty()) {
+                    return
+                }
+                val priceItem = priceList.first()
+                price = priceItem.formattedPrice
+                currency = priceItem.priceCurrencyCode
+            }
+        } else if (isInApp) {
+            val offerDetail = productDetails.oneTimePurchaseOfferDetails ?: return
+            price = offerDetail.formattedPrice
+            currency = offerDetail.priceCurrencyCode
+        }
+
 
         val additionalEventValues: MutableMap<String, String> = java.util.HashMap()
         additionalEventValues["some_parameter"] = "some_value"
@@ -87,7 +105,7 @@ class AnalyticsActivity : AppCompatActivity() {
             .withPurchaseTimestamp(purchase.purchaseTime)
             .withDeveloperPayload(purchase.developerPayload)
             .withOrderId(purchase.orderId)
-            .withSku(skuDetails.sku)
+            .withSku(productDetails.name)
             .withPrice(price)
             .withCurrency(currency)
             .withAdditionalParams(additionalEventValues)

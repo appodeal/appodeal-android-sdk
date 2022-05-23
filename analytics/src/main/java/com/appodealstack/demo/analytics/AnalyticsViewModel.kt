@@ -3,15 +3,15 @@ package com.appodealstack.demo.analytics
 import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.*
+import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
-import com.android.billingclient.api.SkuDetails
 
 class AnalyticsViewModel(
     application: Application,
     private val billing: BillingUseCase
 ) : AndroidViewModel(application) {
 
-    val purchases: LiveData<List<Pair<SkuDetails?, Purchase>>> = billing.purchases
+    val purchases: LiveData<List<Pair<ProductDetails?, Purchase>>> = billing.purchases
 
     fun flowInAppPurchase(activity: Activity) {
         billing.flow(activity, SKU_COINS)
