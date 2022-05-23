@@ -33,12 +33,11 @@ class BannerActivity : AppCompatActivity() {
             Appodeal.BANNER,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    showToast("Appodeal initialized "
-                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
-                    if (!errors.isNullOrEmpty()) {
-                        errors.forEach {
-                            Log.e(TAG, "onInitializationFinished: ", it)
-                        }
+                    if (errors.isNullOrEmpty()) {
+                        showToast("Appodeal initialized successfully")
+                    } else {
+                        showToast("Appodeal initialized with ${errors.size} errors")
+                        errors.forEach { Log.e(TAG, "onInitializationFinished: ", it) }
                     }
                 }
             })

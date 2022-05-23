@@ -33,18 +33,17 @@ class InterstitialActivity : AppCompatActivity() {
             Appodeal.INTERSTITIAL,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    showToast("Appodeal initialized "
-                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
-                    if (!errors.isNullOrEmpty()) {
-                        errors.forEach {
-                            Log.e(TAG, "onInitializationFinished: ", it)
-                        }
+                    if (errors.isNullOrEmpty()) {
+                        showToast("Appodeal initialized successfully")
+                    } else {
+                        showToast("Appodeal initialized with ${errors.size} errors")
+                        errors.forEach { Log.e(TAG, "onInitializationFinished: ", it) }
                     }
                 }
             }
         )
 
-        binding.show.setOnClickListener {
+        binding.showInterstitial.setOnClickListener {
             if (Appodeal.canShow(Appodeal.INTERSTITIAL, placementName)) {
                 Appodeal.show(this, Appodeal.INTERSTITIAL, placementName)
             } else {
@@ -52,12 +51,12 @@ class InterstitialActivity : AppCompatActivity() {
             }
         }
 
-        binding.cache.setOnClickListener {
+        binding.cacheInterstitial.setOnClickListener {
             Appodeal.cache(this, Appodeal.INTERSTITIAL)
         }
 
-        binding.autoCache.setOnCheckedChangeListener { _, isChecked ->
-            binding.cache.isEnabled = !isChecked
+        binding.autocacheInterstitial.setOnCheckedChangeListener { _, isChecked ->
+            binding.cacheInterstitial.isEnabled = !isChecked
             Appodeal.setAutoCache(Appodeal.INTERSTITIAL, isChecked)
         }
 

@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.RewardedVideoCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
-import com.appodeal.ads.utils.Log.*
+import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.rewarded.databinding.ActivityRewardedBinding
 
 class RewardedActivity : AppCompatActivity() {
@@ -34,12 +33,11 @@ class RewardedActivity : AppCompatActivity() {
             Appodeal.REWARDED_VIDEO,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    showToast("Appodeal initialized "
-                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
-                    if (!errors.isNullOrEmpty()) {
-                        errors.forEach {
-                            Log.e(TAG, "onInitializationFinished: ", it)
-                        }
+                    if (errors.isNullOrEmpty()) {
+                        showToast("Appodeal initialized successfully")
+                    } else {
+                        showToast("Appodeal initialized with ${errors.size} errors")
+                        errors.forEach { Log.e(TAG, "onInitializationFinished: ", it) }
                     }
                 }
             })

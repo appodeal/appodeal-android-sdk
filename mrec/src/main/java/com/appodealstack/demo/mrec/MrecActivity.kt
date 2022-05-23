@@ -9,7 +9,7 @@ import com.appodeal.ads.Appodeal
 import com.appodeal.ads.MrecCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
-import com.appodeal.ads.utils.Log.*
+import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.mrec.databinding.ActivityMrecBinding
 
 class MrecActivity : AppCompatActivity() {
@@ -34,12 +34,11 @@ class MrecActivity : AppCompatActivity() {
             Appodeal.MREC,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    showToast("Appodeal initialized "
-                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
-                    if (!errors.isNullOrEmpty()) {
-                        errors.forEach {
-                            Log.e(TAG, "onInitializationFinished: ", it)
-                        }
+                    if (errors.isNullOrEmpty()) {
+                        showToast("Appodeal initialized successfully")
+                    } else {
+                        showToast("Appodeal initialized with ${errors.size} errors")
+                        errors.forEach { Log.e(TAG, "onInitializationFinished: ", it) }
                     }
                 }
             })
