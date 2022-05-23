@@ -2,29 +2,39 @@ package com.appodealstack.demo.analytics
 
 import android.app.Activity
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.*
+import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
-import com.android.billingclient.api.SkuDetails
 
 class AnalyticsViewModel(
-    application: Application
+    application: Application,
+    private val billing: BillingUseCase
 ) : AndroidViewModel(application) {
 
-    private val billing = BillingUseCase(
-        application,
-        listOf(SKU_COINS),
-        listOf(SKU_INFINITE_ACCESS_MONTHLY)
-    )
+    val purchases: LiveData<List<Pair<ProductDetails?, Purchase>>> = billing.purchases
 
-    val purchases: LiveData<List<AnalyticsPurchase>> = billing.purchases
+    fun flowInAppPurchase(activity: Activity) {
+        billing.flow(activity, SKU_COINS)
+    }
 
-    fun flowInAppPurchase(activity: Activity) = billing.flow(activity, SKU_COINS)
-
-    fun flowSubsPurchase(activity: Activity) = billing.flow(activity, SKU_INFINITE_ACCESS_MONTHLY)
+    fun flowSubsPurchase(activity: Activity) {
+        billing.flow(activity, SKU_INFINITE_ACCESS_MONTHLY)
+    }
 }
 
-const val SKU_COINS = "coins"
 const val SKU_INFINITE_ACCESS_MONTHLY = "infinite_access_monthly"
+const val SKU_COINS = "coins"
 
-class AnalyticsPurchase(val purchase: Purchase, val purchaseDetails: SkuDetails)
+class ViewModelFactory constructor(
+    private val application: Application,
+    private val billing: BillingUseCase = BillingUseCase(application)
+) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return if (modelClass.isAssignableFrom(AnalyticsViewModel::class.java)) {
+            AnalyticsViewModel(application, billing) as T
+        } else {
+            throw IllegalArgumentException("ViewModel Not Found")
+        }
+    }
+}

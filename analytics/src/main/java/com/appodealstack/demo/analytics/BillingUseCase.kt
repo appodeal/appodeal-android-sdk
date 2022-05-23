@@ -10,74 +10,76 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.android.billingclient.api.SkuDetails as PurchaseDetails
 
-class BillingUseCase(
-    context: Context,
-    private val knownInappProducts: List<String>,
-    private val knownSubscriptionProducts: List<String>,
-    private val purchasesDetails: MutableSet<PurchaseDetails> = mutableSetOf<PurchaseDetails>()
-) {
-    private val _purchases = MutableLiveData<List<AnalyticsPurchase>>()
-    val purchases: LiveData<List<AnalyticsPurchase>> get() = _purchases
+class BillingUseCase(context: Context) {
+
+    private val _purchases: MutableLiveData<List<Pair<ProductDetails?, Purchase>>> = MutableLiveData()
+    val purchases: LiveData<List<Pair<ProductDetails?, Purchase>>> get() = _purchases
+    private val knownInAppProducts: List<String> = listOf("coins")
+    private val knownSubscriptionProducts: List<String> = listOf("infinite_access_monthly")
+
+    private val productDetailsMap: MutableMap<String, ProductDetails> = HashMap()
+    private val purchaseConsumptionInProcess: MutableSet<Purchase> = HashSet()
+
+    private val onProductDetailsResponse =
+        ProductDetailsResponseListener { billingResult, productDetailsList ->
+            val responseCode = billingResult.responseCode
+            val debugMessage = billingResult.debugMessage
+            debug("onProductDetailsResponse: $responseCode $debugMessage")
+            if (responseCode == BillingClient.BillingResponseCode.OK) {
+                if (productDetailsList.isEmpty()) {
+                    error(
+                        "onProductDetailsResponse: " +
+                                "Found null or empty SkuDetails. " +
+                                "Check to see if the SKUs you requested are correctly published " +
+                                "in the Google Play Console."
+                    )
+                } else {
+                    for (productDetail: ProductDetails in productDetailsList) {
+                        productDetailsMap[productDetail.name] = productDetail
+                    }
+                }
+            }
+        }
 
     private val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
         debug("onPurchasesUpdated: ${billingResult.responseCode} ${billingResult.debugMessage}")
         when (billingResult.responseCode) {
-            BillingClient.BillingResponseCode.OK -> purchases?.let {
-                processPurchaseList(purchases)
-                val skuPurchaseList = mutableListOf<AnalyticsPurchase>()
-                purchases.forEach { purchase ->
-                    purchase.skus.firstOrNull()?.let { product ->
-                        purchasesDetails.find { it.sku == product }?.let { purchaseDetails ->
-                            skuPurchaseList.add(AnalyticsPurchase(purchase, purchaseDetails))
-                        }
-                    }
-                }
-                _purchases.postValue(skuPurchaseList)
-            } ?: error("onPurchasesUpdated: Null Purchase List Returned from OK response!")
+            BillingClient.BillingResponseCode.OK -> {
+                purchases?.let {
+                    processPurchaseList(it)
+                } ?: error("onPurchasesUpdated: Null Purchase List Returned from OK response!")
+            }
             BillingClient.BillingResponseCode.USER_CANCELED -> debug("onPurchasesUpdated: User canceled the purchase")
             BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> debug("onPurchasesUpdated: The user already owns this item")
-            BillingClient.BillingResponseCode.DEVELOPER_ERROR -> error(
-                "onPurchasesUpdated: Developer error means that Google Play " +
-                        "does not recognize the configuration. If you are just getting started, " +
-                        "make sure you have configured the application correctly in the " +
-                        "Google Play Console. The SKU product ID must match and the APK you " +
-                        "are using must be signed with release keys."
+            BillingClient.BillingResponseCode.DEVELOPER_ERROR ->
+                error(
+                    "onPurchasesUpdated: Developer error means that Google Play " +
+                            "does not recognize the configuration. If you are just getting started, " +
+                            "make sure you have configured the application correctly in the " +
+                            "Google Play Console. The SKU product ID must match and the APK you " +
+                            "are using must be signed with release keys."
+                )
+        }
+        val detailsPurchaseList: MutableList<Pair<ProductDetails?, Purchase>> = mutableListOf()
+        purchases?.forEach {
+            detailsPurchaseList.add(
+                Pair(getProductDetails(firstOrNull<String>(it.products)), it)
             )
         }
-    }
-
-    private val billingClient = BillingClient.newBuilder(context)
-        .setListener(purchasesUpdatedListener)
-        .enablePendingPurchases()
-        .build()
-        .apply { startConnection(billingClientStateListener) }
-
-    fun flow(activity: Activity, product: String) {
-        val productDetails = purchasesDetails.find { it.sku == product } ?: return
-        val billingFlowParams = BillingFlowParams.newBuilder()
-            .setSkuDetails(productDetails)
-            .build()
-        val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-            debug("Flow billing success")
-        } else {
-            error("Flow billing failed: ${billingResult.responseCode} ${billingResult.debugMessage}")
-        }
+        _purchases.postValue(detailsPurchaseList)
     }
 
     private val billingClientStateListener = object : BillingClientStateListener {
         override fun onBillingSetupFinished(billingResult: BillingResult) {
-            debug("onBillingSetupFinished: ${billingResult.responseCode} ${billingResult.debugMessage}")
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+            val responseCode = billingResult.responseCode
+            debug("onBillingSetupFinished: $responseCode ${billingResult.debugMessage}")
+            if (responseCode == BillingClient.BillingResponseCode.OK) {
                 // The billing client is ready. You can query purchases here.
                 // This doesn't mean that your app is set up correctly in the console -- it just
                 // means that you have a connection to the Billing service.
-                querySkuDetailsAsync()
+                queryProductDetailsAsync()
                 refreshPurchasesAsync()
-            } else {
-                error("onBillingSetupFinished error: ${billingResult.responseCode} ${billingResult.debugMessage}")
             }
         }
 
@@ -86,55 +88,72 @@ class BillingUseCase(
         }
     }
 
-    private fun querySkuDetailsAsync() {
-        val onSkuDetailsResponse = SkuDetailsResponseListener { billingResult, skuDetailsList ->
-            val responseCode = billingResult.responseCode
-            val debugMessage = billingResult.debugMessage
-            debug("onSkuDetailsResponse: $responseCode $debugMessage")
-            if (responseCode == BillingClient.BillingResponseCode.OK) {
-                if (skuDetailsList.isNullOrEmpty()) {
-                    error(
-                        "onSkuDetailsResponse: " +
-                                "Found null or empty SkuDetails. " +
-                                "Check to see if the SKUs you requested are correctly published " +
-                                "in the Google Play Console."
-                    )
-                } else {
-                    purchasesDetails.addAll(skuDetailsList)
-                }
-            }
+    private val billingClient =
+        BillingClient.newBuilder(context)
+            .setListener(purchasesUpdatedListener)
+            .enablePendingPurchases()
+            .build()
+            .apply { startConnection(billingClientStateListener) }
+
+    fun flow(activity: Activity, product: String) {
+        val productDetails: ProductDetails = productDetailsMap[product] ?: return
+        val productDetailsParams = BillingFlowParams.ProductDetailsParams.newBuilder()
+            .setProductDetails(productDetails)
+            .build()
+        val billingFlowParams = BillingFlowParams.newBuilder()
+            .setProductDetailsParamsList(listOf(productDetailsParams))
+            .build()
+        val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+            debug("Flow billing success")
+        } else {
+            error("Flow billing failed: ${billingResult.debugMessage}")
         }
-        billingClient.querySkuDetailsAsync(
-            SkuDetailsParams.newBuilder()
-                .setType(BillingClient.ProductType.INAPP)
-                .setSkusList(knownInappProducts)
-                .build(), onSkuDetailsResponse
+    }
+
+    private fun queryProductDetailsAsync() {
+        billingClient.queryProductDetailsAsync(
+            QueryProductDetailsParams.newBuilder().setProductList(
+                listOf(
+                    QueryProductDetailsParams.Product.newBuilder()
+                        .setProductType(BillingClient.ProductType.INAPP)
+                        .setProductId(SKU_COINS)
+                        .build()
+                )
+            ).build(),
+            onProductDetailsResponse
         )
-        billingClient.querySkuDetailsAsync(
-            SkuDetailsParams.newBuilder()
-                .setType(BillingClient.ProductType.SUBS)
-                .setSkusList(knownSubscriptionProducts)
-                .build(), onSkuDetailsResponse
+        billingClient.queryProductDetailsAsync(
+            QueryProductDetailsParams.newBuilder().setProductList(
+                listOf(
+                    QueryProductDetailsParams.Product.newBuilder()
+                        .setProductType(BillingClient.ProductType.SUBS)
+                        .setProductId(SKU_INFINITE_ACCESS_MONTHLY)
+                        .build()
+                )
+            ).build(),
+            onProductDetailsResponse
         )
     }
 
     private fun refreshPurchasesAsync() {
         val purchasesResponseListener = PurchasesResponseListener { billingResult, purchaseList ->
-            debug("onQueryPurchasesResponse: ${billingResult.responseCode} ${billingResult.responseCode}")
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                processPurchaseList(purchaseList)
+            if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) {
+                error("Problem getting purchases: ${billingResult.debugMessage}")
             } else {
-                error("onQueryPurchasesResponse error: ${billingResult.responseCode} ${billingResult.responseCode}")
+                processPurchaseList(purchaseList)
             }
         }
         billingClient.queryPurchasesAsync(
-            QueryPurchasesParams.newBuilder()
+            QueryPurchasesParams
+                .newBuilder()
                 .setProductType(BillingClient.ProductType.INAPP)
                 .build(),
             purchasesResponseListener
         )
         billingClient.queryPurchasesAsync(
-            QueryPurchasesParams.newBuilder()
+            QueryPurchasesParams
+                .newBuilder()
                 .setProductType(BillingClient.ProductType.SUBS)
                 .build(),
             purchasesResponseListener
@@ -149,11 +168,14 @@ class BillingUseCase(
                 var isConsumable = false
                 // TODO: 19/05/2022 [glavatskikh] simple
                 for (product: String in purchase.products) {
-                    if (knownInappProducts.contains(product)) {
+                    if (knownInAppProducts.contains(product)) {
                         isConsumable = true
                     } else {
                         if (isConsumable) {
-                            error("Purchase cannot contain a mixture of consumable and non-consumable items: ${purchase.products}")
+                            Log.e(
+                                TAG,
+                                "Purchase cannot contain a mixture of consumable and non-consumable items: ${purchase.products}"
+                            )
                             isConsumable = false
                             break
                         }
@@ -171,9 +193,10 @@ class BillingUseCase(
 
     private suspend fun consumePurchase(purchase: Purchase) {
         debug("Start consumption flow.")
-        val consumeParams = ConsumeParams.newBuilder()
-            .setPurchaseToken(purchase.purchaseToken)
-            .build()
+        val consumeParams =
+            ConsumeParams.newBuilder()
+                .setPurchaseToken(purchase.purchaseToken)
+                .build()
         val billingResult = withContext(Dispatchers.IO) {
             billingClient.consumePurchase(consumeParams).billingResult
         }
@@ -199,4 +222,21 @@ class BillingUseCase(
         }
         debug("End acknowledge flow.")
     }
+
+    private fun getProductDetails(product: String?): ProductDetails? {
+        return if (!product.isNullOrEmpty()) {
+            productDetailsMap[product]
+        } else null
+    }
 }
+
+private fun <T> firstOrNull(list: List<T>?): T? {
+    return if (list != null && list.isNotEmpty()) {
+        list[0]
+    } else null
+}
+
+private fun debug(message: String) = Log.d(TAG, message)
+private fun error(message: String) = Log.e(TAG, message)
+
+private const val TAG = "BillingClient"
