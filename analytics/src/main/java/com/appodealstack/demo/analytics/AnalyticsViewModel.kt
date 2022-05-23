@@ -14,11 +14,11 @@ class AnalyticsViewModel(
     val purchases: LiveData<List<Pair<ProductDetails?, Purchase>>> = billing.purchases
 
     fun flowInAppPurchase(activity: Activity) {
-        billing.flow(activity, SKU_COINS)
+        billing.flowInApp(activity, SKU_COINS)
     }
 
     fun flowSubsPurchase(activity: Activity) {
-        billing.flow(activity, SKU_INFINITE_ACCESS_MONTHLY)
+        billing.flowSubscription(activity, SKU_INFINITE_ACCESS_MONTHLY)
     }
 }
 
