@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.appodeal.ads.Appodeal
@@ -40,8 +41,10 @@ class AnalyticsActivity : AppCompatActivity() {
             Appodeal.REWARDED_VIDEO,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    showToast("Appodeal initialized "
-                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
+                    showToast(
+                        "Appodeal initialized "
+                                + if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+                    )
                     if (!errors.isNullOrEmpty()) {
                         errors.forEach {
                             Log.e(TAG, "onInitializationFinished: ", it)
@@ -73,26 +76,24 @@ class AnalyticsActivity : AppCompatActivity() {
             Log.d("Appodeal App", "Product Details is null")
             return
         }
-        val isInApp = true //TODO
+        val isInApp = productDetails.productType == BillingClient.ProductType.INAPP
         var price: String = ""
         var currency: String = ""
-
-        if (!isInApp) {
+        if (isInApp) {
+            val offerDetail = productDetails.oneTimePurchaseOfferDetails ?: return
+            price = offerDetail.formattedPrice
+            currency = offerDetail.priceCurrencyCode
+        } else {
             productDetails.subscriptionOfferDetails?.forEach {
                 val priceList = it.pricingPhases.pricingPhaseList
                 if (priceList.isEmpty()) {
                     return
                 }
-                val priceItem = priceList.first()
+                val priceItem = priceList.last()
                 price = priceItem.formattedPrice
                 currency = priceItem.priceCurrencyCode
             }
-        } else if (isInApp) {
-            val offerDetail = productDetails.oneTimePurchaseOfferDetails ?: return
-            price = offerDetail.formattedPrice
-            currency = offerDetail.priceCurrencyCode
         }
-
 
         val additionalEventValues: MutableMap<String, String> = java.util.HashMap()
         additionalEventValues["some_parameter"] = "some_value"

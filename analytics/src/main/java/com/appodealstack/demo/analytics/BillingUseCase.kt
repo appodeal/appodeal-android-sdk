@@ -15,11 +15,10 @@ class BillingUseCase(context: Context) {
 
     private val _purchases: MutableLiveData<List<Pair<ProductDetails?, Purchase>>> = MutableLiveData()
     val purchases: LiveData<List<Pair<ProductDetails?, Purchase>>> get() = _purchases
-    private val knownInAppProducts: List<String> = listOf("coins")
-    private val knownSubscriptionProducts: List<String> = listOf("infinite_access_monthly")
+    private val knownInAppProducts: List<String> = listOf(SKU_COINS)
+    private val knownSubscriptionProducts: List<String> = listOf(SKU_INFINITE_ACCESS_MONTHLY)
 
     private val productDetailsMap: MutableMap<String, ProductDetails> = HashMap()
-    private val purchaseConsumptionInProcess: MutableSet<Purchase> = HashSet()
 
     private val onProductDetailsResponse =
         ProductDetailsResponseListener { billingResult, productDetailsList ->
@@ -28,15 +27,14 @@ class BillingUseCase(context: Context) {
             debug("onProductDetailsResponse: $responseCode $debugMessage")
             if (responseCode == BillingClient.BillingResponseCode.OK) {
                 if (productDetailsList.isEmpty()) {
-                    error(
-                        "onProductDetailsResponse: " +
+                    error("onProductDetailsResponse: " +
                                 "Found null or empty SkuDetails. " +
                                 "Check to see if the SKUs you requested are correctly published " +
                                 "in the Google Play Console."
                     )
                 } else {
                     for (productDetail: ProductDetails in productDetailsList) {
-                        productDetailsMap[productDetail.name] = productDetail
+                        productDetailsMap[productDetail.productId] = productDetail
                     }
                 }
             }
@@ -53,8 +51,7 @@ class BillingUseCase(context: Context) {
             BillingClient.BillingResponseCode.USER_CANCELED -> debug("onPurchasesUpdated: User canceled the purchase")
             BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> debug("onPurchasesUpdated: The user already owns this item")
             BillingClient.BillingResponseCode.DEVELOPER_ERROR ->
-                error(
-                    "onPurchasesUpdated: Developer error means that Google Play " +
+                error("onPurchasesUpdated: Developer error means that Google Play " +
                             "does not recognize the configuration. If you are just getting started, " +
                             "make sure you have configured the application correctly in the " +
                             "Google Play Console. The SKU product ID must match and the APK you " +
@@ -95,11 +92,25 @@ class BillingUseCase(context: Context) {
             .build()
             .apply { startConnection(billingClientStateListener) }
 
-    fun flow(activity: Activity, product: String) {
+    fun flowInApp(activity: Activity, product: String) {
         val productDetails: ProductDetails = productDetailsMap[product] ?: return
         val productDetailsParams = BillingFlowParams.ProductDetailsParams.newBuilder()
             .setProductDetails(productDetails)
             .build()
+        flow(activity, productDetailsParams)
+    }
+
+    fun flowSubscription(activity: Activity, product: String) {
+        val productDetails: ProductDetails = productDetailsMap[product] ?: return
+        val offerToken = productDetails.subscriptionOfferDetails?.last()?.offerToken ?: return
+        val productDetailsParams = BillingFlowParams.ProductDetailsParams.newBuilder()
+            .setOfferToken(offerToken)
+            .setProductDetails(productDetails)
+            .build()
+        flow(activity, productDetailsParams)
+    }
+
+    private fun flow(activity: Activity, productDetailsParams: BillingFlowParams.ProductDetailsParams) {
         val billingFlowParams = BillingFlowParams.newBuilder()
             .setProductDetailsParamsList(listOf(productDetailsParams))
             .build()
@@ -114,8 +125,7 @@ class BillingUseCase(context: Context) {
     private fun queryProductDetailsAsync() {
         billingClient.queryProductDetailsAsync(
             QueryProductDetailsParams.newBuilder().setProductList(
-                listOf(
-                    QueryProductDetailsParams.Product.newBuilder()
+                listOf(QueryProductDetailsParams.Product.newBuilder()
                         .setProductType(BillingClient.ProductType.INAPP)
                         .setProductId(SKU_COINS)
                         .build()
@@ -125,8 +135,7 @@ class BillingUseCase(context: Context) {
         )
         billingClient.queryProductDetailsAsync(
             QueryProductDetailsParams.newBuilder().setProductList(
-                listOf(
-                    QueryProductDetailsParams.Product.newBuilder()
+                listOf(QueryProductDetailsParams.Product.newBuilder()
                         .setProductType(BillingClient.ProductType.SUBS)
                         .setProductId(SKU_INFINITE_ACCESS_MONTHLY)
                         .build()
