@@ -14,17 +14,14 @@ import com.appodealstack.demo.interstitial.databinding.ActivityInterstitialBindi
 
 class InterstitialActivity : AppCompatActivity() {
 
-    private var _binding: ActivityInterstitialBinding? = null
-    private val binding get() = _binding!!
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityInterstitialBinding.inflate(layoutInflater)
+        val binding = ActivityInterstitialBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setUpAppodealSDK()
+        setUpAppodealSDK(binding)
     }
 
-    private fun setUpAppodealSDK() {
+    private fun setUpAppodealSDK(binding: ActivityInterstitialBinding) {
         Appodeal.setTesting(true)
         Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.initialize(
@@ -33,32 +30,31 @@ class InterstitialActivity : AppCompatActivity() {
             Appodeal.INTERSTITIAL,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    showToast("Appodeal initialized "
-                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
-                    if (!errors.isNullOrEmpty()) {
-                        errors.forEach {
-                            Log.e(TAG, "onInitializationFinished: ", it)
-                        }
+                    val initResult = if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+                    showToast("Appodeal initialized $initResult")
+                    errors?.forEach {
+                        Log.e(TAG, "onInitializationFinished: ", it)
                     }
                 }
             }
         )
-
-        binding.show.setOnClickListener {
-            if (Appodeal.canShow(Appodeal.INTERSTITIAL, placementName)) {
-                Appodeal.show(this, Appodeal.INTERSTITIAL, placementName)
-            } else {
-                showToast("Cannot show interstitial")
+        with(binding) {
+            showInterstitial.setOnClickListener {
+                if (Appodeal.canShow(Appodeal.INTERSTITIAL, placementName)) {
+                    Appodeal.show(this@InterstitialActivity, Appodeal.INTERSTITIAL, placementName)
+                } else {
+                    showToast("Cannot show interstitial")
+                }
             }
-        }
 
-        binding.cache.setOnClickListener {
-            Appodeal.cache(this, Appodeal.INTERSTITIAL)
-        }
+            cacheInterstitial.setOnClickListener {
+                Appodeal.cache(this@InterstitialActivity, Appodeal.INTERSTITIAL)
+            }
 
-        binding.autoCache.setOnCheckedChangeListener { _, isChecked ->
-            binding.cache.isEnabled = !isChecked
-            Appodeal.setAutoCache(Appodeal.INTERSTITIAL, isChecked)
+            autocacheInterstitial.setOnCheckedChangeListener { _, isChecked ->
+                autocacheInterstitial.isEnabled = !isChecked
+                Appodeal.setAutoCache(Appodeal.INTERSTITIAL, isChecked)
+            }
         }
 
         Appodeal.setInterstitialCallbacks(object : InterstitialCallbacks {
@@ -94,6 +90,6 @@ class InterstitialActivity : AppCompatActivity() {
 }
 
 private const val placementName = "default"
-private val TAG = InterstitialActivity::class.java.simpleName
+private const val TAG = "InterstitialActivity"
 private fun Context.showToast(message: String) =
     Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()

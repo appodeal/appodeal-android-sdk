@@ -14,17 +14,14 @@ import com.appodealstack.demo.banner.databinding.ActivityBannerBinding
 
 class BannerActivity : AppCompatActivity() {
 
-    private var _binding: ActivityBannerBinding? = null
-    private val binding get() = _binding!!
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityBannerBinding.inflate(layoutInflater)
+        val binding = ActivityBannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setUpAppodealSDK()
+        setUpAppodealSDK(binding)
     }
 
-    private fun setUpAppodealSDK() {
+    private fun setUpAppodealSDK(binding: ActivityBannerBinding) {
         Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.initialize(
@@ -33,25 +30,25 @@ class BannerActivity : AppCompatActivity() {
             Appodeal.BANNER,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    showToast("Appodeal initialized "
-                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
-                    if (!errors.isNullOrEmpty()) {
-                        errors.forEach {
-                            Log.e(TAG, "onInitializationFinished: ", it)
-                        }
+                    val initResult = if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+                    showToast("Appodeal initialized $initResult")
+                    errors?.forEach {
+                        Log.e(TAG, "onInitializationFinished: ", it)
                     }
                 }
             })
 
-        binding.showBanner.setOnClickListener {
-            if (Appodeal.canShow(Appodeal.BANNER, placementName)) {
-                Appodeal.show(this, Appodeal.BANNER_BOTTOM, placementName)
-            } else {
-                showToast("Cannot show Banner")
+        with(binding) {
+            showBanner.setOnClickListener {
+                if (Appodeal.canShow(Appodeal.BANNER, placementName)) {
+                    Appodeal.show(this@BannerActivity, Appodeal.BANNER_BOTTOM, placementName)
+                } else {
+                    showToast("Cannot show Banner")
+                }
             }
-        }
-        binding.hideBanner.setOnClickListener {
-            Appodeal.hide(this, Appodeal.BANNER)
+            hideBanner.setOnClickListener {
+                Appodeal.hide(this@BannerActivity, Appodeal.BANNER)
+            }
         }
 
         Appodeal.setBannerCallbacks(object : BannerCallbacks {
@@ -84,6 +81,6 @@ class BannerActivity : AppCompatActivity() {
 }
 
 private const val placementName = "default"
-private val TAG = BannerActivity::class.java.simpleName
+private const val TAG = "BannerActivity"
 private fun Context.showToast(message: String) =
     Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()

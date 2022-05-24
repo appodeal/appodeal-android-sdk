@@ -14,17 +14,14 @@ import com.appodealstack.demo.mrec.databinding.ActivityMrecBinding
 
 class MrecActivity : AppCompatActivity() {
 
-    private var _binding: ActivityMrecBinding? = null
-    private val binding get() = _binding!!
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMrecBinding.inflate(layoutInflater)
+        val binding = ActivityMrecBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setUpAppodealSDK()
+        setUpAppodealSDK(binding)
     }
 
-    private fun setUpAppodealSDK() {
+    private fun setUpAppodealSDK(binding: ActivityMrecBinding) {
         Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.setMrecViewId(R.id.appodealMrecView)
@@ -34,25 +31,25 @@ class MrecActivity : AppCompatActivity() {
             Appodeal.MREC,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    showToast("Appodeal initialized "
-                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
-                    if (!errors.isNullOrEmpty()) {
-                        errors.forEach {
-                            Log.e(TAG, "onInitializationFinished: ", it)
-                        }
+                    val initResult = if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+                    showToast("Appodeal initialized $initResult")
+                    errors?.forEach {
+                        Log.e(TAG, "onInitializationFinished: ", it)
                     }
                 }
             })
 
-        binding.showMrec.setOnClickListener {
-            if (Appodeal.canShow(Appodeal.MREC, placementName)) {
-                Appodeal.show(this, Appodeal.MREC, placementName)
-            } else {
-                showToast("Cannot show MREC")
+        with(binding) {
+            showMrec.setOnClickListener {
+                if (Appodeal.canShow(Appodeal.MREC, placementName)) {
+                    Appodeal.show(this@MrecActivity, Appodeal.MREC, placementName)
+                } else {
+                    showToast("Cannot show MREC")
+                }
             }
-        }
-        binding.hideMrec.setOnClickListener {
-            Appodeal.hide(this, Appodeal.MREC)
+            hideMrec.setOnClickListener {
+                Appodeal.hide(this@MrecActivity, Appodeal.MREC)
+            }
         }
 
         Appodeal.setMrecCallbacks(object : MrecCallbacks {
@@ -84,6 +81,6 @@ class MrecActivity : AppCompatActivity() {
 }
 
 private const val placementName = "default"
-private val TAG = MrecActivity::class.java.simpleName
+private const val TAG = "MrecActivity"
 private fun Context.showToast(message: String) =
     Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()

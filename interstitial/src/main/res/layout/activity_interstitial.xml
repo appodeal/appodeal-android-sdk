@@ -7,12 +7,12 @@
     tools:context="com.appodealstack.demo.interstitial.InterstitialActivity">
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/autoCache"
+        android:id="@+id/autocache_interstitial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true"
         android:text="@string/autocache"
-        app:layout_constraintBottom_toTopOf="@+id/cache"
+        app:layout_constraintBottom_toTopOf="@+id/cache_interstitial"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,19 +20,19 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
-        android:id="@+id/cache"
+        android:id="@+id/cache_interstitial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:enabled="false"
         android:text="@string/cache_interstitial"
-        app:layout_constraintBottom_toTopOf="@+id/show"
+        app:layout_constraintBottom_toTopOf="@+id/show_interstitial"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/autoCache" />
+        app:layout_constraintTop_toBottomOf="@+id/autocache_interstitial" />
 
     <Button
-        android:id="@+id/show"
+        android:id="@+id/show_interstitial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/show_interstitial"
@@ -40,6 +40,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cache" />
+        app:layout_constraintTop_toBottomOf="@+id/cache_interstitial" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
