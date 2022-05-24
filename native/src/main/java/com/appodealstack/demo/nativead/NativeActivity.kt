@@ -139,6 +139,6 @@ interface FragmentDetachListener {
 }
 
 private const val placementName = "default"
-private val TAG = NativeActivity::class.java.simpleName
+private const val TAG = "NativeActivity"
 private fun Context.showToast(message: String) =
     Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()

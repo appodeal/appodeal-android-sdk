@@ -9,22 +9,19 @@ import com.appodeal.ads.Appodeal
 import com.appodeal.ads.RewardedVideoCallbacks
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
-import com.appodeal.ads.utils.Log.LogLevel
+import com.appodeal.ads.utils.Log.*
 import com.appodealstack.demo.rewarded.databinding.ActivityRewardedBinding
 
 class RewardedActivity : AppCompatActivity() {
 
-    private var _binding: ActivityRewardedBinding? = null
-    private val binding get() = _binding!!
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityRewardedBinding.inflate(layoutInflater)
+        val binding = ActivityRewardedBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setUpAppodealSDK()
+        setUpAppodealSDK(binding)
     }
 
-    private fun setUpAppodealSDK() {
+    private fun setUpAppodealSDK(binding: ActivityRewardedBinding) {
         Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.initialize(
@@ -33,29 +30,29 @@ class RewardedActivity : AppCompatActivity() {
             Appodeal.REWARDED_VIDEO,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    if (errors.isNullOrEmpty()) {
-                        showToast("Appodeal initialized successfully")
-                    } else {
-                        showToast("Appodeal initialized with ${errors.size} errors")
-                        errors.forEach { Log.e(TAG, "onInitializationFinished: ", it) }
+                    val initResult = if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+                    showToast("Appodeal initialized $initResult")
+                    errors?.forEach {
+                        Log.e(TAG, "onInitializationFinished: ", it)
                     }
                 }
             })
 
-        binding.cacheRewarded.setOnClickListener {
-            Appodeal.cache(this, Appodeal.REWARDED_VIDEO)
-        }
+        with(binding) {
+            cacheRewarded.setOnClickListener {
+                Appodeal.cache(this@RewardedActivity, Appodeal.REWARDED_VIDEO)
+            }
 
-        binding.autocacheRewarded.setOnCheckedChangeListener { _, isChecked ->
-            binding.cacheRewarded.isEnabled = !isChecked
-            Appodeal.setAutoCache(Appodeal.REWARDED_VIDEO, isChecked)
-        }
-
-        binding.showRewarded.setOnClickListener {
-            if (Appodeal.canShow(Appodeal.REWARDED_VIDEO, placementName)) {
-                Appodeal.show(this, Appodeal.REWARDED_VIDEO, placementName)
-            } else {
-                showToast("Cannot show rewarded video")
+            autocacheRewarded.setOnCheckedChangeListener { _, isChecked ->
+                binding.cacheRewarded.isEnabled = !isChecked
+                Appodeal.setAutoCache(Appodeal.REWARDED_VIDEO, isChecked)
+            }
+            showRewarded.setOnClickListener {
+                if (Appodeal.canShow(Appodeal.REWARDED_VIDEO, placementName)) {
+                    Appodeal.show(this@RewardedActivity, Appodeal.REWARDED_VIDEO, placementName)
+                } else {
+                    showToast("Cannot show rewarded video")
+                }
             }
         }
 

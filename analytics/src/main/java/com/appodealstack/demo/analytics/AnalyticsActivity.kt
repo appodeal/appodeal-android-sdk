@@ -20,17 +20,15 @@ import com.appodealstack.demo.analytics.databinding.ActivityAnalyticsBinding
 class AnalyticsActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<AnalyticsViewModel>()
-    private var _binding: ActivityAnalyticsBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityAnalyticsBinding.inflate(layoutInflater)
+        val binding = ActivityAnalyticsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setUpAppodealSdk()
+        setUpAppodealSdk(binding)
     }
 
-    private fun setUpAppodealSdk() {
+    private fun setUpAppodealSdk(binding: ActivityAnalyticsBinding) {
         Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.initialize(
@@ -47,9 +45,11 @@ class AnalyticsActivity : AppCompatActivity() {
                     }
                 }
             })
-        binding.validateInapp.setOnClickListener { viewModel.flowInAppPurchase(this) }
-        binding.validateSubscription.setOnClickListener { viewModel.flowSubsPurchase(this) }
-        binding.logEvent.setOnClickListener { logEvent() }
+        with(binding) {
+            validateInapp.setOnClickListener { viewModel.flowInAppPurchase(this@AnalyticsActivity) }
+            validateSubscription.setOnClickListener { viewModel.flowSubsPurchase(this@AnalyticsActivity) }
+            logEvent.setOnClickListener { logEvent() }
+        }
         viewModel.purchases.observe(this) { purchases ->
             purchases.forEach { validatePurchase(it) }
         }
@@ -127,4 +127,4 @@ private fun Context.showToast(message: String) =
 
 private const val PUBLIC_KEY =
     "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm4QYg6oP6hxBPXTLIBIpgzUoAYd0UotmsuEQFogH4Pm5qSibwd2E2UlguDdIx4OTjBif4JfFMNhhRrENL6rPHcRudQWSGd0I54RGVYtex8B4bVkWEpBs0W5BJs6hTmgHbS2bBCyMeJRNaUwyfTbcwHQniDZ6n7eky3WPVaIA1kXit3vZFcpDCkeQKoAOf8iApFLFRuHSGtmGe56v5rZKsUuMhjwVU1NuH0lleuIWjRM42HRXlgFrCM0X7wwQr"
-private val TAG = AnalyticsActivity::class.java.simpleName
+private const val TAG = "AnalyticsActivity"
