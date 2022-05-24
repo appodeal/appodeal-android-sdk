@@ -17,7 +17,7 @@ import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
 import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.nativead.databinding.ActivityNativeBinding
 
-class NativeActivity : AppCompatActivity(), FragmentDetachListener {
+class NativeActivity : AppCompatActivity() {
     /**
      * change to NativeAdViewNewsFeed::class || NativeAdViewContentStream::class || NativeAdViewAppWall::class to check other templates
      * */
@@ -121,14 +121,6 @@ class NativeActivity : AppCompatActivity(), FragmentDetachListener {
         }
         Appodeal.setNativeCallbacks(nativeCallback)
     }
-
-    override fun onFragmentDetached() {
-        Appodeal.setNativeCallbacks(null)
-    }
-}
-
-interface FragmentDetachListener {
-    fun onFragmentDetached()
 }
 
 private const val placementName = "default"

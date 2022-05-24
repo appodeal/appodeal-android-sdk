@@ -1,6 +1,5 @@
 package com.appodealstack.demo.nativead
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +10,6 @@ import com.appodealstack.demo.nativead.adapter.ListItem
 import com.appodealstack.demo.nativead.databinding.NativeListFragmentBinding
 
 class NativeListFragment : Fragment() {
-    private var detachListener: FragmentDetachListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is FragmentDetachListener) {
-            detachListener = context
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,11 +20,6 @@ class NativeListFragment : Fragment() {
         binding.recyclerView.adapter = nativeListAdapter
         obtainData(nativeListAdapter)
         return binding.root
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        detachListener?.onFragmentDetached()
     }
 
     private fun obtainData(nativeListAdapter: NativeListAdapter) {
