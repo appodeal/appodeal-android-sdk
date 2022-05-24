@@ -37,11 +37,11 @@ class AnalyticsActivity : AppCompatActivity() {
             Appodeal.NONE,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    if (errors.isNullOrEmpty()) {
-                        showToast("Appodeal initialized successfully")
-                    } else {
-                        showToast("Appodeal initialized with ${errors.size} errors")
-                        errors.forEach { Log.e(TAG, "onInitializationFinished: ", it) }
+                    val initResult =
+                        if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+                    showToast("Appodeal initialized $initResult")
+                    errors?.forEach {
+                        Log.e(TAG, "onInitializationFinished: ", it)
                     }
                 }
             })
@@ -124,7 +124,6 @@ class AnalyticsActivity : AppCompatActivity() {
 
 private fun Context.showToast(message: String) =
     Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
-
-private const val PUBLIC_KEY =
-    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm4QYg6oP6hxBPXTLIBIpgzUoAYd0UotmsuEQFogH4Pm5qSibwd2E2UlguDdIx4OTjBif4JfFMNhhRrENL6rPHcRudQWSGd0I54RGVYtex8B4bVkWEpBs0W5BJs6hTmgHbS2bBCyMeJRNaUwyfTbcwHQniDZ6n7eky3WPVaIA1kXit3vZFcpDCkeQKoAOf8iApFLFRuHSGtmGe56v5rZKsUuMhjwVU1NuH0lleuIWjRM42HRXlgFrCM0X7wwQr"
+/** https://support.google.com/googleplay/android-developer/answer/186113 */
+private const val PUBLIC_KEY = "YOUR_PUBLIC_KEY"
 private const val TAG = "AnalyticsActivity"

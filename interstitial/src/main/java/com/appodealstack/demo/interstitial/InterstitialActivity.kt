@@ -38,9 +38,8 @@ class InterstitialActivity : AppCompatActivity() {
                 }
             }
         )
-
         with(binding) {
-            show.setOnClickListener {
+            showInterstitial.setOnClickListener {
                 if (Appodeal.canShow(Appodeal.INTERSTITIAL, placementName)) {
                     Appodeal.show(this@InterstitialActivity, Appodeal.INTERSTITIAL, placementName)
                 } else {
@@ -48,12 +47,12 @@ class InterstitialActivity : AppCompatActivity() {
                 }
             }
 
-            cache.setOnClickListener {
+            cacheInterstitial.setOnClickListener {
                 Appodeal.cache(this@InterstitialActivity, Appodeal.INTERSTITIAL)
             }
 
-            autoCache.setOnCheckedChangeListener { _, isChecked ->
-                binding.cache.isEnabled = !isChecked
+            autocacheInterstitial.setOnCheckedChangeListener { _, isChecked ->
+                autocacheInterstitial.isEnabled = !isChecked
                 Appodeal.setAutoCache(Appodeal.INTERSTITIAL, isChecked)
             }
         }
