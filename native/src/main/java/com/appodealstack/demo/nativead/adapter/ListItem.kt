@@ -5,11 +5,11 @@ import com.appodeal.ads.NativeAd
 sealed interface ListItem {
     fun getItemId(): Int
 
-    class NativeAdItem(val nativeAd: NativeAd?) : ListItem {
-        override fun getItemId() = AD_ITEM
+    class DynamicNativeAdItem(val getNativeAd: () -> NativeAd?) : ListItem {
+        override fun getItemId() = DYNAMIC_AD_ITEM
 
         companion object {
-            const val AD_ITEM = 1
+            const val DYNAMIC_AD_ITEM = 3
         }
     }
 

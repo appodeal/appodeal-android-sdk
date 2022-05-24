@@ -7,28 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.appodeal.ads.Appodeal
-import com.appodeal.ads.NativeAd
-import com.appodeal.ads.NativeCallbacks
 import com.appodealstack.demo.nativead.adapter.ListItem
 import com.appodealstack.demo.nativead.databinding.NativeListFragmentBinding
-import java.util.concurrent.CopyOnWriteArrayList
 
 class NativeListFragment : Fragment() {
     private var detachListener: FragmentDetachListener? = null
-    private val nativeListAdapter = NativeListAdapter()
-    private val listItems: CopyOnWriteArrayList<ListItem> = getUserData()
-
-    private val nativeCallbacks: NativeCallbacks = object : NativeCallbacks {
-        override fun onNativeLoaded() {
-            addLoadedAd()
-        }
-
-        override fun onNativeFailedToLoad() {}
-        override fun onNativeShown(nativeAd: NativeAd?) {}
-        override fun onNativeShowFailed(nativeAd: NativeAd?) {}
-        override fun onNativeClicked(nativeAd: NativeAd?) {}
-        override fun onNativeExpired() {}
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -42,10 +25,9 @@ class NativeListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = NativeListFragmentBinding.inflate(inflater, container, false)
-        Appodeal.setNativeCallbacks(nativeCallbacks)
-        nativeListAdapter.submitList(getUserData())
-        addLoadedAd()
-        binding.nativeList.adapter = nativeListAdapter
+        val nativeListAdapter = NativeListAdapter()
+        binding.recyclerView.adapter = nativeListAdapter
+        obtainData(nativeListAdapter)
         return binding.root
     }
 
@@ -54,41 +36,33 @@ class NativeListFragment : Fragment() {
         detachListener?.onFragmentDetached()
     }
 
-    private fun getUserData(): CopyOnWriteArrayList<ListItem> {
-        val list = CopyOnWriteArrayList<ListItem>()
-        repeat(USER_DATA_SIZE) { itemData ->
-            list.add(ListItem.YourDataItem(itemData))
-        }
-        return list
+    private fun obtainData(nativeListAdapter: NativeListAdapter) {
+        val yourDataItems = generateYourData()
+        nativeListAdapter.submitList(yourDataItems.addNativeAdItems())
     }
 
-    private fun addLoadedAd() {
-        val nativeAdList = Appodeal.getNativeAds(Appodeal.getAvailableNativeAdsCount())
-        addPack(nativeAdList)
-    }
+    private fun generateYourData(): List<ListItem> = (1..USER_DATA_SIZE).toList().map { ListItem.YourDataItem(userData = it) }
 
-    private fun addPack(loadedAds: MutableList<NativeAd?>) {
-        var tempSteps = 0
-        for (item in listItems) {
-            if (item is ListItem.NativeAdItem) {
-                tempSteps = 0
-                continue
-            } else {
-                tempSteps++
-            }
-            if (tempSteps == STEPS) {
-                if (loadedAds.isNotEmpty()) {
-                    listItems.add(
-                        listItems.indexOf(item),
-                        ListItem.NativeAdItem(loadedAds.removeAt(loadedAds.lastIndex))
-                    )
-                    nativeListAdapter.submitList(listItems)
-                    nativeListAdapter.notifyItemChanged(listItems.indexOf(item))
+    private fun List<ListItem>.addNativeAdItems() =
+        this.foldIndexed(
+            initial = listOf(),
+            operation = { index: Int, acc: List<ListItem>, yourDataItem: ListItem ->
+                val shouldAdd = index % STEPS == 0 && index != 0
+                if (shouldAdd) {
+                    acc + createDynamicNativeAd() + yourDataItem
                 } else {
-                    break
+                    acc + yourDataItem
                 }
             }
-        }
+        )
+
+    private fun createDynamicNativeAd(): ListItem.DynamicNativeAdItem {
+        return ListItem.DynamicNativeAdItem(
+            getNativeAd = {
+                // obtain to show NativeAd  if possible
+                Appodeal.getNativeAds(1).firstOrNull()
+            }
+        )
     }
 }
 
