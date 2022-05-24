@@ -1,100 +1,54 @@
 package com.appodealstack.demo.nativead
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.appodeal.ads.Appodeal
-import com.appodeal.ads.NativeAd
-import com.appodeal.ads.NativeCallbacks
+import com.appodealstack.demo.nativead.adapter.ListItem
 import com.appodealstack.demo.nativead.databinding.NativeListFragmentBinding
-import java.util.concurrent.CopyOnWriteArrayList
 
 class NativeListFragment : Fragment() {
-
-    private var _binding: NativeListFragmentBinding? = null
-    private val binding get() = _binding!!
-    private var detachListener: FragmentDetachListener? = null
-    private val adapter = NativeListAdapter()
-    private val recyclerList: CopyOnWriteArrayList<DiffItem<*>> = getUserData()
-
-    private val nativeCallbacks: NativeCallbacks = object : NativeCallbacks {
-        override fun onNativeLoaded() {
-            addLoadedAd()
-        }
-
-        override fun onNativeFailedToLoad() {}
-        override fun onNativeShown(nativeAd: NativeAd?) {}
-        override fun onNativeShowFailed(nativeAd: NativeAd?) {}
-        override fun onNativeClicked(nativeAd: NativeAd?) {}
-        override fun onNativeExpired() {}
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is FragmentDetachListener) {
-            detachListener = context
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = NativeListFragmentBinding.inflate(inflater, container, false)
-        Appodeal.setNativeCallbacks(nativeCallbacks)
-        adapter.submitList(getUserData())
-        addLoadedAd()
-        binding.nativeList.adapter = adapter
+        val binding = NativeListFragmentBinding.inflate(inflater, container, false)
+        val nativeListAdapter = NativeListAdapter()
+        binding.recyclerView.adapter = nativeListAdapter
+        obtainData(nativeListAdapter)
         return binding.root
     }
 
-    private fun getUserData(): CopyOnWriteArrayList<DiffItem<*>> {
-        val list = CopyOnWriteArrayList<DiffItem<*>>()
-        for (itemData in 0 until USER_DATA_SIZE) {
-            list.add(DiffItem.DiffUserData(itemData))
-        }
-        return list
+    private fun obtainData(nativeListAdapter: NativeListAdapter) {
+        val yourDataItems = generateYourData()
+        nativeListAdapter.submitList(yourDataItems.addNativeAdItems())
     }
 
-    private fun addLoadedAd() {
-        val nativeAdList = Appodeal.getNativeAds(Appodeal.getAvailableNativeAdsCount())
-        addPack(nativeAdList)
-    }
+    private fun generateYourData(): List<ListItem> = (1..USER_DATA_SIZE).toList().map { ListItem.YourDataItem(userData = it) }
 
-    private fun addPack(loadedAds: MutableList<NativeAd?>) {
-        var tempSteps = 0
-        for (i in recyclerList) {
-            if (i is DiffItem.DiffNativeAd) {
-                tempSteps = 0
-                continue
-            } else {
-                tempSteps++
-            }
-            if (tempSteps == STEPS) {
-                if (loadedAds.isNotEmpty()) {
-                    recyclerList.add(recyclerList.indexOf(i),
-                        DiffItem.DiffNativeAd(loadedAds.removeAt(loadedAds.lastIndex))
-                    )
-                    adapter.submitList(recyclerList)
-                    adapter.notifyItemChanged(recyclerList.indexOf(i))
+    private fun List<ListItem>.addNativeAdItems() =
+        this.foldIndexed(
+            initial = listOf(),
+            operation = { index: Int, acc: List<ListItem>, yourDataItem: ListItem ->
+                val shouldAdd = index % STEPS == 0 && index != 0
+                if (shouldAdd) {
+                    acc + createDynamicNativeAd() + yourDataItem
                 } else {
-                    break
+                    acc + yourDataItem
                 }
             }
-        }
-    }
+        )
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        detachListener?.onFragmentDetached()
+    private fun createDynamicNativeAd(): ListItem.DynamicNativeAdItem {
+        return ListItem.DynamicNativeAdItem(
+            getNativeAd = {
+                // obtain to show NativeAd  if possible
+                Appodeal.getNativeAds(1).firstOrNull()
+            }
+        )
     }
 }
 

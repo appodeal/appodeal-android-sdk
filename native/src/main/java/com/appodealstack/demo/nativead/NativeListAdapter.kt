@@ -5,75 +5,69 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.appodeal.ads.NativeAd
 import com.appodeal.ads.native_ad.views.NativeAdView
 import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
-import com.appodealstack.demo.nativead.DiffItem.DiffNativeAd.Companion.AD_ITEM
-import com.appodealstack.demo.nativead.DiffItem.DiffUserData.Companion.USER_ITEM
-import com.appodealstack.demo.nativead.databinding.UserItemBinding
+import com.appodealstack.demo.nativead.NativeListAdapter.ListHolder
+import com.appodealstack.demo.nativead.NativeListAdapter.ListHolder.DynamicAdViewHolder
+import com.appodealstack.demo.nativead.NativeListAdapter.ListHolder.YourViewHolder
+import com.appodealstack.demo.nativead.adapter.DiffUtils
+import com.appodealstack.demo.nativead.adapter.ListItem
+import com.appodealstack.demo.nativead.adapter.ListItem.DynamicNativeAdItem.Companion.DYNAMIC_AD_ITEM
+import com.appodealstack.demo.nativead.adapter.ListItem.YourDataItem.Companion.USER_ITEM
+import com.appodealstack.demo.nativead.databinding.YourDataItemBinding
 
-class NativeListAdapter() : ListAdapter<DiffItem<*>, RecyclerView.ViewHolder>(DiffUtils()) {
+class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
         return when (viewType) {
-            AD_ITEM -> {
+            DYNAMIC_AD_ITEM -> {
                 val nativeAdView: NativeAdView
                 /**
                  * change to NativeAdViewAppWall(parent.context) || NativeAdViewContentStream(parent.context) || NativeAdViewNewsFeed(parent.context) to check other templates
                  * */
                 nativeAdView = NativeAdViewNewsFeed(parent.context)
-                val params = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-                nativeAdView.layoutParams = params
-                AdViewHolder(nativeAdView)
+                nativeAdView.layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+                DynamicAdViewHolder(nativeAdView)
             }
             else -> {
-                val binding =
-                    UserItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                UserViewHolder(binding)
+                val binding = YourDataItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                YourViewHolder(binding)
             }
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(getItemViewType(position)) {
-            AD_ITEM -> (holder as AdViewHolder).bind(getItem(position) as DiffItem<NativeAd>)
-            USER_ITEM -> (holder as UserViewHolder).bind(getItem(position) as DiffItem<Int>)
+    override fun onBindViewHolder(holder: ListHolder, position: Int) {
+        when (val item = getItem(position)) {
+            is ListItem.YourDataItem -> (holder as YourViewHolder).bind(item)
+            is ListItem.DynamicNativeAdItem -> (holder as DynamicAdViewHolder).bind(item)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when(currentList[position]) {
-            is DiffItem.DiffNativeAd -> AD_ITEM
-            is DiffItem.DiffUserData -> USER_ITEM
+        return when (currentList[position]) {
+            is ListItem.YourDataItem -> USER_ITEM
+            is ListItem.DynamicNativeAdItem -> DYNAMIC_AD_ITEM
         }
     }
 
-    inner class UserViewHolder(private val binding: UserItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(userValue: DiffItem<Int>) {
-            binding.root.text = userValue.getItemData().toString()
+    sealed class ListHolder(root: View) : RecyclerView.ViewHolder(root) {
+        class YourViewHolder(private val binding: YourDataItemBinding) : ListHolder(binding.root) {
+            fun bind(item: ListItem.YourDataItem) {
+                binding.root.text = item.userData.toString()
+            }
         }
-    }
 
-    inner class AdViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        fun bind(nativeAd: DiffItem<NativeAd>) {
-            (itemView as NativeAdView).setNativeAd(nativeAd.getItemData())
+        class DynamicAdViewHolder(itemView: View) : ListHolder(itemView) {
+            fun bind(item: ListItem.DynamicNativeAdItem) {
+                (itemView as NativeAdView).setNativeAd(item.getNativeAd.invoke())
+            }
         }
     }
 }
 
-private class DiffUtils : DiffUtil.ItemCallback<DiffItem<*>>() {
-
-    override fun areItemsTheSame(oldItem: DiffItem<*>, newItem: DiffItem<*>): Boolean {
-        return oldItem.getItemId() == newItem.getItemId()
-    }
-
-    override fun areContentsTheSame(oldItem: DiffItem<*>, newItem: DiffItem<*>): Boolean {
-        return oldItem.getItemHash() == newItem.getItemHash()
-    }
-}

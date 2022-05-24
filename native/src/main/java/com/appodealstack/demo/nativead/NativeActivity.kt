@@ -3,10 +3,9 @@ package com.appodealstack.demo.nativead
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.NativeAd
 import com.appodeal.ads.NativeCallbacks
@@ -18,11 +17,7 @@ import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
 import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.nativead.databinding.ActivityNativeBinding
 
-class NativeActivity : AppCompatActivity(), FragmentDetachListener {
-
-    private var _binding: ActivityNativeBinding? = null
-    private val binding get() = _binding!!
-
+class NativeActivity : AppCompatActivity() {
     /**
      * change to NativeAdViewNewsFeed::class || NativeAdViewContentStream::class || NativeAdViewAppWall::class to check other templates
      * */
@@ -52,18 +47,17 @@ class NativeActivity : AppCompatActivity(), FragmentDetachListener {
         override fun onNativeExpired() {
             showToast("Native was expired")
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Appodeal.setLogLevel(LogLevel.verbose)
-        _binding = ActivityNativeBinding.inflate(layoutInflater)
+        val binding = ActivityNativeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setUpAppodealSDK()
+        setUpAppodealSDK(binding)
     }
 
-    private fun setUpAppodealSDK() {
+    private fun setUpAppodealSDK(binding: ActivityNativeBinding) {
         Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
         Appodeal.initialize(
@@ -72,70 +66,56 @@ class NativeActivity : AppCompatActivity(), FragmentDetachListener {
             Appodeal.NATIVE,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    showToast("Appodeal initialized "
-                            + if(errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors")
-                    if (!errors.isNullOrEmpty()) {
-                        errors.forEach {
-                            Log.e(TAG, "onInitializationFinished: ", it)
-                        }
+                    val initResult = if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+                    showToast("Appodeal initialized $initResult")
+                    errors?.forEach {
+                        Log.e(TAG, "onInitializationFinished: ", it)
                     }
                 }
             })
 
-        binding.showNative.setOnClickListener {
-            val availableNativeAdCount = Appodeal.getAvailableNativeAdsCount()
-            val nativeAds = Appodeal.getNativeAds(availableNativeAdCount)
-            if (nativeAds.isNullOrEmpty()) {
-                showToast("Native ad has not loaded")
-                return@setOnClickListener
-            }
-            val nativeAd = nativeAds[0]
-            if (nativeAd != null && nativeAd.canShow(this, placementName)) {
-                when (nativeAdViewType) {
-                    NativeAdViewAppWall::class -> {
-                        binding.nativeAdViewAppWall.visibility = VISIBLE
-                        binding.nativeAdViewAppWall.setNativeAd(nativeAd)
+        with(binding) {
+            showNative.setOnClickListener {
+                val availableNativeAdCount = Appodeal.getAvailableNativeAdsCount()
+                val nativeAds = Appodeal.getNativeAds(availableNativeAdCount)
+                val nativeAd = nativeAds.firstOrNull()
+                if (nativeAd != null && nativeAd.canShow(this@NativeActivity, placementName)) {
+                    when (nativeAdViewType) {
+                        NativeAdViewAppWall::class -> {
+                            nativeAdViewAppWall.isVisible = true
+                            nativeAdViewAppWall.setNativeAd(nativeAd)
+                        }
+                        NativeAdViewNewsFeed::class -> {
+                            nativeAdViewNewsFeed.isVisible = true
+                            nativeAdViewNewsFeed.setNativeAd(nativeAd)
+                        }
+                        NativeAdViewContentStream::class -> {
+                            nativeAdViewContentStream.isVisible = true
+                            nativeAdViewContentStream.setNativeAd(nativeAd)
+                        }
                     }
-                    NativeAdViewNewsFeed::class -> {
-                        binding.nativeAdViewNewsFeed.visibility = VISIBLE
-                        binding.nativeAdViewNewsFeed.setNativeAd(nativeAd)
-                    }
-                    NativeAdViewContentStream::class -> {
-                        binding.nativeAdViewContentStream.visibility = VISIBLE
-                        binding.nativeAdViewContentStream.setNativeAd(nativeAd)
-                    }
+                } else {
+                    showToast("Cannot show Native")
                 }
-            } else {
-                showToast("Cannot show Native")
+            }
+
+            hideNative.setOnClickListener {
+                when (nativeAdViewType) {
+                    NativeAdViewAppWall::class -> nativeAdViewAppWall.isVisible = false
+                    NativeAdViewNewsFeed::class -> nativeAdViewNewsFeed.isVisible = false
+                    NativeAdViewContentStream::class -> nativeAdViewContentStream.isVisible = false
+                }
+            }
+
+            showInList.setOnClickListener {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.activity_root_container, NativeListFragment())
+                    .addToBackStack(TAG)
+                    .commitAllowingStateLoss()
             }
         }
-        binding.hideNative.setOnClickListener {
-            when (nativeAdViewType) {
-                NativeAdViewAppWall::class -> binding.nativeAdViewAppWall.visibility = GONE
-                NativeAdViewNewsFeed::class -> binding.nativeAdViewNewsFeed.visibility = GONE
-                NativeAdViewContentStream::class -> binding.nativeAdViewContentStream.visibility =
-                    GONE
-            }
-        }
-
-        binding.showInList.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.activity_root_container, NativeListFragment())
-                .addToBackStack(TAG)
-                .commitAllowingStateLoss()
-        }
-
         Appodeal.setNativeCallbacks(nativeCallback)
     }
-
-    override fun onFragmentDetached() {
-        Appodeal.setNativeCallbacks(nativeCallback)
-    }
-}
-
-interface FragmentDetachListener {
-
-    fun onFragmentDetached()
 }
 
 private const val placementName = "default"
