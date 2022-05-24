@@ -47,7 +47,6 @@ class NativeActivity : AppCompatActivity() {
         override fun onNativeExpired() {
             showToast("Native was expired")
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,11 +78,7 @@ class NativeActivity : AppCompatActivity() {
             showNative.setOnClickListener {
                 val availableNativeAdCount = Appodeal.getAvailableNativeAdsCount()
                 val nativeAds = Appodeal.getNativeAds(availableNativeAdCount)
-                if (nativeAds.isNullOrEmpty()) {
-                    showToast("Native ad has not loaded")
-                    return@setOnClickListener
-                }
-                val nativeAd = nativeAds[0]
+                val nativeAd = nativeAds.firstOrNull()
                 if (nativeAd != null && nativeAd.canShow(this@NativeActivity, placementName)) {
                     when (nativeAdViewType) {
                         NativeAdViewAppWall::class -> {

@@ -16,7 +16,7 @@ import com.appodealstack.demo.nativead.adapter.DiffUtils
 import com.appodealstack.demo.nativead.adapter.ListItem
 import com.appodealstack.demo.nativead.adapter.ListItem.DynamicNativeAdItem.Companion.DYNAMIC_AD_ITEM
 import com.appodealstack.demo.nativead.adapter.ListItem.YourDataItem.Companion.USER_ITEM
-import com.appodealstack.demo.nativead.databinding.UserItemBinding
+import com.appodealstack.demo.nativead.databinding.YourDataItemBinding
 
 class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
 
@@ -28,12 +28,11 @@ class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
                  * change to NativeAdViewAppWall(parent.context) || NativeAdViewContentStream(parent.context) || NativeAdViewNewsFeed(parent.context) to check other templates
                  * */
                 nativeAdView = NativeAdViewNewsFeed(parent.context)
-                val params = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-                nativeAdView.layoutParams = params
+                nativeAdView.layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
                 DynamicAdViewHolder(nativeAdView)
             }
             else -> {
-                val binding = UserItemBinding.inflate(
+                val binding = YourDataItemBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -58,7 +57,7 @@ class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
     }
 
     sealed class ListHolder(root: View) : RecyclerView.ViewHolder(root) {
-        class YourViewHolder(private val binding: UserItemBinding) : ListHolder(binding.root) {
+        class YourViewHolder(private val binding: YourDataItemBinding) : ListHolder(binding.root) {
             fun bind(item: ListItem.YourDataItem) {
                 binding.root.text = item.userData.toString()
             }
