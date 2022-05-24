@@ -9,16 +9,14 @@ import androidx.fragment.app.Fragment
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.NativeAd
 import com.appodeal.ads.NativeCallbacks
+import com.appodealstack.demo.nativead.adapter.ListItem
 import com.appodealstack.demo.nativead.databinding.NativeListFragmentBinding
 import java.util.concurrent.CopyOnWriteArrayList
 
 class NativeListFragment : Fragment() {
-
-    private var _binding: NativeListFragmentBinding? = null
-    private val binding get() = _binding!!
     private var detachListener: FragmentDetachListener? = null
-    private val adapter = NativeListAdapter()
-    private val recyclerList: CopyOnWriteArrayList<DiffItem<*>> = getUserData()
+    private val nativeListAdapter = NativeListAdapter()
+    private val listItems: CopyOnWriteArrayList<ListItem> = getUserData()
 
     private val nativeCallbacks: NativeCallbacks = object : NativeCallbacks {
         override fun onNativeLoaded() {
@@ -43,18 +41,23 @@ class NativeListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = NativeListFragmentBinding.inflate(inflater, container, false)
+        val binding = NativeListFragmentBinding.inflate(inflater, container, false)
         Appodeal.setNativeCallbacks(nativeCallbacks)
-        adapter.submitList(getUserData())
+        nativeListAdapter.submitList(getUserData())
         addLoadedAd()
-        binding.nativeList.adapter = adapter
+        binding.nativeList.adapter = nativeListAdapter
         return binding.root
     }
 
-    private fun getUserData(): CopyOnWriteArrayList<DiffItem<*>> {
-        val list = CopyOnWriteArrayList<DiffItem<*>>()
-        for (itemData in 0 until USER_DATA_SIZE) {
-            list.add(DiffItem.DiffUserData(itemData))
+    override fun onDetach() {
+        super.onDetach()
+        detachListener?.onFragmentDetached()
+    }
+
+    private fun getUserData(): CopyOnWriteArrayList<ListItem> {
+        val list = CopyOnWriteArrayList<ListItem>()
+        repeat(USER_DATA_SIZE) { itemData ->
+            list.add(ListItem.YourDataItem(itemData))
         }
         return list
     }
@@ -66,8 +69,8 @@ class NativeListFragment : Fragment() {
 
     private fun addPack(loadedAds: MutableList<NativeAd?>) {
         var tempSteps = 0
-        for (i in recyclerList) {
-            if (i is DiffItem.DiffNativeAd) {
+        for (item in listItems) {
+            if (item is ListItem.NativeAdItem) {
                 tempSteps = 0
                 continue
             } else {
@@ -75,26 +78,17 @@ class NativeListFragment : Fragment() {
             }
             if (tempSteps == STEPS) {
                 if (loadedAds.isNotEmpty()) {
-                    recyclerList.add(recyclerList.indexOf(i),
-                        DiffItem.DiffNativeAd(loadedAds.removeAt(loadedAds.lastIndex))
+                    listItems.add(
+                        listItems.indexOf(item),
+                        ListItem.NativeAdItem(loadedAds.removeAt(loadedAds.lastIndex))
                     )
-                    adapter.submitList(recyclerList)
-                    adapter.notifyItemChanged(recyclerList.indexOf(i))
+                    nativeListAdapter.submitList(listItems)
+                    nativeListAdapter.notifyItemChanged(listItems.indexOf(item))
                 } else {
                     break
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        detachListener?.onFragmentDetached()
     }
 }
 

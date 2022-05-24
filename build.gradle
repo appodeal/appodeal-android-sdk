@@ -16,6 +16,13 @@ allprojects {
         mavenCentral()
         // Add Appodeal repository
         maven { url "https://artifactory.appodeal.com/appodeal" }
+        maven {
+            url 'https://artifactory.appodeal.com:443/appodeal-private'
+            credentials {
+                username = System.getenv("APD_USERNAME")
+                password = System.getenv("APD_USERPASSWORD")
+            }
+        }
     }
 }
 
