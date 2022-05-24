@@ -18,36 +18,11 @@ import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.nativead.databinding.ActivityNativeBinding
 
 class NativeActivity : AppCompatActivity() {
+
     /**
      * change to NativeAdViewNewsFeed::class || NativeAdViewContentStream::class || NativeAdViewAppWall::class to check other templates
      * */
     private val nativeAdViewType = NativeAdViewAppWall::class
-
-    private val nativeCallback = object : NativeCallbacks {
-        override fun onNativeLoaded() {
-            showToast("Native was loaded")
-        }
-
-        override fun onNativeFailedToLoad() {
-            showToast("Native failed to load")
-        }
-
-        override fun onNativeClicked(nativeAd: NativeAd?) {
-            showToast("Native was clicked")
-        }
-
-        override fun onNativeShowFailed(nativeAd: NativeAd?) {
-            showToast("Native failed to show")
-        }
-
-        override fun onNativeShown(nativeAd: NativeAd?) {
-            showToast("Native was shown")
-        }
-
-        override fun onNativeExpired() {
-            showToast("Native was expired")
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +53,11 @@ class NativeActivity : AppCompatActivity() {
             showNative.setOnClickListener {
                 val availableNativeAdCount = Appodeal.getAvailableNativeAdsCount()
                 val nativeAds = Appodeal.getNativeAds(availableNativeAdCount)
-                val nativeAd = nativeAds.firstOrNull()
+                if (nativeAds.isNullOrEmpty()) {
+                    showToast("Native ad has not loaded")
+                    return@setOnClickListener
+                }
+                val nativeAd = nativeAds[0]
                 if (nativeAd != null && nativeAd.canShow(this@NativeActivity, placementName)) {
                     when (nativeAdViewType) {
                         NativeAdViewAppWall::class -> {
@@ -98,7 +77,6 @@ class NativeActivity : AppCompatActivity() {
                     showToast("Cannot show Native")
                 }
             }
-
             hideNative.setOnClickListener {
                 when (nativeAdViewType) {
                     NativeAdViewAppWall::class -> nativeAdViewAppWall.isVisible = false
@@ -114,7 +92,32 @@ class NativeActivity : AppCompatActivity() {
                     .commitAllowingStateLoss()
             }
         }
-        Appodeal.setNativeCallbacks(nativeCallback)
+
+        Appodeal.setNativeCallbacks(object : NativeCallbacks {
+            override fun onNativeLoaded() {
+                showToast("Native was loaded")
+            }
+
+            override fun onNativeFailedToLoad() {
+                showToast("Native failed to load")
+            }
+
+            override fun onNativeClicked(nativeAd: NativeAd?) {
+                showToast("Native was clicked")
+            }
+
+            override fun onNativeShowFailed(nativeAd: NativeAd?) {
+                showToast("Native failed to show")
+            }
+
+            override fun onNativeShown(nativeAd: NativeAd?) {
+                showToast("Native was shown")
+            }
+
+            override fun onNativeExpired() {
+                showToast("Native was expired")
+            }
+        })
     }
 }
 
