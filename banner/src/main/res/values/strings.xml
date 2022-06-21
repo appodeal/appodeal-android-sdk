@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Appodeal Banner</string>
+    <string name="show_banner">SHOW BANNER</string>
+    <string name="hide_banner">HIDE BANNER</string>
+</resources>
