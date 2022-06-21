@@ -52,7 +52,7 @@ class InterstitialActivity : AppCompatActivity() {
             }
 
             autocacheInterstitial.setOnCheckedChangeListener { _, isChecked ->
-                autocacheInterstitial.isEnabled = !isChecked
+                cacheInterstitial.isEnabled = !isChecked
                 Appodeal.setAutoCache(Appodeal.INTERSTITIAL, isChecked)
             }
         }

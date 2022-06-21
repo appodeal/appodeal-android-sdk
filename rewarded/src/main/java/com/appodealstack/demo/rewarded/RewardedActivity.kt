@@ -39,20 +39,21 @@ class RewardedActivity : AppCompatActivity() {
             })
 
         with(binding) {
-            cacheRewarded.setOnClickListener {
-                Appodeal.cache(this@RewardedActivity, Appodeal.REWARDED_VIDEO)
-            }
-
-            autocacheRewarded.setOnCheckedChangeListener { _, isChecked ->
-                binding.cacheRewarded.isEnabled = !isChecked
-                Appodeal.setAutoCache(Appodeal.REWARDED_VIDEO, isChecked)
-            }
             showRewarded.setOnClickListener {
                 if (Appodeal.canShow(Appodeal.REWARDED_VIDEO, placementName)) {
                     Appodeal.show(this@RewardedActivity, Appodeal.REWARDED_VIDEO, placementName)
                 } else {
                     showToast("Cannot show rewarded video")
                 }
+            }
+
+            cacheRewarded.setOnClickListener {
+                Appodeal.cache(this@RewardedActivity, Appodeal.REWARDED_VIDEO)
+            }
+
+            autocacheRewarded.setOnCheckedChangeListener { _, isChecked ->
+                cacheRewarded.isEnabled = !isChecked
+                Appodeal.setAutoCache(Appodeal.REWARDED_VIDEO, isChecked)
             }
         }
 
