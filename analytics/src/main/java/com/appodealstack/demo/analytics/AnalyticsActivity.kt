@@ -13,6 +13,8 @@ import com.appodeal.ads.inapp.InAppPurchase
 import com.appodeal.ads.inapp.InAppPurchaseValidateCallback
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
+import com.appodeal.ads.revenue.AdRevenueCallbacks
+import com.appodeal.ads.revenue.RevenueInfo
 import com.appodeal.ads.service.ServiceError
 import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.analytics.databinding.ActivityAnalyticsBinding
@@ -45,6 +47,11 @@ class AnalyticsActivity : AppCompatActivity() {
                     }
                 }
             })
+        Appodeal.setAdRevenueCallbacks(object : AdRevenueCallbacks {
+            override fun onAdRevenueReceive(revenueInfo: RevenueInfo) {
+                // Called whenever SDK receives revenue information for an ad
+            }
+        })
         with(binding) {
             validateInapp.setOnClickListener { viewModel.flowInAppPurchase(this@AnalyticsActivity) }
             validateSubscription.setOnClickListener { viewModel.flowSubsPurchase(this@AnalyticsActivity) }

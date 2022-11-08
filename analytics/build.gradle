@@ -34,14 +34,13 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.billingclient:billing:5.0.0'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.activity:activity-ktx:1.4.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Appodeal SDK 3.0.0
-    implementation 'com.appodeal.ads:sdk:3.0.0.+'
+    // Appodeal SDK 3.0.1
+    implementation 'com.appodeal.ads:sdk:3.0.1.+'
     // Google billing library for Appodeal purchase validation
     implementation 'com.android.billingclient:billing-ktx:5.0.0'
 }
