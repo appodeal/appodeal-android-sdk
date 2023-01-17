@@ -40,8 +40,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Appodeal SDK 3.0.0
-    implementation 'com.appodeal.ads:sdk:3.0.0.+'
+    // Appodeal SDK 3.0.2
+    implementation 'com.appodeal.ads:sdk:3.0.2.+'
     // Google billing library for Appodeal purchase validation
     implementation 'com.android.billingclient:billing-ktx:5.0.0'
 }
