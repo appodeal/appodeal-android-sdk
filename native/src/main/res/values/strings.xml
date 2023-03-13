@@ -3,5 +3,10 @@
     <string name="show_native">SHOW NATIVE</string>
     <string name="hide_native">HIDE NATIVE</string>
     <string name="show_in_list">SHOW IN LIST</string>
-    <string name="native_list">Native List</string>
+
+    <string name="native_custom_ad_text">Ad</string>
+    <string name="native_custom_icon_description">Appodeal banner icon</string>
+    <string name="native_custom_title_tools">Appodeal</string>
+    <string name="native_custom_description_tools">This is Appodeal test ad.</string>
+    <string name="native_custom_cta_tools">Learn more</string>
 </resources>

@@ -16,13 +16,15 @@ import com.appodeal.ads.native_ad.views.NativeAdViewContentStream
 import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
 import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.nativead.databinding.ActivityNativeBinding
+import com.appodealstack.demo.nativead.view.NativeAdViewCustom
 
 class NativeActivity : AppCompatActivity() {
 
     /**
-     * change to NativeAdViewNewsFeed::class || NativeAdViewContentStream::class || NativeAdViewAppWall::class to check other templates
+     * change to NativeAdViewNewsFeed::class or NativeAdViewContentStream::class or
+     * NativeAdViewAppWall::class or NativeAdViewCustom:: class to check other templates
      * */
-    private val nativeAdViewType = NativeAdViewAppWall::class
+    private val nativeAdViewType = NativeAdViewNewsFeed::class
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +43,8 @@ class NativeActivity : AppCompatActivity() {
             Appodeal.NATIVE,
             object : ApdInitializationCallback {
                 override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    val initResult = if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+                    val initResult =
+                        if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
                     showToast("Appodeal initialized $initResult")
                     errors?.forEach {
                         Log.e(TAG, "onInitializationFinished: ", it)
@@ -53,12 +56,12 @@ class NativeActivity : AppCompatActivity() {
             showNative.setOnClickListener {
                 val availableNativeAdCount = Appodeal.getAvailableNativeAdsCount()
                 val nativeAds = Appodeal.getNativeAds(availableNativeAdCount)
-                if (nativeAds.isNullOrEmpty()) {
+                if (nativeAds.isEmpty()) {
                     showToast("Native ad has not loaded")
                     return@setOnClickListener
                 }
-                val nativeAd = nativeAds[0]
-                if (nativeAd != null && nativeAd.canShow(this@NativeActivity, placementName)) {
+                val nativeAd = nativeAds.first()
+                if (nativeAd.canShow(this@NativeActivity, placementName)) {
                     when (nativeAdViewType) {
                         NativeAdViewAppWall::class -> {
                             nativeAdViewAppWall.isVisible = true
@@ -72,6 +75,10 @@ class NativeActivity : AppCompatActivity() {
                             nativeAdViewContentStream.isVisible = true
                             nativeAdViewContentStream.setNativeAd(nativeAd)
                         }
+                        NativeAdViewCustom::class -> {
+                            nativeAdViewCustom.isVisible = true
+                            nativeAdViewCustom.setNativeAd(nativeAd)
+                        }
                     }
                 } else {
                     showToast("Cannot show Native")
@@ -79,9 +86,22 @@ class NativeActivity : AppCompatActivity() {
             }
             hideNative.setOnClickListener {
                 when (nativeAdViewType) {
-                    NativeAdViewAppWall::class -> nativeAdViewAppWall.isVisible = false
-                    NativeAdViewNewsFeed::class -> nativeAdViewNewsFeed.isVisible = false
-                    NativeAdViewContentStream::class -> nativeAdViewContentStream.isVisible = false
+                    NativeAdViewAppWall::class -> {
+                        nativeAdViewAppWall.isVisible = false
+                        nativeAdViewAppWall.unregisterViewForInteraction()
+                    }
+                    NativeAdViewNewsFeed::class -> {
+                        nativeAdViewNewsFeed.isVisible = false
+                        nativeAdViewNewsFeed.unregisterViewForInteraction()
+                    }
+                    NativeAdViewContentStream::class -> {
+                        nativeAdViewContentStream.isVisible = false
+                        nativeAdViewContentStream.unregisterViewForInteraction()
+                    }
+                    NativeAdViewCustom::class -> {
+                        nativeAdViewCustom.isVisible = false
+                        nativeAdViewCustom.unregisterViewForInteraction()
+                    }
                 }
             }
 
