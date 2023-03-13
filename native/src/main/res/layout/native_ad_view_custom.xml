@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.appodeal.ads.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/native_custom_view_background">
+
+    <TextView
+        android:id="@+id/native_custom_ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|top"
+        android:background="@color/native_custom_ad_background"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="@string/native_custom_ad_text"
+        android:textColor="@color/native_custom_ad_text_color"
+        android:textSize="@dimen/native_custom_ad_text_size"
+        android:textStyle="normal"
+        tools:ignore="SmallSp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/native_custom_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/native_custom_content_margin_h"
+        android:layout_marginVertical="@dimen/native_custom_content_margin_v">
+
+        <com.appodeal.ads.NativeMediaView
+            android:id="@+id/native_custom_media"
+            android:layout_width="@dimen/native_custom_media_w"
+            android:layout_height="@dimen/native_custom_media_h"
+            app:layout_constraintEnd_toEndOf="@+id/native_custom_content"
+            app:layout_constraintStart_toStartOf="@+id/native_custom_content"
+            app:layout_constraintTop_toTopOf="@+id/native_custom_content" />
+
+        <com.appodeal.ads.NativeIconView
+            android:id="@+id/native_custom_icon"
+            android:layout_width="@dimen/native_custom_icon_w_h"
+            android:layout_height="@dimen/native_custom_icon_w_h"
+            android:background="@drawable/native_custom_round_outline"
+            android:contentDescription="@string/native_custom_icon_description"
+            app:layout_constraintBottom_toBottomOf="@+id/native_custom_content"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintStart_toStartOf="@+id/native_custom_content"
+            app:layout_constraintTop_toBottomOf="@+id/native_custom_media" />
+
+        <TextView
+            android:id="@+id/native_custom_title"
+            android:layout_width="@dimen/native_custom_title_w"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/native_custom_title_margin"
+            android:layout_marginTop="@dimen/native_custom_title_margin"
+            android:layout_marginEnd="@dimen/native_custom_title_margin"
+            android:background="@android:color/transparent"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/native_custom_title_text_color"
+            android:textSize="@dimen/native_custom_title_text_size"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toTopOf="@+id/native_custom_description"
+            app:layout_constraintEnd_toStartOf="@+id/native_custom_cta"
+            app:layout_constraintStart_toEndOf="@+id/native_custom_icon"
+            app:layout_constraintTop_toBottomOf="@+id/native_custom_media"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="@string/native_custom_title_tools" />
+
+        <TextView
+            android:id="@+id/native_custom_description"
+            android:layout_width="@dimen/native_custom_description_w"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/native_custom_description_margin"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textSize="@dimen/native_custom_description_text_size"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/native_custom_content"
+            app:layout_constraintEnd_toEndOf="@+id/native_custom_title"
+            app:layout_constraintStart_toStartOf="@+id/native_custom_title"
+            app:layout_constraintTop_toBottomOf="@+id/native_custom_title"
+            tools:text="@string/native_custom_description_tools" />
+
+        <Button
+            android:id="@+id/native_custom_cta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/native_custom_round_outline"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/native_custom_cta_padding_h"
+            android:singleLine="true"
+            android:textColor="@color/native_custom_cta_text_color"
+            android:textSize="@dimen/native_custom_cta_text_size"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/native_custom_content"
+            app:layout_constraintEnd_toEndOf="@+id/native_custom_content"
+            app:layout_constraintTop_toBottomOf="@+id/native_custom_media"
+            tools:text="@string/native_custom_cta_tools" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.appodeal.ads.NativeAdView>
