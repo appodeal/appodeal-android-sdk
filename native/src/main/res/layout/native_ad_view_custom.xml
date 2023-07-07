@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.appodeal.ads.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.appodeal.ads.nativead.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -29,18 +29,19 @@
         android:layout_marginHorizontal="@dimen/native_custom_content_margin_h"
         android:layout_marginVertical="@dimen/native_custom_content_margin_v">
 
-        <com.appodeal.ads.NativeMediaView
+        <com.appodeal.ads.nativead.NativeMediaView
             android:id="@+id/native_custom_media"
             android:layout_width="@dimen/native_custom_media_w"
-            android:layout_height="@dimen/native_custom_media_h"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="@+id/native_custom_content"
             app:layout_constraintStart_toStartOf="@+id/native_custom_content"
             app:layout_constraintTop_toTopOf="@+id/native_custom_content" />
 
-        <com.appodeal.ads.NativeIconView
+        <com.appodeal.ads.nativead.NativeIconView
             android:id="@+id/native_custom_icon"
             android:layout_width="@dimen/native_custom_icon_w_h"
             android:layout_height="@dimen/native_custom_icon_w_h"
+            android:layout_marginTop="8dp"
             android:background="@drawable/native_custom_round_outline"
             android:contentDescription="@string/native_custom_icon_description"
             app:layout_constraintBottom_toBottomOf="@+id/native_custom_content"
@@ -90,6 +91,7 @@
             android:id="@+id/native_custom_cta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/native_custom_cta_margin_t"
             android:background="@drawable/native_custom_round_outline"
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
@@ -104,4 +106,4 @@
             tools:text="@string/native_custom_cta_tools" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.appodeal.ads.NativeAdView>
+</com.appodeal.ads.nativead.NativeAdView>

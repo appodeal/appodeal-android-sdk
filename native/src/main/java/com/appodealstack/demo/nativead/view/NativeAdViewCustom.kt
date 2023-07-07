@@ -15,21 +15,18 @@ class NativeAdViewCustom @JvmOverloads constructor(
     private val binding =
         NativeAdViewCustomBinding.inflate(LayoutInflater.from(context), this, true)
 
-    fun setNativeAd(nativeAd: NativeAd) = with(binding) {
+    fun registerView(nativeAd: NativeAd) = with(binding) {
         val nativeAdView = root
-        val descriptionView = nativeCustomDescription
-        descriptionView.text = nativeAd.description
-        descriptionView.isSelected = true
-        nativeAdView.titleView = nativeCustomTitle.apply { text = nativeAd.title }
-        nativeAdView.descriptionView = descriptionView
-        nativeAdView.callToActionView = nativeCustomCta.apply { text = nativeAd.callToAction }
-        nativeAdView.setNativeIconView(nativeCustomIcon.apply { clipToOutline = true })
-        nativeAdView.setNativeMediaView(nativeCustomMedia)
+        nativeAdView.titleView = nativeCustomTitle
+        nativeAdView.descriptionView = nativeCustomDescription
+        nativeAdView.callToActionView = nativeCustomCta
+        nativeAdView.iconView = nativeCustomIcon
+        nativeAdView.mediaView = nativeCustomMedia
         nativeAdView.registerView(nativeAd)
     }
 
-    fun unregisterViewForInteraction() = with(binding) {
+    fun unregisterView() = with(binding) {
         val nativeAdView = root
-        nativeAdView.unregisterViewForInteraction()
+        nativeAdView.unregisterView()
     }
 }

@@ -6,10 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.appodeal.ads.Appodeal
+import com.appodeal.ads.NativeAd
 import com.appodealstack.demo.nativead.adapter.ListItem
 import com.appodealstack.demo.nativead.databinding.NativeListFragmentBinding
 
 class NativeListFragment : Fragment() {
+
+    /**
+     * Retrieves a native ad instance for binding.
+     *
+     * @return A [NativeAd] instance if available, or null if no native ads are present.
+     */
+    private val getNativeAd: () -> NativeAd? = { Appodeal.getNativeAds(1).firstOrNull() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +35,6 @@ class NativeListFragment : Fragment() {
         nativeListAdapter.submitList(yourDataItems.addNativeAdItems())
     }
 
-    private fun generateYourData(): List<ListItem> = (1..USER_DATA_SIZE).toList().map { ListItem.YourDataItem(userData = it) }
-
     private fun List<ListItem>.addNativeAdItems() =
         this.foldIndexed(
             initial = listOf(),
@@ -42,14 +48,11 @@ class NativeListFragment : Fragment() {
             }
         )
 
-    private fun createDynamicNativeAd(): ListItem.DynamicNativeAdItem {
-        return ListItem.DynamicNativeAdItem(
-            getNativeAd = {
-                // obtain to show NativeAd  if possible
-                Appodeal.getNativeAds(1).firstOrNull()
-            }
-        )
-    }
+    private fun generateYourData(): List<ListItem> =
+        (1..USER_DATA_SIZE).toList().map { ListItem.YourDataItem(userData = it) }
+
+    private fun createDynamicNativeAd(): ListItem.DynamicNativeAdItem =
+        ListItem.DynamicNativeAdItem(getNativeAd = getNativeAd)
 }
 
 private const val USER_DATA_SIZE = 200
