@@ -4,5 +4,5 @@
     <color name="native_custom_ad_background">#FCB41C</color>
     <color name="native_custom_ad_text_color">#FFFFFF</color>
     <color name="native_custom_title_text_color">#000000</color>
-    <color name="native_custom_cta_text_color">#FFFFFF</color>
+    <color name="native_custom_cta_text_color">#000000</color>
 </resources>

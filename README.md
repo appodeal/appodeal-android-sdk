@@ -1,6 +1,6 @@
 # Appodeal Android SDK
 
-[![](https://img.shields.io/badge/SDK%20version-Beta%203.1.3-green)](https://wiki.appodeal.com/en/android/get-started)
+[![](https://img.shields.io/badge/SDK%20version-Alpha%203.2.0-green)](https://wiki.appodeal.com/en/android/get-started)
 
 # Examples
 

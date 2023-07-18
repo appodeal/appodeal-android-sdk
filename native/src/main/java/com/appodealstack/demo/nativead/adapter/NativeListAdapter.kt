@@ -1,20 +1,22 @@
-package com.appodealstack.demo.nativead
+package com.appodealstack.demo.nativead.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.appodeal.ads.nativead.NativeAdView
+import com.appodeal.ads.nativead.NativeAdViewAppWall
+import com.appodeal.ads.nativead.NativeAdViewContentStream
 import com.appodeal.ads.nativead.NativeAdViewNewsFeed
-import com.appodealstack.demo.nativead.NativeListAdapter.ListHolder
-import com.appodealstack.demo.nativead.NativeListAdapter.ListHolder.DynamicAdViewHolder
-import com.appodealstack.demo.nativead.NativeListAdapter.ListHolder.YourViewHolder
-import com.appodealstack.demo.nativead.adapter.DiffUtils
-import com.appodealstack.demo.nativead.adapter.ListItem
+import com.appodealstack.demo.nativead.NativeActivity
+import com.appodealstack.demo.nativead.adapter.NativeListAdapter.ListHolder
+import com.appodealstack.demo.nativead.adapter.NativeListAdapter.ListHolder.DynamicAdViewHolder
+import com.appodealstack.demo.nativead.adapter.NativeListAdapter.ListHolder.YourViewHolder
 import com.appodealstack.demo.nativead.adapter.ListItem.DynamicNativeAdItem.Companion.DYNAMIC_AD_ITEM
 import com.appodealstack.demo.nativead.adapter.ListItem.YourDataItem.Companion.USER_ITEM
+import com.appodealstack.demo.nativead.databinding.NativeAdViewCustomBinding
 import com.appodealstack.demo.nativead.databinding.YourDataItemBinding
 
 class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
@@ -22,10 +24,7 @@ class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
         return when (viewType) {
             DYNAMIC_AD_ITEM -> {
-                /**
-                 * change to NativeAdViewAppWall(parent.context) || NativeAdViewContentStream(parent.context) || NativeAdViewNewsFeed(parent.context) to check other templates
-                 * */
-                val nativeAdView = NativeAdViewNewsFeed(parent.context)
+                val nativeAdView = createNativeAdView(parent.context)
                 DynamicAdViewHolder(nativeAdView)
             }
             else -> {
@@ -59,10 +58,28 @@ class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
 
         class DynamicAdViewHolder(itemView: View) : ListHolder(itemView) {
             fun bind(item: ListItem.DynamicNativeAdItem) {
-                val nativeAd = item.getNativeAd() ?: return
-                val nativeAdView = itemView as NativeAdView
-                nativeAdView.isVisible = true
-                nativeAdView.registerView(nativeAd)
+                val nativeAd = item.getNativeAd.invoke()
+                if (nativeAd != null) {
+                    (itemView as NativeAdView).registerView(nativeAd)
+                }
+            }
+        }
+    }
+
+    private fun createNativeAdView(context: Context): NativeAdView {
+        return when (NativeActivity.nativeAdViewType) {
+            NativeAdViewAppWall::class -> {
+                NativeAdViewAppWall(context)
+            }
+            NativeAdViewNewsFeed::class -> {
+                NativeAdViewNewsFeed(context)
+            }
+            NativeAdViewContentStream::class -> {
+                NativeAdViewContentStream(context)
+            }
+            else -> {
+                NativeAdViewCustomBinding
+                    .inflate(LayoutInflater.from(context), null, false).root
             }
         }
     }
