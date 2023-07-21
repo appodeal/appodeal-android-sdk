@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.NativeAd
 import com.appodeal.ads.NativeCallbacks
@@ -82,15 +83,19 @@ class NativeActivity : AppCompatActivity() {
             hideNative.setOnClickListener {
                 when (nativeAdViewType) {
                     NativeAdViewAppWall::class -> {
+                        nativeAdViewAppWall.isVisible = false
                         nativeAdViewAppWall.unregisterView()
                     }
                     NativeAdViewNewsFeed::class -> {
+                        nativeAdViewNewsFeed.isVisible = false
                         nativeAdViewNewsFeed.unregisterView()
                     }
                     NativeAdViewContentStream::class -> {
+                        nativeAdViewContentStream.isVisible = false
                         nativeAdViewContentStream.unregisterView()
                     }
                     else -> {
+                        nativeAdViewCustom.root.isVisible = false
                         nativeAdViewCustom.root.unregisterView()
                     }
                 }
@@ -131,6 +136,7 @@ class NativeActivity : AppCompatActivity() {
     }
 
     private fun configureNativeAdView(nativeAdView: NativeAdView) {
+        nativeAdView.isVisible = true
         nativeAdView.setAdChoicesPosition(Position.START_TOP)
         nativeAdView.setAdAttributionBackground(Color.RED)
         nativeAdView.setAdAttributionTextColor(Color.WHITE)

@@ -11,11 +11,11 @@ import com.appodeal.ads.nativead.NativeAdViewAppWall
 import com.appodeal.ads.nativead.NativeAdViewContentStream
 import com.appodeal.ads.nativead.NativeAdViewNewsFeed
 import com.appodealstack.demo.nativead.NativeActivity
+import com.appodealstack.demo.nativead.adapter.ListItem.DynamicNativeAdItem.Companion.DYNAMIC_AD_ITEM
+import com.appodealstack.demo.nativead.adapter.ListItem.YourDataItem.Companion.USER_ITEM
 import com.appodealstack.demo.nativead.adapter.NativeListAdapter.ListHolder
 import com.appodealstack.demo.nativead.adapter.NativeListAdapter.ListHolder.DynamicAdViewHolder
 import com.appodealstack.demo.nativead.adapter.NativeListAdapter.ListHolder.YourViewHolder
-import com.appodealstack.demo.nativead.adapter.ListItem.DynamicNativeAdItem.Companion.DYNAMIC_AD_ITEM
-import com.appodealstack.demo.nativead.adapter.ListItem.YourDataItem.Companion.USER_ITEM
 import com.appodealstack.demo.nativead.databinding.NativeAdViewCustomBinding
 import com.appodealstack.demo.nativead.databinding.YourDataItemBinding
 
@@ -58,29 +58,18 @@ class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
 
         class DynamicAdViewHolder(itemView: View) : ListHolder(itemView) {
             fun bind(item: ListItem.DynamicNativeAdItem) {
-                val nativeAd = item.getNativeAd.invoke()
-                if (nativeAd != null) {
-                    (itemView as NativeAdView).registerView(nativeAd)
-                }
+                val nativeAd = item.getNativeAd.invoke() ?: return
+                (itemView as NativeAdView).registerView(nativeAd)
             }
         }
     }
 
     private fun createNativeAdView(context: Context): NativeAdView {
         return when (NativeActivity.nativeAdViewType) {
-            NativeAdViewAppWall::class -> {
-                NativeAdViewAppWall(context)
-            }
-            NativeAdViewNewsFeed::class -> {
-                NativeAdViewNewsFeed(context)
-            }
-            NativeAdViewContentStream::class -> {
-                NativeAdViewContentStream(context)
-            }
-            else -> {
-                NativeAdViewCustomBinding
-                    .inflate(LayoutInflater.from(context), null, false).root
-            }
+            NativeAdViewAppWall::class -> NativeAdViewAppWall(context)
+            NativeAdViewNewsFeed::class -> NativeAdViewNewsFeed(context)
+            NativeAdViewContentStream::class -> NativeAdViewContentStream(context)
+            else -> NativeAdViewCustomBinding.inflate(LayoutInflater.from(context), null, false).root
         }
     }
 }
