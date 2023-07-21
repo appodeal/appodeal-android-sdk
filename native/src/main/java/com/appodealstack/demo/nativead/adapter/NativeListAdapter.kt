@@ -11,6 +11,7 @@ import com.appodeal.ads.nativead.NativeAdViewAppWall
 import com.appodeal.ads.nativead.NativeAdViewContentStream
 import com.appodeal.ads.nativead.NativeAdViewNewsFeed
 import com.appodealstack.demo.nativead.NativeActivity
+import com.appodealstack.demo.nativead.NativeActivity.Companion.configureNativeAdView
 import com.appodealstack.demo.nativead.adapter.ListItem.DynamicNativeAdItem.Companion.DYNAMIC_AD_ITEM
 import com.appodealstack.demo.nativead.adapter.ListItem.YourDataItem.Companion.USER_ITEM
 import com.appodealstack.demo.nativead.adapter.NativeListAdapter.ListHolder
@@ -65,12 +66,14 @@ class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
     }
 
     private fun createNativeAdView(context: Context): NativeAdView {
-        return when (NativeActivity.nativeAdViewType) {
+        val nativeAdView = when (NativeActivity.nativeAdViewType) {
             NativeAdViewAppWall::class -> NativeAdViewAppWall(context)
             NativeAdViewNewsFeed::class -> NativeAdViewNewsFeed(context)
             NativeAdViewContentStream::class -> NativeAdViewContentStream(context)
             else -> NativeAdViewCustomBinding.inflate(LayoutInflater.from(context), null, false).root
         }
+        configureNativeAdView(nativeAdView)
+        return nativeAdView
     }
 }
 

@@ -7,13 +7,13 @@ template.
 All of them are inherited from the same `NativeAdView` class.
 
 `NativeAdView` consists of the following components:
-1. `NativeIconView` - Icon of the native ad.
-2. `AdAttributionView` - Advertising Indicator. This is a TextView labeled "Ad".
-3. `TitleVIew` - Title of the native ad.
-4. `DescriptionView` - Text descriptionView of the native ad.
-5. `RatingBarView` - Rating of the app in [0-5] range.
-6. `NativeMediaView` - Media content of the native ad.
-7. `CallToActionView` - Button for click.
+1. `NativeIconView` - Icon of the native ad;
+2. `AdAttributionView` - Advertising Indicator. This is a TextView labeled "Ad";
+3. `TitleVIew` - Title of the native ad;
+4. `DescriptionView` - Text descriptionView of the native ad;
+5. `RatingBarView` - Rating of the app in [0-5] range;
+6. `NativeMediaView` - Media content of the native ad;
+7. `CallToActionView` - Button for click;
 8. `AdChoiceView` - Special ad icon provided by ad network.
 
 ## **Templates**:
@@ -26,14 +26,14 @@ To display them, all you need to do is:
 
 - `NativeAdViewNewsFeed`;
 - `NativeAdViewAppWall`;
-- `NativeAdViewContentStream`
+- `NativeAdViewContentStream`.
 
 ## **NativeAdView for custom implementation**:
 
 To display it, all you need to do is:
-1. Create a `NativeAdVIew` class programmatically or in your layout file
-2. Inside the created `NativeAdVIew`, arrange all the `View`/`IconView`/`MediaView` you need for displaying it in any style you prefer
-3. Bind programmatically or in your layout file all necessary `View`/`IconView`/`MediaView`.
+1. Create a `NativeAdVIew` class programmatically or in your layout fil;
+2. Inside the created `NativeAdVIew`, arrange all the `View`/`IconView`/`MediaView` you need for displaying it in any style you prefe;
+3. Bind programmatically or in your layout file all necessary `View`/`IconView`/`MediaView`;
 4. Then you can work with NativeAdVIew as an advertising view object.
 
 **Native view for a Custom Implementation**:
@@ -76,9 +76,9 @@ val contentStreamView = NativeAdViewContentStream(context)
 
 **For XML:**
 ```jsx title=Kotlin showLineNumbers
-val newsFeedView = findViewById<NativeAdViewNewsFeed>(R.id.native_news_feed);
-val appWallView = findViewById<NativeAdViewAppWall>(R.id.native_app_wall);
-val contentStreamView = findViewById<NativeAdViewContentStream>(R.id.native_content_stream);
+val newsFeedView = findViewById<NativeAdViewNewsFeed>(R.id.native_news_feed)
+val appWallView = findViewById<NativeAdViewAppWall>(R.id.native_app_wall)
+val contentStreamView = findViewById<NativeAdViewContentStream>(R.id.native_content_stream)
 ```
 
 **Programmatically:**
@@ -88,13 +88,13 @@ rootView.addView(appWallView)
 rootView.addView(contentStreamView)
 ```
 
-3. When the NativeAd is loaded just register it
+3. When the NativeAd is loaded just register it:
 
 **For single NativeAd:**
 
 ```kotlin showLineNumbers
-if(Appodeal.isLoaded(Appodeal.NATIVE)) {
-  newsFeedView.registerView(Appodeal.getNativeAdCount(1))
+if (Appodeal.isLoaded(Appodeal.NATIVE)) {
+    newsFeedView.registerView(Appodeal.getNativeAdCount(1))
 }
 ```
 
@@ -103,7 +103,7 @@ if(Appodeal.isLoaded(Appodeal.NATIVE)) {
 ```kotlin showLineNumbers
 val needToShow = 3
 
-if(Appodeal.getAvailableNativeAdsCount() >= needToShow) {
+if (Appodeal.getAvailableNativeAdsCount() >= needToShow) {
     val nativeAds = Appodeal.getNativeAdCount(needToShow)
     newsFeedView.registerView(nativeAds[0])
     appWallView.registerView(nativeAds[1])
@@ -120,10 +120,10 @@ if(Appodeal.getAvailableNativeAdsCount() >= needToShow) {
 - You are allowed to scale the `NativeIconView` or `NativeMediaView` down without modifying the aspect ratio;
 - You are allowed to crop the `NativeIconView` or `NativeMediaView` symmetrically by up to 20% in only one dimension (height or width).
 
-1. Create your markdown with `NativeAdView` as root
+1. Create your markdown with `NativeAdView` as root:
 
->> You can build a layout with any style, arrangement of elements and with any type of
-`ViewGroup`(`ConstrainLayout`, `RelativeLayout`, `FrameLayout`)
+> You can build a layout with any style, arrangement of elements and with any type of
+`ViewGroup`(`ConstrainLayout`, `RelativeLayout`, `FrameLayout`).
 
 ```jsx title=XML showLineNumbers
 <?xml version="1.0" encoding="utf-8"?>
@@ -223,7 +223,7 @@ if(Appodeal.getAvailableNativeAdsCount() >= needToShow) {
 </com.appodeal.ads.nativead.NativeAdView>
 ```
 
-**Requirements for `NativeAdView` elements**
+**Requirements for `NativeAdView` elements**:
 
 | Name of view        | Type            | Mandatory            | Description                                                                                                                                                                                                                                |
 |---------------------|-----------------|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -239,7 +239,7 @@ if(Appodeal.getAvailableNativeAdsCount() >= needToShow) {
 > `NativeAdView` must contain either `NativeIconView` or `NativeMediaView`.
 The `titleView`, `callToActionView` and `providerView` has to be added in any cases.
 
-2. Set ids of all child views of `NativeAdView`.
+2. Set ids of all child views of `NativeAdView`:
 
 > You can do this either in the xml file of markdown (recommended way) or programmatically
 
@@ -252,7 +252,8 @@ The `titleView`, `callToActionView` and `providerView` has to be added in any ca
     app:iconViewId="@id/iconView"
     app:mediaViewId="@id/mediaView"
     app:ratingViewId="@id/ratingView"
-    app:titleViewId="@id/titleView">
+    app:titleViewId="@id/titleView"
+    app:adAttributionViewId="@+id/ad_attribution">
 ```
 
 **Programmatically:**
@@ -277,13 +278,13 @@ nativeAdView.iconView = findViewById(R.id.iconView)
 nativeAdView.mediaView = findViewById(R.id.mediaView)
 ```
 
-3. When the `NativeAd` is loaded just register it
+3. When the `NativeAd` is loaded just register it:
 
 **For single NativeAd:**
 
 ```kotlin showLineNumbers
-if(Appodeal.isLoaded(Appodeal.NATIVE)) {
-  newsFeedView.registerView(Appodeal.getNativeAdCount(1))
+if (Appodeal.isLoaded(Appodeal.NATIVE)) {
+    newsFeedView.registerView(Appodeal.getNativeAdCount(1))
 }
 ```
 
@@ -292,7 +293,7 @@ if(Appodeal.isLoaded(Appodeal.NATIVE)) {
 ```kotlin showLineNumbers
 val needToShow = 3
 
-if(Appodeal.getAvailableNativeAdsCount() >= needToShow) {
+if (Appodeal.getAvailableNativeAdsCount() >= needToShow) {
     val nativeAds = Appodeal.getNativeAdCount(needToShow)
     nativeAdView1.registerView(nativeAds[0])
     nativeAdView2.registerView(nativeAds[1])
@@ -380,7 +381,7 @@ To save the loaded ad for future use (for instance, for another placement) check
 shown before calling the show method:
 
 ```kotlin showLineNumbers
-if(NativeAd.canShow(context: Context, yourPlacementName: String)){
+if (NativeAd.canShow(context: Context, yourPlacementName: String)){
     NativeAdView.registerView(nativeAd: NativeAd, yourPlacementName: String)
 }
 ```
@@ -415,7 +416,6 @@ To destroy the native ad view and perform any necessary cleanup, and hide `Nativ
 ```kotlin showLineNumbers
 NativeAdView.destroy()
 ```
-
 
 > This method should be called when the native ad is no longer needed.
 Also, when `destroy()` is called, the `unregisterView` logic is triggered.
@@ -506,7 +506,7 @@ NativeAd.predictedEcpm
 
 ## Set preferred media content type
 
-You can tell the Appodeal SDK your preferred content type for NativeAd.
+You can set the Appodeal SDK your preferred content type for NativeAd.
 To do this, use the method:
 
 ```kotlin showLineNumbers
@@ -526,7 +526,7 @@ To check if the downloaded advertisement contains video you can use the method:
 NativeAd.containsVideo()
 ```
 
-Return `true` if `NativeAd` contains video
+Return `true` if `NativeAd` contains video.
 
 Use the method to retrieve the preferred content type:
 
@@ -543,7 +543,7 @@ Content for `NativeIconView` is always a static image
 You can specify a position in one of the corners of the `NativeAdView`:
 
 ```kotlin showLineNumbers
-NativeAdView.setAdChoicesPosition(Position.END_TOP)
+nativeAdView.setAdChoicesPosition(Position.END_TOP)
 ```
 
 > As a `Position` you can specify one of 4 options:
@@ -563,13 +563,13 @@ nativeAdView.setAdAttributionTextColor(Color.WHITE)
 
 > Color should have ColorInt format. See [`android.graphics.Color`](https://developer.android.com/reference/android/graphics/Color).
 
-> You may do the same via your xml markup using attributes `android:textColor` and `android:background`
+> You may do the same via your xml markup using attributes `android:textColor` and `android:background`.
 
 ## Works with lists
 
 To use `NativeAd` in `RecyclerView`, you can use the following example:
 
-1. Create an ListItem entity that will serve to define the `itemViewType` in RecyclerView.ListAdapter
+1. Create an ListItem entity that will serve to define the `itemViewType` in RecyclerView.ListAdapter:
 
 ```kotlin showLineNumbers
 sealed interface ListItem {
@@ -594,7 +594,7 @@ sealed interface ListItem {
 ```
 
 2. Create a `DiffUtil.ItemCallback<ListItem>` entity that will show the `ListAdapter` the differences
-   between items
+   between items:
 
 ```kotlin showLineNumbers
 internal class DiffUtils : DiffUtil.ItemCallback<ListItem>() {
@@ -606,7 +606,7 @@ internal class DiffUtils : DiffUtil.ItemCallback<ListItem>() {
 }
 ```
 
-3. Create a `ListAdapter` entity, which will be an adapter for `RecyclerView`
+3. Create a `ListAdapter` entity, which will be an adapter for `RecyclerView`:
 
 ```kotlin showLineNumbers
 class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
@@ -659,7 +659,7 @@ class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
 
 > `NATIVE_AD_ITEM` - `NativeAdItem.NATIVE_AD_ITEM`
 
-4. As the markup of your Activity/Fragment, we use the markup
+4. As the markup of your Activity/Fragment, we use the markup:
 
 ```jsx title=activity_main.xml showLineNumbers
 <?xml version="1.0" encoding="utf-8"?>

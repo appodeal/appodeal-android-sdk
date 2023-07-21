@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="native_custom_view_background">#000000</color>
-    <color name="native_custom_title_text_color">#FFFFFF</color>
 </resources>

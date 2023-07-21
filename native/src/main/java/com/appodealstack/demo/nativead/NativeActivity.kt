@@ -135,20 +135,19 @@ class NativeActivity : AppCompatActivity() {
         })
     }
 
-    private fun configureNativeAdView(nativeAdView: NativeAdView) {
-        nativeAdView.isVisible = true
-        nativeAdView.setAdChoicesPosition(Position.START_TOP)
-        nativeAdView.setAdAttributionBackground(Color.RED)
-        nativeAdView.setAdAttributionTextColor(Color.WHITE)
-    }
-
     companion object {
         /**
          * Use NativeAdView::class to checking your custom layout view.
          * Use NativeAdViewNewsFeed::class or NativeAdViewContentStream::class or
          * NativeAdViewAppWall::class to check native templates
          * */
-        val nativeAdViewType = NativeAdViewAppWall::class
+        val nativeAdViewType = NativeAdView::class
+
+        fun configureNativeAdView(nativeAdView: NativeAdView) {
+            nativeAdView.setAdChoicesPosition(Position.END_TOP)
+            nativeAdView.setAdAttributionBackground(Color.RED)
+            nativeAdView.setAdAttributionTextColor(Color.WHITE)
+        }
     }
 }
 
