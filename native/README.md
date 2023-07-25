@@ -132,6 +132,7 @@ if (Appodeal.getAvailableNativeAdsCount() >= needToShow) {
     android:id="@+id/nativeAdView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:adChoicePosition="end_top"
     app:callToActionViewId="@id/callToActionView"
     app:descriptionViewId="@id/descriptionView"
     app:iconViewId="@id/iconView"
@@ -162,7 +163,8 @@ if (Appodeal.getAvailableNativeAdsCount() >= needToShow) {
                 android:id="@+id/ad_attribution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:textColor="@color/black"
+                android:background="@color/red" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -228,13 +230,13 @@ if (Appodeal.getAvailableNativeAdsCount() >= needToShow) {
 | Name of view        | Type            | Mandatory            | Description                                                                                                                                                                                                                                |
 |---------------------|-----------------|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `titleView`         | TextView        | Mandatory            | Title of the native ad. Maximum 25 symbols of the title should always be displayed. You can add ellipsis at the end if the title is longer.                                                                                                |
-| `callToActionView`  | Button          | Mandatory            | Call-to-action text. Should be displayed without truncation on a visible button.                                                                                                                                                           |
+| `callToActionView`  | Button          | Mandatory            | Call-to-action button. Should be displayed without truncation on a visible button.                                                                                                                                                         |
 | `descriptionView`   | TextView        | Optional             | Text description of the native ad. If you choose to display the description, you should display maximum 100 characters. You can add ellipsis at the end.                                                                                   |
 | `ratingView`        | RatingBar       | Optional             | Rating of the app in [0-5] range                                                                                                                                                                                                           |
-| `adAttributionView` | TextView        | Mandatory            | You can specify the color of the text and background. See [adAttribution settings](#adAttributionView-settings). You can place it anywhere inside the `NativeAdView`.                                                                      |
+| `adAttributionView` | TextView        | Mandatory            | Advertising Indicator. This is a TextView labeled "Ad". You can specify the color of the text and background. See [adAttribution settings](#adAttributionView-settings). You can place it anywhere inside the `NativeAdView`.              |
 | `adChoicesView`     | ViewGroup       | Attach automatically | Special ad icon provided by ad network. If SDK received AdChoice from ad network, it attached it automatically. You can specify a position in one of the corners of the `NativeAdView`. [See setAdChoice](#set-adChoice-position) position |
-| `iconView`          | NativeIconView  | Mandatory/Optional   | Returns `true,` if NativeAd object contains the video.                                                                                                                                                                                     |
-| `mediaView`         | NativeMediaView | Mandatory/Optional   | Check if native ad can be shown with the placement.                                                                                                                                                                                        |
+| `iconView`          | NativeIconView  | Mandatory/Optional   | Media content of the native ad.                                                                                                                                                                                                            |
+| `mediaView`         | NativeMediaView | Mandatory/Optional   | Icon of the native ad.                                                                                                                                                                                                                     |                                                                                                                                                                                    |
 
 > `NativeAdView` must contain either `NativeIconView` or `NativeMediaView`.
 The `titleView`, `callToActionView` and `providerView` has to be added in any cases.
@@ -267,6 +269,7 @@ nativeAdView.descriptionViewId = R.id.descriptionView
 nativeAdView.ratingViewId = R.id.ratingView
 nativeAdView.iconViewId = R.id.iconView
 nativeAdView.mediaViewId = R.id.mediaView
+nativeAdView.adAttributionViewId = R.id.adAttribution
 
 // OR
 
@@ -276,6 +279,7 @@ nativeAdView.descriptionView = findViewById(R.id.descriptionView)
 nativeAdView.ratingView = findViewById(R.id.ratingView)
 nativeAdView.iconView = findViewById(R.id.iconView)
 nativeAdView.mediaView = findViewById(R.id.mediaView)
+nativeAdView.adAttributionView = findViewById(R.id.adAttribution)
 ```
 
 3. When the `NativeAd` is loaded just register it:
@@ -542,6 +546,10 @@ Content for `NativeIconView` is always a static image
 
 You can specify a position in one of the corners of the `NativeAdView`:
 
+```xml showLineNumbers
+app:adChoicePosition="end_top"
+```
+
 ```kotlin showLineNumbers
 nativeAdView.setAdChoicesPosition(Position.END_TOP)
 ```
@@ -556,6 +564,11 @@ nativeAdView.setAdChoicesPosition(Position.END_TOP)
 
 You may set text color and background color for AdAttributionView:
 
+```xml showLineNumbers
+app:adAttributionBackgroundColor="@color/red"
+app:adAttributionTextColor="@color/black"
+```
+
 ```kotlin showLineNumbers
 nativeAdView.setAdAttributionBackground(Color.RED)
 nativeAdView.setAdAttributionTextColor(Color.WHITE)
@@ -563,7 +576,8 @@ nativeAdView.setAdAttributionTextColor(Color.WHITE)
 
 > Color should have ColorInt format. See [`android.graphics.Color`](https://developer.android.com/reference/android/graphics/Color).
 
-> You may do the same via your xml markup using attributes `android:textColor` and `android:background`.
+> For custom `NativeAdView`, you may do the same via your xml markup using attributes `android:textColor` 
+and `android:background` for adAttribution `TextView`.
 
 ## Works with lists
 

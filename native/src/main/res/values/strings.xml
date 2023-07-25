@@ -6,7 +6,4 @@
 
     <string name="native_custom_ad_text">Ad</string>
     <string name="native_custom_icon_description">Appodeal banner icon</string>
-    <string name="native_custom_title_tools">Appodeal</string>
-    <string name="native_custom_description_tools">This is Appodeal test ad.</string>
-    <string name="native_custom_cta_tools">Learn more</string>
 </resources>
