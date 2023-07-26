@@ -51,17 +51,7 @@
         app:adAttributionTextColor="@color/black"
         app:adChoicePosition="end_top"
         app:layout_constraintBottom_toTopOf="@id/native_ad_view_content_stream"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.appodeal.ads.nativead.NativeAdViewContentStream
-        android:id="@+id/native_ad_view_content_stream"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:adAttributionBackgroundColor="@color/red"
-        app:adAttributionTextColor="@color/black"
-        app:adChoicePosition="end_top"
-        app:layout_constraintBottom_toTopOf="@id/native_ad_view_app_wall"
-        app:layout_constraintTop_toBottomOf="@id/native_ad_view_news_feed" />
+        app:layout_constraintTop_toBottomOf="@+id/show_in_list" />
 
     <com.appodeal.ads.nativead.NativeAdViewAppWall
         android:id="@+id/native_ad_view_app_wall"
@@ -70,8 +60,18 @@
         app:adAttributionBackgroundColor="@color/red"
         app:adAttributionTextColor="@color/black"
         app:adChoicePosition="end_top"
+        app:layout_constraintBottom_toTopOf="@id/native_ad_view_content_stream"
+        app:layout_constraintTop_toBottomOf="@id/native_ad_view_news_feed" />
+
+    <com.appodeal.ads.nativead.NativeAdViewContentStream
+        android:id="@+id/native_ad_view_content_stream"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:adAttributionBackgroundColor="@color/red"
+        app:adAttributionTextColor="@color/black"
+        app:adChoicePosition="end_top"
         app:layout_constraintBottom_toTopOf="@id/native_ad_view_custom"
-        app:layout_constraintTop_toBottomOf="@id/native_ad_view_content_stream" />
+        app:layout_constraintTop_toBottomOf="@id/native_ad_view_app_wall" />
 
     <include
         android:id="@+id/native_ad_view_custom"
@@ -79,6 +79,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/native_ad_view_app_wall" />
+        app:layout_constraintTop_toBottomOf="@id/native_ad_view_content_stream" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
