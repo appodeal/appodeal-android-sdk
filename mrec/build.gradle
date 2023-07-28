@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 33
     namespace 'com.appodealstack.demo.mrec'
 
     defaultConfig {
