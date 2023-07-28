@@ -4,22 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/native_custom_view_background">
+    app:adAttributionViewId="@+id/native_custom_ad_attribution"
+    app:adChoicePosition="end_bottom"
+    app:callToActionViewId="@+id/native_custom_cta"
+    app:descriptionViewId="@+id/native_custom_description"
+    app:iconViewId="@+id/native_custom_icon"
+    app:mediaViewId="@+id/native_custom_media"
+    app:titleViewId="@+id/native_custom_title">
 
     <TextView
-        android:id="@+id/native_custom_ad"
+        android:id="@+id/native_custom_ad_attribution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
-        android:background="@color/native_custom_ad_background"
+        android:background="@color/red"
+        android:elevation="@dimen/base_elevation"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:maxLines="1"
         android:singleLine="true"
         android:text="@string/native_custom_ad_text"
-        android:textColor="@color/native_custom_ad_text_color"
-        android:textSize="@dimen/native_custom_ad_text_size"
-        android:textStyle="normal"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/black"
         tools:ignore="SmallSp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +47,7 @@
             android:id="@+id/native_custom_icon"
             android:layout_width="@dimen/native_custom_icon_w_h"
             android:layout_height="@dimen/native_custom_icon_w_h"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/native_custom_icon_margin"
             android:background="@drawable/native_custom_round_outline"
             android:contentDescription="@string/native_custom_icon_description"
             app:layout_constraintBottom_toBottomOf="@+id/native_custom_content"
@@ -61,15 +67,12 @@
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/native_custom_title_text_color"
-            android:textSize="@dimen/native_custom_title_text_size"
-            android:textStyle="normal"
+            android:textAppearance="?android:textAppearanceSmall"
             app:layout_constraintBottom_toTopOf="@+id/native_custom_description"
             app:layout_constraintEnd_toStartOf="@+id/native_custom_cta"
             app:layout_constraintStart_toEndOf="@+id/native_custom_icon"
             app:layout_constraintTop_toBottomOf="@+id/native_custom_media"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="@string/native_custom_title_tools" />
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/native_custom_description"
@@ -79,31 +82,26 @@
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:textSize="@dimen/native_custom_description_text_size"
-            android:textStyle="normal"
+            android:textAppearance="?android:textAppearanceSmall"
             app:layout_constraintBottom_toBottomOf="@+id/native_custom_content"
             app:layout_constraintEnd_toEndOf="@+id/native_custom_title"
             app:layout_constraintStart_toStartOf="@+id/native_custom_title"
-            app:layout_constraintTop_toBottomOf="@+id/native_custom_title"
-            tools:text="@string/native_custom_description_tools" />
+            app:layout_constraintTop_toBottomOf="@+id/native_custom_title" />
 
         <Button
             android:id="@+id/native_custom_cta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/native_custom_cta_margin_t"
+            android:layout_marginTop="@dimen/native_custom_cta_margin"
             android:background="@drawable/native_custom_round_outline"
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
             android:paddingHorizontal="@dimen/native_custom_cta_padding_h"
             android:singleLine="true"
-            android:textColor="@color/native_custom_cta_text_color"
-            android:textSize="@dimen/native_custom_cta_text_size"
-            android:textStyle="normal"
+            android:textAppearance="?android:textAppearanceSmall"
             app:layout_constraintBottom_toBottomOf="@+id/native_custom_content"
             app:layout_constraintEnd_toEndOf="@+id/native_custom_content"
-            app:layout_constraintTop_toBottomOf="@+id/native_custom_media"
-            tools:text="@string/native_custom_cta_tools" />
+            app:layout_constraintTop_toBottomOf="@+id/native_custom_media" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.appodeal.ads.nativead.NativeAdView>

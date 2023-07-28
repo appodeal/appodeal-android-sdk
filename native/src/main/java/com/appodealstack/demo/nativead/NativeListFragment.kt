@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.NativeAd
 import com.appodealstack.demo.nativead.adapter.ListItem
+import com.appodealstack.demo.nativead.adapter.NativeListAdapter
 import com.appodealstack.demo.nativead.databinding.NativeListFragmentBinding
 
 class NativeListFragment : Fragment() {
