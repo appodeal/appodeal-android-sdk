@@ -37,7 +37,7 @@
 
         <com.appodeal.ads.nativead.NativeMediaView
             android:id="@+id/native_custom_media"
-            android:layout_width="@dimen/native_custom_media_w"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="@+id/native_custom_content"
             app:layout_constraintStart_toStartOf="@+id/native_custom_content"
