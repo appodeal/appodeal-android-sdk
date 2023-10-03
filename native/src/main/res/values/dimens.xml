@@ -2,7 +2,6 @@
 <resources>
     <dimen name="native_custom_content_margin_h">10dp</dimen>
     <dimen name="native_custom_content_margin_v">8dp</dimen>
-    <dimen name="native_custom_media_w">0dp</dimen>
     <dimen name="native_custom_icon_w_h">0dp</dimen>
     <dimen name="native_custom_icon_margin">8dp</dimen>
     <dimen name="native_custom_title_w">0dp</dimen>
