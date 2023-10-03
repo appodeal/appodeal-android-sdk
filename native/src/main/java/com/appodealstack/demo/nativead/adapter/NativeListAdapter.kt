@@ -1,6 +1,5 @@
 package com.appodealstack.demo.nativead.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,7 @@ class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
         return when (viewType) {
             DYNAMIC_AD_ITEM -> {
-                val nativeAdView = createNativeAdView(parent.context)
+                val nativeAdView = createNativeAdView(parent)
                 DynamicAdViewHolder(nativeAdView)
             }
             else -> {
@@ -65,12 +64,13 @@ class NativeListAdapter : ListAdapter<ListItem, ListHolder>(DiffUtils()) {
         }
     }
 
-    private fun createNativeAdView(context: Context): NativeAdView {
+    private fun createNativeAdView(parent: ViewGroup): NativeAdView {
+        val context = parent.context
         val nativeAdView = when (NativeActivity.nativeAdViewType) {
             NativeAdViewAppWall::class -> NativeAdViewAppWall(context)
             NativeAdViewNewsFeed::class -> NativeAdViewNewsFeed(context)
             NativeAdViewContentStream::class -> NativeAdViewContentStream(context)
-            else -> NativeAdViewCustomBinding.inflate(LayoutInflater.from(context), null, false).root
+            else -> NativeAdViewCustomBinding.inflate(LayoutInflater.from(context), parent, false).root
         }
         configureNativeAdView(nativeAdView)
         return nativeAdView
