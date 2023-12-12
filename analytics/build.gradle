@@ -5,13 +5,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdk 33
+    namespace 'com.appodealstack.demo.analytics'
 
     defaultConfig {
         buildConfigField "String", "APP_KEY", "\"d908f77a97ae0993514bc8edba7e776a36593c77e5f44994\""
         applicationId "com.appodealstack.demo"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
     }
@@ -22,8 +23,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = '11'
@@ -34,13 +35,13 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.activity:activity-ktx:1.4.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.activity:activity-ktx:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     // Google billing library for Appodeal purchase validation
-    implementation 'com.android.billingclient:billing-ktx:5.0.0'
-    // Appodeal SDK 3.1.3.+
-    implementation 'com.appodeal.ads:sdk:3.1.3.+'
+    implementation 'com.android.billingclient:billing-ktx:6.0.1'
+    // Appodeal SDK 3.2.0.+
+    implementation 'com.appodeal.ads:sdk:3.2.0.+'
 }

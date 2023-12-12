@@ -1,6 +1,7 @@
 package com.appodealstack.demo.nativead
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,22 +10,18 @@ import androidx.core.view.isVisible
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.NativeAd
 import com.appodeal.ads.NativeCallbacks
+import com.appodeal.ads.NativeMediaViewContentType
 import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
-import com.appodeal.ads.native_ad.views.NativeAdViewAppWall
-import com.appodeal.ads.native_ad.views.NativeAdViewContentStream
-import com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
+import com.appodeal.ads.nativead.NativeAdView
+import com.appodeal.ads.nativead.NativeAdViewAppWall
+import com.appodeal.ads.nativead.NativeAdViewContentStream
+import com.appodeal.ads.nativead.NativeAdViewNewsFeed
+import com.appodeal.ads.nativead.Position
 import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.nativead.databinding.ActivityNativeBinding
-import com.appodealstack.demo.nativead.view.NativeAdViewCustom
 
 class NativeActivity : AppCompatActivity() {
-
-    /**
-     * change to NativeAdViewNewsFeed::class or NativeAdViewContentStream::class or
-     * NativeAdViewAppWall::class or NativeAdViewCustom:: class to check other templates
-     * */
-    private val nativeAdViewType = NativeAdViewNewsFeed::class
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +34,7 @@ class NativeActivity : AppCompatActivity() {
     private fun setUpAppodealSDK(binding: ActivityNativeBinding) {
         Appodeal.setLogLevel(LogLevel.verbose)
         Appodeal.setTesting(true)
+        Appodeal.setPreferredNativeContentType(NativeMediaViewContentType.Auto)
         Appodeal.initialize(
             this,
             BuildConfig.APP_KEY,
@@ -54,30 +52,28 @@ class NativeActivity : AppCompatActivity() {
 
         with(binding) {
             showNative.setOnClickListener {
-                val availableNativeAdCount = Appodeal.getAvailableNativeAdsCount()
-                val nativeAds = Appodeal.getNativeAds(availableNativeAdCount)
-                if (nativeAds.isEmpty()) {
+                val nativeAd = Appodeal.getNativeAds(1).firstOrNull()
+                if (nativeAd == null) {
                     showToast("Native ad has not loaded")
                     return@setOnClickListener
                 }
-                val nativeAd = nativeAds.first()
                 if (nativeAd.canShow(this@NativeActivity, placementName)) {
                     when (nativeAdViewType) {
                         NativeAdViewAppWall::class -> {
-                            nativeAdViewAppWall.isVisible = true
-                            nativeAdViewAppWall.setNativeAd(nativeAd)
+                            configureNativeAdView(nativeAdViewAppWall)
+                            nativeAdViewAppWall.registerView(nativeAd)
                         }
                         NativeAdViewNewsFeed::class -> {
-                            nativeAdViewNewsFeed.isVisible = true
-                            nativeAdViewNewsFeed.setNativeAd(nativeAd)
+                            configureNativeAdView(nativeAdViewNewsFeed)
+                            nativeAdViewNewsFeed.registerView(nativeAd)
                         }
                         NativeAdViewContentStream::class -> {
-                            nativeAdViewContentStream.isVisible = true
-                            nativeAdViewContentStream.setNativeAd(nativeAd)
+                            configureNativeAdView(nativeAdViewContentStream)
+                            nativeAdViewContentStream.registerView(nativeAd)
                         }
-                        NativeAdViewCustom::class -> {
-                            nativeAdViewCustom.isVisible = true
-                            nativeAdViewCustom.setNativeAd(nativeAd)
+                        else -> {
+                            configureNativeAdView(binding.nativeAdViewCustom.root)
+                            binding.nativeAdViewCustom.root.registerView(nativeAd)
                         }
                     }
                 } else {
@@ -88,23 +84,22 @@ class NativeActivity : AppCompatActivity() {
                 when (nativeAdViewType) {
                     NativeAdViewAppWall::class -> {
                         nativeAdViewAppWall.isVisible = false
-                        nativeAdViewAppWall.unregisterViewForInteraction()
+                        nativeAdViewAppWall.unregisterView()
                     }
                     NativeAdViewNewsFeed::class -> {
                         nativeAdViewNewsFeed.isVisible = false
-                        nativeAdViewNewsFeed.unregisterViewForInteraction()
+                        nativeAdViewNewsFeed.unregisterView()
                     }
                     NativeAdViewContentStream::class -> {
                         nativeAdViewContentStream.isVisible = false
-                        nativeAdViewContentStream.unregisterViewForInteraction()
+                        nativeAdViewContentStream.unregisterView()
                     }
-                    NativeAdViewCustom::class -> {
-                        nativeAdViewCustom.isVisible = false
-                        nativeAdViewCustom.unregisterViewForInteraction()
+                    else -> {
+                        nativeAdViewCustom.root.isVisible = false
+                        nativeAdViewCustom.root.unregisterView()
                     }
                 }
             }
-
             showInList.setOnClickListener {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.activity_root_container, NativeListFragment())
@@ -138,6 +133,21 @@ class NativeActivity : AppCompatActivity() {
                 showToast("Native was expired")
             }
         })
+    }
+
+    companion object {
+        /**
+         * Use NativeAdView::class to checking your custom layout view.
+         * Use NativeAdViewNewsFeed::class or NativeAdViewContentStream::class or
+         * NativeAdViewAppWall::class to check native templates
+         * */
+        val nativeAdViewType = NativeAdView::class
+
+        fun configureNativeAdView(nativeAdView: NativeAdView) {
+            nativeAdView.setAdChoicesPosition(Position.END_TOP)
+            nativeAdView.setAdAttributionBackground(Color.RED)
+            nativeAdView.setAdAttributionTextColor(Color.WHITE)
+        }
     }
 }
 

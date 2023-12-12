@@ -18,6 +18,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
@@ -42,44 +43,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hide_native" />
 
-    <com.appodeal.ads.native_ad.views.NativeAdViewNewsFeed
+    <com.appodeal.ads.nativead.NativeAdViewNewsFeed
         android:id="@+id/native_ad_view_news_feed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        app:adAttributionBackgroundColor="@color/red"
+        app:adAttributionTextColor="@color/black"
+        app:adChoicePosition="end_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_in_list" />
 
-    <com.appodeal.ads.native_ad.views.NativeAdViewAppWall
+    <com.appodeal.ads.nativead.NativeAdViewAppWall
         android:id="@+id/native_ad_view_app_wall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        app:adAttributionBackgroundColor="@color/red"
+        app:adAttributionTextColor="@color/black"
+        app:adChoicePosition="end_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_in_list" />
 
-    <com.appodeal.ads.native_ad.views.NativeAdViewContentStream
+    <com.appodeal.ads.nativead.NativeAdViewContentStream
         android:id="@+id/native_ad_view_content_stream"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        app:adAttributionBackgroundColor="@color/red"
+        app:adAttributionTextColor="@color/black"
+        app:adChoicePosition="end_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_in_list" />
 
-    <com.appodealstack.demo.nativead.view.NativeAdViewCustom
+    <include
         android:id="@+id/native_ad_view_custom"
+        layout="@layout/native_ad_view_custom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
