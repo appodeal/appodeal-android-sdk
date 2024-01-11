@@ -83,7 +83,7 @@ class RewardedActivity : AppCompatActivity() {
                 showToast("Rewarded video was closed, isVideoFinished: $finished")
             }
 
-            override fun onRewardedVideoFinished(amount: Double, currency: String?) {
+            override fun onRewardedVideoFinished(amount: Double, currency: String) {
                 showToast("Rewarded video was finished, amount: $amount, currency: $currency")
             }
 
