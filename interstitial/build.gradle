@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
     namespace 'com.appodealstack.demo.interstitial'
 
     defaultConfig {
         buildConfigField "String", "APP_KEY", "\"d908f77a97ae0993514bc8edba7e776a36593c77e5f44994\""
         applicationId "com.appodealstack.demo"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
     }
@@ -34,10 +34,10 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Appodeal SDK 3.2.0.+
-    implementation 'com.appodeal.ads:sdk:3.2.0.+'
+    // Appodeal SDK 3.2.1.+
+    implementation 'com.appodeal.ads:sdk:3.2.1.+'
 }
