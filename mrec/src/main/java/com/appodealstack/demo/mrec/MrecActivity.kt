@@ -28,16 +28,15 @@ class MrecActivity : AppCompatActivity() {
         Appodeal.initialize(
             this,
             BuildConfig.APP_KEY,
-            Appodeal.MREC,
-            object : ApdInitializationCallback {
-                override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    val initResult = if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
-                    showToast("Appodeal initialized $initResult")
-                    errors?.forEach {
-                        Log.e(TAG, "onInitializationFinished: ", it)
-                    }
-                }
-            })
+            Appodeal.MREC
+        ) { errors: List<ApdInitializationError>? ->
+            val initResult =
+                if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+            showToast("Appodeal initialized $initResult")
+            errors?.forEach {
+                Log.e(TAG, "onInitializationFinished: ", it)
+            }
+        }
 
         with(binding) {
             showMrec.setOnClickListener {

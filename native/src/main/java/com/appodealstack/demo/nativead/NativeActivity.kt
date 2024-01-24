@@ -38,17 +38,15 @@ class NativeActivity : AppCompatActivity() {
         Appodeal.initialize(
             this,
             BuildConfig.APP_KEY,
-            Appodeal.NATIVE,
-            object : ApdInitializationCallback {
-                override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    val initResult =
-                        if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
-                    showToast("Appodeal initialized $initResult")
-                    errors?.forEach {
-                        Log.e(TAG, "onInitializationFinished: ", it)
-                    }
-                }
-            })
+            Appodeal.NATIVE
+        ) { errors: List<ApdInitializationError>? ->
+            val initResult =
+                if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+            showToast("Appodeal initialized $initResult")
+            errors?.forEach {
+                Log.e(TAG, "onInitializationFinished: ", it)
+            }
+        }
 
         with(binding) {
             showNative.setOnClickListener {

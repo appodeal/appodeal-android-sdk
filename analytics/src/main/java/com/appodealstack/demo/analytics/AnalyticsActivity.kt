@@ -36,17 +36,15 @@ class AnalyticsActivity : AppCompatActivity() {
         Appodeal.initialize(
             this,
             BuildConfig.APP_KEY,
-            Appodeal.NONE,
-            object : ApdInitializationCallback {
-                override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    val initResult =
-                        if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
-                    showToast("Appodeal initialized $initResult")
-                    errors?.forEach {
-                        Log.e(TAG, "onInitializationFinished: ", it)
-                    }
-                }
-            })
+            Appodeal.NONE
+        ) { errors: List<ApdInitializationError>? ->
+            val initResult =
+                if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+            showToast("Appodeal initialized $initResult")
+            errors?.forEach {
+                Log.e(TAG, "onInitializationFinished: ", it)
+            }
+        }
         Appodeal.setAdRevenueCallbacks(object : AdRevenueCallbacks {
             override fun onAdRevenueReceive(revenueInfo: RevenueInfo) {
                 // Called whenever SDK receives revenue information for an ad

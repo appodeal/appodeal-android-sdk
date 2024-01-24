@@ -27,17 +27,15 @@ class InterstitialActivity : AppCompatActivity() {
         Appodeal.initialize(
             this,
             BuildConfig.APP_KEY,
-            Appodeal.INTERSTITIAL,
-            object : ApdInitializationCallback {
-                override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    val initResult = if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
-                    showToast("Appodeal initialized $initResult")
-                    errors?.forEach {
-                        Log.e(TAG, "onInitializationFinished: ", it)
-                    }
-                }
+            Appodeal.INTERSTITIAL
+        ) { errors: List<ApdInitializationError>? ->
+            val initResult =
+                if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+            showToast("Appodeal initialized $initResult")
+            errors?.forEach {
+                Log.e(TAG, "onInitializationFinished: ", it)
             }
-        )
+        }
         with(binding) {
             showInterstitial.setOnClickListener {
                 if (Appodeal.canShow(Appodeal.INTERSTITIAL, placementName)) {
