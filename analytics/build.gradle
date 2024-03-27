@@ -42,6 +42,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     // Google billing library for Appodeal purchase validation
     implementation 'com.android.billingclient:billing-ktx:6.1.0'
-    // Appodeal SDK 3.3.0.0-beta.2
-    implementation 'com.appodeal.ads:sdk:3.3.0.0-beta.2'
+    // Appodeal SDK 3.3.0.0-beta.3
+    implementation 'com.appodeal.ads:sdk:3.3.0.0-beta.3'
 }
