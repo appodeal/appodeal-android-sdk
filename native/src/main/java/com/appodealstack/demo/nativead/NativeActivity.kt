@@ -140,7 +140,8 @@ class NativeActivity : AppCompatActivity() {
     companion object {
         /**
          * Use NativeAdView::class to checking your custom layout view.
-         * Use NativeAdViewNewsFeed::class or NativeAdViewContentStream::class or
+         * Use NativeAdViewNewsFeed::class or
+         * NativeAdViewContentStream::class or
          * NativeAdViewAppWall::class to check native templates
          * */
         val nativeAdViewType = NativeAdView::class

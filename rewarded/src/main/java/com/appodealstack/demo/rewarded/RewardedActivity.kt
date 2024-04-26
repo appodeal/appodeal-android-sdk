@@ -7,8 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.RewardedVideoCallbacks
-import com.appodeal.ads.initializing.ApdInitializationCallback
-import com.appodeal.ads.initializing.ApdInitializationError
 import com.appodeal.ads.utils.Log.*
 import com.appodealstack.demo.rewarded.databinding.ActivityRewardedBinding
 
@@ -27,16 +25,15 @@ class RewardedActivity : AppCompatActivity() {
         Appodeal.initialize(
             this,
             BuildConfig.APP_KEY,
-            Appodeal.REWARDED_VIDEO,
-            object : ApdInitializationCallback {
-                override fun onInitializationFinished(errors: List<ApdInitializationError>?) {
-                    val initResult = if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
-                    showToast("Appodeal initialized $initResult")
-                    errors?.forEach {
-                        Log.e(TAG, "onInitializationFinished: ", it)
-                    }
-                }
-            })
+            Appodeal.REWARDED_VIDEO
+        ) { errors ->
+            val initResult =
+                if (errors.isNullOrEmpty()) "successfully" else "with ${errors.size} errors"
+            showToast("Appodeal initialized $initResult")
+            errors?.forEach {
+                Log.e(TAG, "onInitializationFinished: ", it)
+            }
+        }
 
         with(binding) {
             showRewarded.setOnClickListener {

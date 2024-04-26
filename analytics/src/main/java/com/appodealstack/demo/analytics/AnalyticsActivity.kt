@@ -11,7 +11,6 @@ import com.android.billingclient.api.Purchase
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.inapp.InAppPurchase
 import com.appodeal.ads.inapp.InAppPurchaseValidateCallback
-import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
 import com.appodeal.ads.revenue.AdRevenueCallbacks
 import com.appodeal.ads.revenue.RevenueInfo
@@ -32,7 +31,6 @@ class AnalyticsActivity : AppCompatActivity() {
 
     private fun setUpAppodealSdk(binding: ActivityAnalyticsBinding) {
         Appodeal.setLogLevel(LogLevel.verbose)
-        Appodeal.setTesting(true)
         Appodeal.initialize(
             this,
             BuildConfig.APP_KEY,
@@ -69,7 +67,8 @@ class AnalyticsActivity : AppCompatActivity() {
     }
 
     private fun validatePurchase(purchase: Purchase) = purchase.products.forEach { productId ->
-        val productDetails = viewModel.getProductDetails(productId) ?: error("Product details is null")
+        val productDetails =
+            viewModel.getProductDetails(productId) ?: error("Product details is null")
         val apdPurchaseBuilder = when (productDetails.productType) {
             BillingClient.ProductType.INAPP -> {
                 InAppPurchase.newInAppBuilder().apply {
@@ -79,6 +78,7 @@ class AnalyticsActivity : AppCompatActivity() {
                     }
                 }
             }
+
             BillingClient.ProductType.SUBS -> {
                 InAppPurchase.newSubscriptionBuilder().apply {
                     productDetails.subscriptionOfferDetails?.let {
@@ -88,6 +88,7 @@ class AnalyticsActivity : AppCompatActivity() {
                     }
                 }
             }
+
             else -> error("Product type is incorrect")
         }
         val apdPurchase: InAppPurchase = apdPurchaseBuilder
@@ -129,6 +130,7 @@ class AnalyticsActivity : AppCompatActivity() {
 
 private fun Context.showToast(message: String) =
     Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+
 /** https://support.google.com/googleplay/android-developer/answer/186113 */
 private const val PUBLIC_KEY = "YOUR_PUBLIC_KEY"
 private const val TAG = "AnalyticsActivity"
