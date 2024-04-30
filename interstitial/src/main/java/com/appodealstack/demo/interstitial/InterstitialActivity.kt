@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.appodeal.ads.Appodeal
 import com.appodeal.ads.InterstitialCallbacks
-import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
 import com.appodeal.ads.utils.Log.LogLevel
 import com.appodealstack.demo.interstitial.databinding.ActivityInterstitialBinding

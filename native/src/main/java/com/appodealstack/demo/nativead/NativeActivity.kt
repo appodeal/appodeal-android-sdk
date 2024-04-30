@@ -11,7 +11,6 @@ import com.appodeal.ads.Appodeal
 import com.appodeal.ads.NativeAd
 import com.appodeal.ads.NativeCallbacks
 import com.appodeal.ads.NativeMediaViewContentType
-import com.appodeal.ads.initializing.ApdInitializationCallback
 import com.appodeal.ads.initializing.ApdInitializationError
 import com.appodeal.ads.nativead.NativeAdView
 import com.appodeal.ads.nativead.NativeAdViewAppWall
@@ -25,7 +24,6 @@ class NativeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Appodeal.setLogLevel(LogLevel.verbose)
         val binding = ActivityNativeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpAppodealSDK(binding)
@@ -61,14 +59,17 @@ class NativeActivity : AppCompatActivity() {
                             configureNativeAdView(nativeAdViewAppWall)
                             nativeAdViewAppWall.registerView(nativeAd)
                         }
+
                         NativeAdViewNewsFeed::class -> {
                             configureNativeAdView(nativeAdViewNewsFeed)
                             nativeAdViewNewsFeed.registerView(nativeAd)
                         }
+
                         NativeAdViewContentStream::class -> {
                             configureNativeAdView(nativeAdViewContentStream)
                             nativeAdViewContentStream.registerView(nativeAd)
                         }
+
                         else -> {
                             configureNativeAdView(binding.nativeAdViewCustom.root)
                             binding.nativeAdViewCustom.root.registerView(nativeAd)
@@ -84,14 +85,17 @@ class NativeActivity : AppCompatActivity() {
                         nativeAdViewAppWall.isVisible = false
                         nativeAdViewAppWall.unregisterView()
                     }
+
                     NativeAdViewNewsFeed::class -> {
                         nativeAdViewNewsFeed.isVisible = false
                         nativeAdViewNewsFeed.unregisterView()
                     }
+
                     NativeAdViewContentStream::class -> {
                         nativeAdViewContentStream.isVisible = false
                         nativeAdViewContentStream.unregisterView()
                     }
+
                     else -> {
                         nativeAdViewCustom.root.isVisible = false
                         nativeAdViewCustom.root.unregisterView()
@@ -136,7 +140,8 @@ class NativeActivity : AppCompatActivity() {
     companion object {
         /**
          * Use NativeAdView::class to checking your custom layout view.
-         * Use NativeAdViewNewsFeed::class or NativeAdViewContentStream::class or
+         * Use NativeAdViewNewsFeed::class or
+         * NativeAdViewContentStream::class or
          * NativeAdViewAppWall::class to check native templates
          * */
         val nativeAdViewType = NativeAdView::class
