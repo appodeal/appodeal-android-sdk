@@ -5,7 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--optional-->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" /> <!--optional-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!--optional-->
     <uses-permission android:name="android.permission.VIBRATE" /> <!--optional-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!--partially optional-->
@@ -36,6 +38,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--  Error: Attribute property#android.adservices.AD_SERVICES_CONFIG https://issuetracker.google.com/issues/327696048 -->
+        <property
+            android:name="android.adservices.AD_SERVICES_CONFIG"
+            android:resource="@xml/gma_ad_services_config"
+            tools:replace="android:resource" />
 
         <uses-library
             android:name="org.apache.http.legacy"

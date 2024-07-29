@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!--optional-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--optional-->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" /> <!--optional-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!--optional-->
     <uses-permission android:name="android.permission.VIBRATE" /> <!--optional-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!--partially optional-->
@@ -25,7 +28,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Base.Theme">
+        android:theme="@style/Base.Theme"
+        tools:targetApi="n">
         <activity
             android:name=".RewardedActivity"
             android:exported="true">
@@ -35,6 +39,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <!--  Error: Attribute property#android.adservices.AD_SERVICES_CONFIG https://issuetracker.google.com/issues/327696048 -->
+        <property
+            android:name="android.adservices.AD_SERVICES_CONFIG"
+            android:resource="@xml/gma_ad_services_config"
+            tools:replace="android:resource" />
 
         <uses-library
             android:name="org.apache.http.legacy"

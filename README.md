@@ -1,6 +1,6 @@
 # Appodeal Android SDK
 
-[![](https://img.shields.io/badge/SDK%20version-%203.3.1-brightgreen)](https://docs.appodeal.com/android/get-started)
+[![](https://img.shields.io/badge/SDK%20version-%203.3.2-brightgreen)](https://docs.appodeal.com/android/get-started)
 
 # Examples
 
@@ -13,6 +13,9 @@
 
 # Documentation
 
-The examples show only the most commonly used methods.  Check out our [Get started](https://docs.appodeal.com/android/get-started) page for documentation on using the Appodeal SDK.
+The examples show only the most commonly used methods. Check out
+our [Get started](https://docs.appodeal.com/android/get-started) page for documentation on using the
+Appodeal SDK.
 
-If you have any comments or suggestions about the Appodeal SDK, please contact our support team support@appodeal.com.
+If you have any comments or suggestions about the Appodeal SDK, please contact our support team
+support@appodeal.com.
