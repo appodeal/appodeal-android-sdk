@@ -18,14 +18,10 @@ on:
           - 'autotestdebug'
           - 'ubuntu-latest'
 
-defaults:
-  env:
-    RUNNER: ${{ github.event.inputs.runner || 'autotestdebug' }}
-
 jobs:
   build:
     name: build android application for ui tests
-    runs-on: ${{ env.RUNNER }}
+    runs-on: ${{ github.event.inputs.runner || 'autotestdebug' }}
     timeout-minutes: 30
     steps:
     - name: checkout source code of application
@@ -58,7 +54,7 @@ jobs:
 #  tests:
 #    name: run ui tests on aws with appium
 #    needs: build
-#    runs-on: ${{ env.RUNNER }}
+#    runs-on: ${{ github.event.inputs.runner || 'autotestdebug' }}
 #    timeout-minutes: 30
 #    steps:
 #    - name: checkout source code of application
