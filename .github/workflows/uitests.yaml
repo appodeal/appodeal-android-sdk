@@ -55,7 +55,7 @@ jobs:
 #          kotlin.parallel.tasks.in.project=true
 
     - name: Build with Gradle
-      run: ./gradlew :banner:assembleDebug
+      run: ./appodeal-android-sdk/gradlew :banner:assembleDebug
 
     - name: save debug build for aws
       uses: actions/upload-artifact@v4
