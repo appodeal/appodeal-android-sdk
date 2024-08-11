@@ -101,12 +101,12 @@ jobs:
       working-directory: ${{ github.workspace }}/SDK-Auto-Test
       run: |
         mvn clean
-        sleep 5
+        sleep 10
         mvn jar:jar
-        sleep 5
+        sleep 10
         mvn jar:test-jar
-        sleep 5
-        mvn assembly:single -DskipTests -Ddescriptor=src/main/assembly/zip.xml
+        sleep 10
+        mvn assembly:assembly -DskipTests -Ddescriptor=src/main/assembly/zip.xml
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
