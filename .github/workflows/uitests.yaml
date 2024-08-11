@@ -36,9 +36,18 @@ jobs:
         distribution: 'temurin'
         # server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         # settings-path: ${{ github.workspace }} # location for the settings.xml file
+        # - name: Setup Gradle
+        #   uses: gradle/actions/setup-gradle@dbbdc275be76ac10734476cc723d82dfe7ec6eda # v3.4.2
 
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@dbbdc275be76ac10734476cc723d82dfe7ec6eda # v3.4.2
+    - name: Gradle clean cache
+      uses: burrunan/gradle-cache-action@v1
+      with:
+        job-id: jdk17
+        arguments: build
+        gradle-version: wrapper
+        properties: |
+          kotlin.js.compiler=ir
+          kotlin.parallel.tasks.in.project=true
 
     - name: Build with Gradle
       run: ./gradlew :banner:assembleDebug
@@ -60,6 +69,7 @@ jobs:
     - name: checkout source code of application
       uses: actions/checkout@v4
       with:
+        path: 'SDK-Auto-Test'
         clean: true
         repository: 'appodeal/SDK-Auto-Test'
         token: ${{ secrets.UITESTREPOACCESS }}
@@ -74,7 +84,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: banner-debug.apk
-        path: ./apk
+        path: ./SDK-Auto-Test/apk
 
     - name: prepare build
       run: |
