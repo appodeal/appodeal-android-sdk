@@ -98,6 +98,7 @@ jobs:
         path: ./SDK-Auto-Test/apk
 
     - name: prepare build
+      working-directory: ${{ github.workspace }}/SDK-Auto-Test
       run: |
         mvn clean
         sleep 5
