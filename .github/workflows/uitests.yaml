@@ -104,11 +104,11 @@ jobs:
       - name: Upload APK to AWS Device Farm
         id: upload-apk
         run: |
-                apk_url=$(aws devicefarm create-upload \
-                  --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
-                  --name banner-debug.apk \
-                  --type ANDROID_APP \
-                  --region us-west-2 \
-                  --query 'upload.url' \
-                  --output text)
+          apk_url=$(aws devicefarm create-upload \
+            --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
+            --name banner-debug.apk \
+            --type ANDROID_APP \
+            --region us-west-2 \
+            --query 'upload.url' \
+            --output text)
           curl -T ./SDK-Auto-Test/apk/banner-debug.apk "$apk_url"
