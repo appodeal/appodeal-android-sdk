@@ -94,8 +94,9 @@ jobs:
           mvn assembly:assembly -DskipTests -Ddescriptor=src/main/assembly/zip.xml
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
+          role-to-assume: arn:aws:devicefarm:us-west-2:381491970378:project:4c28c1e5-8344-4d34-919c-a1e9377d3b2f
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
@@ -103,54 +104,11 @@ jobs:
       - name: Upload APK to AWS Device Farm
         id: upload-apk
         run: |
-          apk_url=$(aws devicefarm create-upload \
-            --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
-            --name banner-debug.apk \
-            --type ANDROID_APP \
-            --region us-west-2 \
-            --query 'upload.url' \
-            --output text)
+                apk_url=$(aws devicefarm create-upload \
+                  --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
+                  --name banner-debug.apk \
+                  --type ANDROID_APP \
+                  --region us-west-2 \
+                  --query 'upload.url' \
+                  --output text)
           curl -T ./SDK-Auto-Test/apk/banner-debug.apk "$apk_url"
-
-      - name: Upload Test ZIP to AWS Device Farm
-        id: upload-test-zip
-        run: |
-          zip_url=$(aws devicefarm create-upload \
-            --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
-            --name test-dependencies.zip \
-            --type APPIUM_NODE_TEST_PACKAGE \
-            --region us-west-2 \
-            --query 'upload.url' \
-            --output text)
-          curl -T ./SDK-Auto-Test/target/zip-with-dependencies.zip "$zip_url"
-
-      - name: Schedule Test Run
-        id: schedule-run
-        run: |
-          run_arn=$(aws devicefarm schedule-run \
-            --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
-            --app-arn $(aws devicefarm list-uploads --project-arn ${{ secrets.AWS_PROJECT_ARN }} --type ANDROID_APP --query 'uploads[?name==`banner-debug.apk`].arn' --output text) \
-            --device-pool-arn ${{ secrets.AWS_DEVICE_POOL_ARN }} \
-            --name "UI Test Run" \
-            --test '{"type":"APPIUM_NODE","testPackageArn":"$(aws devicefarm list-uploads --project-arn ${{ secrets.AWS_PROJECT_ARN }} --type APPIUM_NODE_TEST_PACKAGE --query 'uploads[?name==`test-dependencies.zip`].arn' --output text)"}' \
-            --region us-west-2 \
-            --query 'run.arn' \
-            --output text)
-          echo "RUN_ARN=$run_arn" >> $GITHUB_ENV
-
-      - name: Wait for Test Run to Complete
-        run: |
-          aws devicefarm get-run \
-            --arn $RUN_ARN \
-            --region us-west-2 \
-            --query 'run.status' \
-            --output text
-
-      - name: Download Test Results
-        run: |
-          aws devicefarm list-artifacts \
-            --arn $RUN_ARN \
-            --type FILE \
-            --region us-west-2 \
-            --query 'artifacts[*].[type,url]' \
-            --output text
