@@ -111,3 +111,16 @@ jobs:
             --query 'upload.url' \
             --output text)
           curl -T ./SDK-Auto-Test/apk/banner-debug.apk "$apk_url"
+
+      - name: Upload Test ZIP to AWS Device Farm
+        id: upload-test-zip
+        run: |
+          zip_url=$(aws devicefarm create-upload \
+            --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
+            --name zip-with-dependencies.zip \
+            --type APPIUM_JAVA_TEST_PACKAGE \
+            --region us-west-2 \
+            --query 'upload.url' \
+            --output text)
+          curl -T ./SDK-Auto-Test/target/zip-with-dependencies.zip "$zip_url"
+          
