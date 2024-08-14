@@ -118,7 +118,7 @@ jobs:
           zip_url=$(aws devicefarm create-upload \
             --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
             --name zip-with-dependencies.zip \
-            --type APPIUM_JAVA_TEST_PACKAGE \
+            --type APPIUM_JAVA_TESTNG_TEST_PACKAGE \
             --region us-west-2 \
             --query 'upload.url' \
             --output text)
