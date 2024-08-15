@@ -127,7 +127,6 @@ jobs:
       - name: Schedule Test Run
         id: schedule-run
         run: |
-          # Получаем ARN загруженного APK файла
           app_arn=$(aws devicefarm list-uploads \
             --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
             --type ANDROID_APP \
@@ -135,13 +134,11 @@ jobs:
             --output text \
             --region us-west-2)
 
-          # Проверка наличия app_arn
           if [ -z "$app_arn" ]; then
             echo "Error: Failed to retrieve app ARN"
             exit 1
           fi
 
-          # Получаем ARN загруженного тестового пакета
           test_package_arn=$(aws devicefarm list-uploads \
             --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
             --type APPIUM_JAVA_TESTNG_TEST_PACKAGE \
@@ -149,13 +146,11 @@ jobs:
             --output text \
             --region us-west-2)
 
-          # Проверка наличия test_package_arn
           if [ -z "$test_package_arn" ]; then
             echo "Error: Failed to retrieve test package ARN"
             exit 1
           fi
 
-          # Запланируем запуск тестов с использованием полученных ARN
           run_arn=$(aws devicefarm schedule-run \
             --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
             --app-arn "$app_arn" \
@@ -166,11 +161,9 @@ jobs:
             --query 'run.arn' \
             --output text)
 
-          # Проверка успешности планирования запуска
           if [ -z "$run_arn" ]; then
             echo "Error: Failed to schedule test run"
             exit 1
           fi
 
-          # Сохранение ARN запуска в переменную окружения GitHub Actions
           echo "RUN_ARN=$run_arn" >> $GITHUB_ENV   
