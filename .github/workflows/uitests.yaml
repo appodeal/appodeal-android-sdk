@@ -127,13 +127,50 @@ jobs:
       - name: Schedule Test Run
         id: schedule-run
         run: |
+          # Получаем ARN загруженного APK файла
+          app_arn=$(aws devicefarm list-uploads \
+            --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
+            --type ANDROID_APP \
+            --query "uploads[?name=='banner-debug.apk'].arn" \
+            --output text \
+            --region us-west-2)
+
+          # Проверка наличия app_arn
+          if [ -z "$app_arn" ]; then
+            echo "Error: Failed to retrieve app ARN"
+            exit 1
+          fi
+
+          # Получаем ARN загруженного тестового пакета
+          test_package_arn=$(aws devicefarm list-uploads \
+            --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
+            --type APPIUM_JAVA_TESTNG_TEST_PACKAGE \
+            --query "uploads[?name=='zip-with-dependencies.zip'].arn" \
+            --output text \
+            --region us-west-2)
+
+          # Проверка наличия test_package_arn
+          if [ -z "$test_package_arn" ]; then
+            echo "Error: Failed to retrieve test package ARN"
+            exit 1
+          fi
+
+          # Запланируем запуск тестов с использованием полученных ARN
           run_arn=$(aws devicefarm schedule-run \
             --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
-            --app-arn $(aws devicefarm list-uploads --project-arn ${{ secrets.AWS_PROJECT_ARN }} --type ANDROID_APP --query 'uploads[?name==`banner-debug.apk`].arn' --output text) \
+            --app-arn "$app_arn" \
             --device-pool-arn arn:aws:devicefarm:us-west-2:381491970378:devicepool:4c28c1e5-8344-4d34-919c-a1e9377d3b2f/86ebd86a-2150-4997-b71f-2e3d72510e0d \
             --name "UI Test Run" \
-            --test "{\"type\":\"APPIUM_JAVA_TESTNG\",\"testPackageArn\":\"$(aws devicefarm list-uploads --project-arn ${{ secrets.AWS_PROJECT_ARN }} --type APPIUM_JAVA_TESTNG_TEST_PACKAGE --query 'uploads[?name==`zip-with-dependencies.zip`].arn' --output text)\"}" \
+            --test "{\"type\":\"APPIUM_JAVA_TESTNG\",\"testPackageArn\":\"$test_package_arn\"}" \
             --region us-west-2 \
             --query 'run.arn' \
             --output text)
-          echo "RUN_ARN=$run_arn" >> $GITHUB_ENV    
+
+          # Проверка успешности планирования запуска
+          if [ -z "$run_arn" ]; then
+            echo "Error: Failed to schedule test run"
+            exit 1
+          fi
+
+          # Сохранение ARN запуска в переменную окружения GitHub Actions
+          echo "RUN_ARN=$run_arn" >> $GITHUB_ENV   
