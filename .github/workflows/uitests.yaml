@@ -123,4 +123,17 @@ jobs:
             --query 'upload.url' \
             --output text)
           curl -T ./SDK-Auto-Test/target/zip-with-dependencies.zip "$zip_url"
-          
+
+      - name: Schedule Test Run
+        id: schedule-run
+        run: |
+          run_arn=$(aws devicefarm schedule-run \
+            --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
+            --app-arn $(aws devicefarm list-uploads --project-arn ${{ secrets.AWS_PROJECT_ARN }} --type ANDROID_APP --query 'uploads[?name==`banner-debug.apk`].arn' --output text) \
+            --device-pool-arn arn:aws:devicefarm:us-west-2:381491970378:devicepool:4c28c1e5-8344-4d34-919c-a1e9377d3b2f/86ebd86a-2150-4997-b71f-2e3d72510e0d \
+            --name "UI Test Run" \
+            --test "{\"type\":\"APPIUM_JAVA_TESTNG\",\"testPackageArn\":\"$(aws devicefarm list-uploads --project-arn ${{ secrets.AWS_PROJECT_ARN }} --type APPIUM_JAVA_TESTNG_TEST_PACKAGE --query 'uploads[?name==`zip-with-dependencies.zip`].arn' --output text)\"}" \
+            --region us-west-2 \
+            --query 'run.arn' \
+            --output text)
+          echo "RUN_ARN=$run_arn" >> $GITHUB_ENV    
