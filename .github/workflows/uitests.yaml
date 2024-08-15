@@ -40,6 +40,17 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Restore cache gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            .gradle/configuration-cache
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Build with Gradle
         working-directory: ${{ github.workspace }}/appodeal-android-sdk
         run: ./gradlew :banner:assembleDebug
@@ -140,7 +151,7 @@ jobs:
 
       - name: Schedule Device Farm Automated Test
         id: run-test
-        uses: aws-actions/aws-devicefarm-mobile-device-testing@v2.0
+        uses: aws-actions/aws-devicefarm-mobile-device-testing@v2.1
         with:
           run-settings-json: |
             {
