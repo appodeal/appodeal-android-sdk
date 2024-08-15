@@ -40,17 +40,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Restore cache gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            .gradle/configuration-cache
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
       - name: Build with Gradle
         working-directory: ${{ github.workspace }}/appodeal-android-sdk
         run: ./gradlew :banner:assembleDebug
@@ -172,5 +161,5 @@ jobs:
         run: |
           echo "### Results of test execution :fire:" >> $GITHUB_STEP_SUMMARY
           echo "Launch: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
-          echo "Device: ${{ env.DEVICE }}" >> $GITHUB_STEP_SUMMARY
-          echo "Build agent: ${{ env.RUNNER }}" >> $GITHUB_STEP_SUMMARY
+          echo "Device: ${{ github.event.inputs.device }}" >> $GITHUB_STEP_SUMMARY
+          echo "Build agent: ${{ github.event.inputs.runner }}" >> $GITHUB_STEP_SUMMARY
