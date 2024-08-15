@@ -130,7 +130,7 @@ jobs:
           echo "APP_ARN=$(aws devicefarm list-uploads \
             --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
             --type ANDROID_APP \
-            --query 'uploads[?name==`banner-debug.apk`].arn' \
+            --query \"uploads[?name=='banner-debug.apk'].arn\" \
             --output text \
             --region us-west-2)" >> $GITHUB_ENV
 
@@ -140,7 +140,7 @@ jobs:
           echo "TEST_PACKAGE_ARN=$(aws devicefarm list-uploads \
              --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
              --type APPIUM_JAVA_TESTNG_TEST_PACKAGE \
-             --query 'uploads[?name==`zip-with-dependencies.zip`].arn' \
+             --query \"uploads[?name=='zip-with-dependencies.zip'].arn\" \
              --output text \
              --region us-west-2)" >> $GITHUB_ENV
 
