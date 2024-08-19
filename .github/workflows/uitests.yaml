@@ -117,7 +117,7 @@ jobs:
       - name: Upload Test Package to AWS Device Farm
         id: upload-tests
         run: |
-            TEST_PACKAGE_UPLOAD_RESPONSE=$(aws devicefarm create-upload --project-arn arn:aws:devicefarm:us-west-2:381491970378:project:4c28c1e5-8344-4d34-919c-a1e9377d3b2f --name zip-with-dependencies.zip --type APPIUM_NODE_TEST_PACKAGE)
+            TEST_PACKAGE_UPLOAD_RESPONSE=$(aws devicefarm create-upload --project-arn arn:aws:devicefarm:us-west-2:381491970378:project:4c28c1e5-8344-4d34-919c-a1e9377d3b2f --name zip-with-dependencies.zip --type APPIUM_JAVA_TESTNG_TEST_PACKAGE)
             TEST_PACKAGE_ARN=$(echo $TEST_PACKAGE_UPLOAD_RESPONSE | jq -r .upload.arn)
             echo "TEST_PACKAGE_ARN=$TEST_PACKAGE_ARN" >> $GITHUB_ENV
             TEST_PACKAGE_URL=$(echo $TEST_PACKAGE_UPLOAD_RESPONSE | jq -r .upload.url)
