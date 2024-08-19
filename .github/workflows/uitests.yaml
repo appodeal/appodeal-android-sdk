@@ -141,7 +141,7 @@ jobs:
                 "test": {
                   "type": "APPIUM_JAVA_TESTNG",
                   "testPackageArn": "${{ env.TEST_PACKAGE_ARN }}",
-                  "testSpecArn": "${{ env.TEST_SPEC_ARN }}"
+                  "testSpecArn": "default.yml"
                 }
               }
             artifact-types: ALL
