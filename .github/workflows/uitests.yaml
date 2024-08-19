@@ -146,6 +146,12 @@ jobs:
               }
             artifact-types: ALL
 
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: AutomatedTestOutputFiles
+          path: ${{ steps.run-test.outputs.artifact-folder }}
+
       - name: Adding summary
         if: ${{ always() }}
         run: |
