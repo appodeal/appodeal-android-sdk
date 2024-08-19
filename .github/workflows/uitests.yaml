@@ -103,44 +103,48 @@ jobs:
       - name: Upload APK to AWS Device Farm
         id: upload-apk
         run: |
-          apk_url=$(aws devicefarm create-upload \
-            --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
-            --name banner-debug.apk \
-            --type ANDROID_APP \
-            --region us-west-2 \
-            --query 'upload.url' \
-            --output text)
-          curl -T ./SDK-Auto-Test/apk/banner-debug.apk "$apk_url"
+            APP_UPLOAD_RESPONSE=$(aws devicefarm create-upload --project-arn arn:aws:devicefarm:us-west-2:381491970378:project:4c28c1e5-8344-4d34-919c-a1e9377d3b2f --name banner-debug.apk --type ANDROID_APP)
+            APP_ARN=$(echo $APP_UPLOAD_RESPONSE | jq -r .upload.arn)
+            echo "APP_ARN=$APP_ARN" >> $GITHUB_ENV
+            APP_URL=$(echo $APP_UPLOAD_RESPONSE | jq -r .upload.url)
+            curl -T banner-debug.apk $APP_URL
+            # Wait until the upload is processed
+            while [[ "$(aws devicefarm get-upload --arn $APP_ARN | jq -r '.upload.status')" != "SUCCEEDED" ]]; do
+              echo "Waiting for APK upload to complete..."
+              sleep 10
+            done
 
-      - name: Upload Test ZIP to AWS Device Farm
-        id: upload-test-zip
+      - name: Upload Test Package to AWS Device Farm
+        id: upload-tests
         run: |
-          zip_url=$(aws devicefarm create-upload \
-            --project-arn ${{ secrets.AWS_PROJECT_ARN }} \
-            --name zip-with-dependencies.zip \
-            --type APPIUM_JAVA_TESTNG_TEST_PACKAGE \
-            --region us-west-2 \
-            --query 'upload.url' \
-            --output text)
-          curl -T ./SDK-Auto-Test/target/zip-with-dependencies.zip "$zip_url"
+            TEST_PACKAGE_UPLOAD_RESPONSE=$(aws devicefarm create-upload --project-arn arn:aws:devicefarm:us-west-2:381491970378:project:4c28c1e5-8344-4d34-919c-a1e9377d3b2f --name zip-with-dependencies.zip --type APPIUM_NODE_TEST_PACKAGE)
+            TEST_PACKAGE_ARN=$(echo $TEST_PACKAGE_UPLOAD_RESPONSE | jq -r .upload.arn)
+            echo "TEST_PACKAGE_ARN=$TEST_PACKAGE_ARN" >> $GITHUB_ENV
+            TEST_PACKAGE_URL=$(echo $TEST_PACKAGE_UPLOAD_RESPONSE | jq -r .upload.url)
+            curl -T zip-with-dependencies.zip $TEST_PACKAGE_URL
+            # Wait until the upload is processed
+            while [[ "$(aws devicefarm get-upload --arn $TEST_PACKAGE_ARN | jq -r '.upload.status')" != "SUCCEEDED" ]]; do
+              echo "Waiting for Test Package upload to complete..."
+              sleep 10
+            done
 
       - name: Schedule Device Farm Automated Test
         id: run-test
         uses: aws-actions/aws-devicefarm-mobile-device-testing@v2.3
         with:
-          run-settings-json: |
-            {
-              "name": "GitHubAction-${{ github.workflow }}_${{ github.run_id }}_${{ github.run_attempt }}",
-              "projectArn": "arn:aws:devicefarm:us-west-2:381491970378:project:4c28c1e5-8344-4d34-919c-a1e9377d3b2f",
-              "appArn": "banner-debug.apk",
-              "devicePoolArn": "arn:aws:devicefarm:us-west-2:381491970378:devicepool:4c28c1e5-8344-4d34-919c-a1e9377d3b2f/86ebd86a-2150-4997-b71f-2e3d72510e0d",
-              "test": {
-                "type": "APPIUM_JAVA_TESTNG",
-                "testPackageArn": "zip-with-dependencies.zip",
-                "testSpecArn": "default.yml"
+            run-settings-json: |
+              {
+                "name": "GitHubAction-${{ github.workflow }}_${{ github.run_id }}_${{ github.run_attempt }}",
+                "projectArn": "arn:aws:devicefarm:us-west-2:381491970378:project:4c28c1e5-8344-4d34-919c-a1e9377d3b2f",
+                "appArn": "${{ env.APP_ARN }}",
+                "devicePoolArn": "arn:aws:devicefarm:us-west-2:381491970378:devicepool:4c28c1e5-8344-4d34-919c-a1e9377d3b2f/86ebd86a-2150-4997-b71f-2e3d72510e0d",
+                "test": {
+                  "type": "APPIUM_JAVA_TESTNG",
+                  "testPackageArn": "${{ env.TEST_PACKAGE_ARN }}",
+                  "testSpecArn": "${{ env.TEST_SPEC_ARN }}"
+                }
               }
-            }
-          artifact-types: ALL
+            artifact-types: ALL
 
       - name: Adding summary
         if: ${{ always() }}
