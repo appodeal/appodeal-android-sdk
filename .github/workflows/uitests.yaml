@@ -159,3 +159,16 @@ jobs:
           echo "Launch: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
           echo "Device: ${{ github.event.inputs.device }}" >> $GITHUB_STEP_SUMMARY
           echo "Build agent: ${{ github.event.inputs.runner }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Run JUnitReportParser
+        run: mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="./TEST-tests.example_APD.ApdBannerTest.xml Pixel" -Dexec.cleanupDaemonThreads=false
+
+#      - name: Download allure-notifications.jar
+#        if: ${{ always() }}
+#        run: |
+#          curl -fSL https://github.com/qa-guru/allure-notifications/releases/download/4.7.0/allure-notifications-4.7.0.jar -o allure-notifications/allure-notifications.jar
+#          chmod +x allure-notifications/allure-notifications.jar
+#
+#      - name: Send reports to slack
+#        if: ${{ always() }}
+#        run: java "-DconfigFile=allure_notifications/config.json" -jar allure-notifications/allure-notifications.jar
