@@ -161,7 +161,8 @@ jobs:
           echo "Build agent: ${{ github.event.inputs.runner }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Run JUnitReportParser
-        run: mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="./TEST-tests.example_APD.ApdBannerTest.xml Pixel" -Dexec.cleanupDaemonThreads=false
+        working-directory: ${{ github.workspace }}/SDK-Auto-Test
+        run: mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="./TEST-tests.example_APD.ApdBannerTest.xml Pixel" -Dexec.cleanupDaemonThreads=falseitReportParser" -Dexec.args="./TEST-tests.example_APD.ApdBannerTest.xml Pixel" -Dexec.cleanupDaemonThreads=false
 
 #      - name: Download allure-notifications.jar
 #        if: ${{ always() }}
