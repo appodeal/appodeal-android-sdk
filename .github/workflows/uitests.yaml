@@ -93,6 +93,10 @@ jobs:
           sleep 10
           mvn assembly:assembly -DskipTests -Ddescriptor=src/main/assembly/zip.xml
 
+      - name: Run JUnitReportParser
+        working-directory: ${{ github.workspace }}/SDK-Auto-Test
+        run: mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="./TEST-tests.example_APD.ApdBannerTest.xml Pixel" -Dexec.cleanupDaemonThreads=false
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
