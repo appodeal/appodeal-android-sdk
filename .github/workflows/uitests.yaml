@@ -191,18 +191,6 @@ jobs:
           name: AutomatedTestOutputFiles
           path: ./SDK-Auto-Test/
 
-      - name: debug
-        working-directory: ${{ github.workspace }}/SDK-Auto-Test
-        run: |
-          ls -a
-
-#      - name: Copy aws artifacts
-#        if: always()
-#        working-directory: ${{ github.workspace }}/SDK-Auto-Test
-#        run: |
-#          rm -rf aws_artifacts && mkdir aws_artifacts || true
-#          cp ${{ steps.run-test.outputs.artifact-folder }} ./aws_artifacts
-
       - name: Run JUnitReportParser
         if: always()
         working-directory: ${{ github.workspace }}/SDK-Auto-Test
@@ -215,14 +203,3 @@ jobs:
               mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="$test_file_path Pixel" -Dexec.cleanupDaemonThreads=false
             fi
           done  
-
-
-#      - name: Download allure-notifications.jar
-#        if: ${{ always() }}
-#        run: |
-#          curl -fSL https://github.com/qa-guru/allure-notifications/releases/download/4.7.0/allure-notifications-4.7.0.jar -o allure-notifications/allure-notifications.jar
-#          chmod +x allure-notifications/allure-notifications.jar
-#
-#      - name: Send reports to slack
-#        if: ${{ always() }}
-#        run: java "-DconfigFile=allure_notifications/config.json" -jar allure-notifications/allure-notifications.jar
