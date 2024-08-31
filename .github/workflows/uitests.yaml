@@ -152,17 +152,61 @@ jobs:
           name: AutomatedTestOutputFiles
           path: ${{ steps.run-test.outputs.artifact-folder }}
 
-      - name: Copy aws artifacts
-        if: always()
+      - name: Adding summary
+        if: ${{ always() }}
+        run: |
+          echo "### Results of test execution :fire:" >> $GITHUB_STEP_SUMMARY
+          echo "Launch: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "Device: ${{ github.event.inputs.device }}" >> $GITHUB_STEP_SUMMARY
+          echo "Build agent: ${{ github.event.inputs.runner }}" >> $GITHUB_STEP_SUMMARY
+
+  report:
+    name: send test report to slack
+    needs: tests
+    runs-on: ${{ github.event.inputs.runner || 'autotestdebug' }}
+    timeout-minutes: 10
+    steps:
+      - name: Print Env Variables
+        run: env
+        working-directory: ${{ github.workspace }}
+
+      - name: checkout source code of application
+        uses: actions/checkout@v4
+        with:
+          path: 'SDK-Auto-Test'
+          clean: true
+          repository: 'appodeal/SDK-Auto-Test'
+          ref: 'aws'
+          token: ${{ secrets.UITESTREPOACCESS }}
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: download debug build
+        uses: actions/download-artifact@v4
+        with:
+          name: AutomatedTestOutputFiles
+          path: ./SDK-Auto-Test/
+
+      - name: debug
         working-directory: ${{ github.workspace }}/SDK-Auto-Test
-        run: | 
-          rm -rf aws_artifacts && mkdir aws_artifacts || true
-          cp ${{ steps.run-test.outputs.artifact-folder }} ./aws_artifacts
+        run: |
+          ls -a
+
+#      - name: Copy aws artifacts
+#        if: always()
+#        working-directory: ${{ github.workspace }}/SDK-Auto-Test
+#        run: |
+#          rm -rf aws_artifacts && mkdir aws_artifacts || true
+#          cp ${{ steps.run-test.outputs.artifact-folder }} ./aws_artifacts
 
       - name: Run JUnitReportParser
         if: always()
         working-directory: ${{ github.workspace }}/SDK-Auto-Test
-        run: | 
+        run: |
           find . -type f -name "00003-Customer Artifacts.zip" | while read -r file; do
             unzip "$file" -d "$(dirname "$file")"
             test_file_path=$(find "$(dirname "$file")" -type f -name "TEST-tests.example_APD.ApdBannerTest.xml")
@@ -172,13 +216,6 @@ jobs:
             fi
           done  
 
-      - name: Adding summary
-        if: ${{ always() }}
-        run: |
-          echo "### Results of test execution :fire:" >> $GITHUB_STEP_SUMMARY
-          echo "Launch: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
-          echo "Device: ${{ github.event.inputs.device }}" >> $GITHUB_STEP_SUMMARY
-          echo "Build agent: ${{ github.event.inputs.runner }}" >> $GITHUB_STEP_SUMMARY
 
 #      - name: Download allure-notifications.jar
 #        if: ${{ always() }}
