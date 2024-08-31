@@ -153,12 +153,14 @@ jobs:
           path: ${{ steps.run-test.outputs.artifact-folder }}
 
       - name: Copy aws artifacts
+        if: always()
         working-directory: ${{ github.workspace }}/SDK-Auto-Test
         run: | 
           rm -rf aws_artifacts && mkdir aws_artifacts || true
           cp ${{ steps.run-test.outputs.artifact-folder }} ./aws_artifacts
 
       - name: Run JUnitReportParser
+        if: always()
         working-directory: ${{ github.workspace }}/SDK-Auto-Test
         run: | 
           find . -type f -name "00003-Customer Artifacts.zip" | while read -r file; do
