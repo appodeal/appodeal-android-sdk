@@ -93,10 +93,6 @@ jobs:
           sleep 10
           mvn assembly:assembly -DskipTests -Ddescriptor=src/main/assembly/zip.xml
 
-      - name: Run JUnitReportParser
-        working-directory: ${{ github.workspace }}/SDK-Auto-Test
-        run: mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="./TEST-tests.example_APD.ApdBannerTest.xml Pixel" -Dexec.cleanupDaemonThreads=false
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -155,6 +151,24 @@ jobs:
         with:
           name: AutomatedTestOutputFiles
           path: ${{ steps.run-test.outputs.artifact-folder }}
+
+      - name: Copy aws artifacts
+        working-directory: ${{ github.workspace }}/SDK-Auto-Test
+        run: | 
+          rm -rf aws_artifacts && mkdir aws_artifacts || true
+          cp ${{ steps.run-test.outputs.artifact-folder }} ./aws_artifacts
+
+      - name: Run JUnitReportParser
+        working-directory: ${{ github.workspace }}/SDK-Auto-Test
+        run: | 
+          find . -type f -name "00003-Customer Artifacts.zip" | while read -r file; do
+            unzip "$file" -d "$(dirname "$file")"
+            test_file_path=$(find "$(dirname "$file")" -type f -name "TEST-tests.example_APD.ApdBannerTest.xml")
+            if [ -n "$test_file_path" ]; then
+              echo "Файл найден: $test_file_path"
+              mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="./TEST-tests.example_APD.ApdBannerTest.xml Pixel" -Dexec.cleanupDaemonThreads=false
+            fi
+          done  
 
       - name: Adding summary
         if: ${{ always() }}
