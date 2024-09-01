@@ -191,15 +191,33 @@ jobs:
           name: AutomatedTestOutputFiles
           path: ./SDK-Auto-Test/
 
-      - name: Run JUnitReportParser
+      - name: Copy Junit Reports
         if: always()
         working-directory: ${{ github.workspace }}/SDK-Auto-Test
+        env:
+          DEVICEFARM_LOG_DIR: "\$DEVICEFARM_LOG_DIR"
         run: |
+          rm -rf saved_reports && mkdir saved_reports
           find . -type f -name "00003-Customer Artifacts.zip" | while read -r file; do
             unzip "$file" -d "$(dirname "$file")"
             test_file_path=$(find "$(dirname "$file")" -type f -name "TEST-tests.example_APD.ApdBannerTest.xml")
             if [ -n "$test_file_path" ]; then
               echo "Файл найден: $test_file_path"
-              mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="$test_file_path Pixel" -Dexec.cleanupDaemonThreads=false
+              removed_spaces=$(echo "$test_file_path" | tr -d ' ')
+              first_directory=$(echo "$removed_spaces" | cut -d'/' -f2)
+              cp "$test_file_path" ./saved_reports/$first_directory.xml
             fi
-          done  
+          done
+
+#      - name: Run JUnitReportParser
+#        if: always()
+#        working-directory: ${{ github.workspace }}/SDK-Auto-Test
+#        run: |
+#          find . -type f -name "00003-Customer Artifacts.zip" | while read -r file; do
+#            unzip "$file" -d "$(dirname "$file")"
+#            test_file_path=$(find "$(dirname "$file")" -type f -name "TEST-tests.example_APD.ApdBannerTest.xml")
+#            if [ -n "$test_file_path" ]; then
+#              echo "Файл найден: $test_file_path"
+#              mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="$test_file_path Pixel" -Dexec.cleanupDaemonThreads=false
+#            fi
+#          done
