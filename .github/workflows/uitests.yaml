@@ -195,7 +195,7 @@ jobs:
         if: always()
         working-directory: ${{ github.workspace }}/SDK-Auto-Test
         env:
-          DEVICEFARM_LOG_DIR: "\$DEVICEFARM_LOG_DIR"
+          DEVICEFARM_LOG_DIR: \$DEVICEFARM_LOG_DIR
         run: |
           rm -rf saved_reports && mkdir saved_reports
           find . -type f -name "00003-Customer Artifacts.zip" | while read -r file; do
