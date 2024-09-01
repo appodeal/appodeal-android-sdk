@@ -209,15 +209,17 @@ jobs:
             fi
           done
 
-#      - name: Run JUnitReportParser
-#        if: always()
-#        working-directory: ${{ github.workspace }}/SDK-Auto-Test
-#        run: |
-#          find . -type f -name "00003-Customer Artifacts.zip" | while read -r file; do
-#            unzip "$file" -d "$(dirname "$file")"
-#            test_file_path=$(find "$(dirname "$file")" -type f -name "TEST-tests.example_APD.ApdBannerTest.xml")
-#            if [ -n "$test_file_path" ]; then
-#              echo "Файл найден: $test_file_path"
-#              mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="$test_file_path Pixel" -Dexec.cleanupDaemonThreads=false
-#            fi
-#          done
+      - name: Run JUnitReportParser for all XML files
+        if: always()
+        working-directory: ${{ github.workspace }}/SDK-Auto-Test
+        run: |
+          if [ -d "./saved_reports" ]; then
+            find ./saved_reports -type f -name "*.xml" | while read -r test_file_path; do
+              if [ -n "$test_file_path" ]; then
+                echo "Файл найден: $test_file_path"
+                mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="$test_file_path" -Dexec.cleanupDaemonThreads=false
+              fi
+            done
+          else
+            echo "Directory ./saved_reports does not exist."
+          fi
