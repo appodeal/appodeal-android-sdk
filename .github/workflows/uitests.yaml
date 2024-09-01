@@ -217,7 +217,7 @@ jobs:
             find ./saved_reports -type f -name "*.xml" | while read -r test_file_path; do
               if [ -n "$test_file_path" ]; then
                 echo "Файл найден: $test_file_path"
-                mvn exec:java -Dexec.mainClass="resources.script.JUnitReportParser" -Dexec.args="$test_file_path" -Dexec.cleanupDaemonThreads=false
+                ./slack.sh "$test_file_path" ${{ secrets.SLACK_WEBHOOK_URL }}
               fi
             done
           else
