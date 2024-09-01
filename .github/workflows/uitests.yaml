@@ -213,6 +213,7 @@ jobs:
         if: always()
         working-directory: ${{ github.workspace }}/SDK-Auto-Test
         run: |
+          chmod +x slack.sh
           if [ -d "./saved_reports" ]; then
             find ./saved_reports -type f -name "*.xml" | while read -r test_file_path; do
               if [ -n "$test_file_path" ]; then
