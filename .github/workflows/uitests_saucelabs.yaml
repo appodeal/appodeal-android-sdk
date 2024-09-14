@@ -1,0 +1,66 @@
+name: UITest on SauceLabs
+
+on:
+  workflow_dispatch:
+    inputs:
+      device:
+        required: true
+        default: 'Pixel8_API33'
+        type: choice
+        options:
+          - 'Pixel8_API33'
+          - 'Pixel8_API35'
+      runner:
+        required: true
+        default: 'autotestdebug'
+        type: choice
+        options:
+          - 'autotestdebug'
+          - 'ubuntu-latest'
+
+jobs:
+  build:
+    name: build android application for ui tests
+    runs-on: ${{ github.event.inputs.runner || 'autotestdebug' }}
+    timeout-minutes: 30
+    steps:
+      - name: Print Env Variables
+        run: env
+        working-directory: ${{ github.workspace }}
+
+      - name: checkout source code of application
+        uses: actions/checkout@v4
+        with:
+          clean: true
+          path: 'appodeal-android-sdk'
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build with Gradle
+        working-directory: ${{ github.workspace }}/appodeal-android-sdk
+        run: ./gradlew :banner:assembleDebug
+
+      - name: save debug build for aws
+        uses: actions/upload-artifact@v4
+        with:
+          name: banner-debug.apk
+          path: appodeal-android-sdk/banner/build/outputs/apk/debug/banner-debug.apk
+          retention-days: 14
+
+      - name: Upload apk to SauceLabs
+        run: |
+          curl -u "${{ secrets.SAUCELABS_USERNAME }}:${{ secrets.SAUCELABS_ACCESS_KEY }}" --location \
+          --request POST 'https://api.eu-central-1.saucelabs.com/v1/storage/upload' \
+          --form 'payload=@"appodeal-android-sdk/banner/build/outputs/apk/debug/banner-debug.apk"' \
+          --form 'name="banner-debug.apk"' \
+          --form 'description="APD demo \n ${GITHUB_REF_NAME}"'
+
+#          GITHUB_REF_NAME=feature/auto_test
+#  GITHUB_RUN_ID=10653731636
+#  GITHUB_REPOSITORY=appodeal/appodeal-android-sdk
+#  https://github.com/appodeal/appodeal-android-sdk/actions/runs/10653731636
+#  GITHUB_TRIGGERING_ACTOR=johnlitvinov
