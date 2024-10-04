@@ -1,15 +1,15 @@
 # Appodeal Android SDK
 
-[![](https://img.shields.io/badge/SDK%20version-%203.3.3-brightgreen)](https://docs.appodeal.com/android/get-started)
+[![](https://img.shields.io/badge/SDK%20version-beta%203.4.0-brightgreen)](https://docs.appodeal.com/android/get-started)
 
 # Examples
 
-* [Banner](https://github.com/appodeal/appodeal-android-sdk/tree/master/banner)
-* [Interstitial](https://github.com/appodeal/appodeal-android-sdk/tree/master/interstitial)
-* [MREC](https://github.com/appodeal/appodeal-android-sdk/tree/master/mrec)
-* [Rewarded Video](https://github.com/appodeal/appodeal-android-sdk/tree/master/rewarded)
-* [Native](https://github.com/appodeal/appodeal-android-sdk/tree/master/native)
-* [Services](https://github.com/appodeal/appodeal-android-sdk/tree/master/analytics)
+* [Banner](https://github.com/appodeal/appodeal-android-sdk/tree/beta/banner)
+* [Interstitial](https://github.com/appodeal/appodeal-android-sdk/tree/beta/interstitial)
+* [MREC](https://github.com/appodeal/appodeal-android-sdk/tree/beta/mrec)
+* [Rewarded Video](https://github.com/appodeal/appodeal-android-sdk/tree/beta/rewarded)
+* [Native](https://github.com/appodeal/appodeal-android-sdk/tree/beta/native)
+* [Services](https://github.com/appodeal/appodeal-android-sdk/tree/beta/analytics)
 
 # Documentation
 
