@@ -43,7 +43,7 @@ jobs:
       - name: Build with Gradle
         working-directory: ${{ github.workspace }}/appodeal-android-sdk
         run: |
-          ./gradlew updateVersionName -PnewVersion= ${{ env.GITHUB_RUN_NUMBER }}       
+          ./gradlew updateVersionName -PnewVersion=${{ env.GITHUB_RUN_NUMBER }} || true      
           ./gradlew :banner:assembleDebug
 
       - name: save debug build for Saucelabs
