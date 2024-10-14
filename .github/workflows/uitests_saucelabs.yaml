@@ -90,6 +90,7 @@ jobs:
         working-directory: ${{ github.workspace }}/SDK-Auto-Test
         run: |
           mvn clean
+          sleep 10
           mvn -Dtest=AndroidAppTest test
 
       - name: save Allure result
