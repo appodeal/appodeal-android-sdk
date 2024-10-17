@@ -80,6 +80,14 @@ jobs:
           ref: 'aws'
           token: ${{ secrets.UITESTREPOACCESS }}
 
+      - name: Get Allure history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -99,6 +107,29 @@ jobs:
         with:
           name: allure-results
           path: ${{ github.workspace }}/SDK-Auto-Test/target/allure-results
+
+      - name: convert allure-result to allure-report
+        run: allure generate ${{ github.workspace }}/SDK-Auto-Test/target/allure-results --clean -o allure-report
+
+      - name: save Allure report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-report
+          path: ${{ github.workspace }}/allure-report
+
+      - name: upload allure-result to gh-pages
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: build/allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+
+      - name: notification to Slack
+        run: pwd
 
       - name: Adding summary
         if: ${{ always() }}
