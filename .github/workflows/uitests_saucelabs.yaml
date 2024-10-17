@@ -113,7 +113,7 @@ jobs:
 
       - name: notification to Slack
         if: always()
-        run: pwd
+        run: java "-DconfigFile=allure_notifications/config.json" -jar allure_notifications/allure-notifications-4.8.0.jar
 
       - name: Adding summary
         if: ${{ always() }}
