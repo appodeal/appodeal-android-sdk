@@ -62,7 +62,7 @@ jobs:
           --form 'description="APD demo ${{ env.GITHUB_REF_NAME }} launch by ${{ env.GITHUB_RUN_ID }}"'
 
   tests:
-    name: run ui tests on aws with appium
+    name: run ui tests on SauceLabs with appium
     needs: build
     runs-on: ${{ github.event.inputs.runner || 'autotestdebug' }}
     timeout-minutes: 30
@@ -79,14 +79,6 @@ jobs:
           repository: 'appodeal/SDK-Auto-Test'
           ref: 'aws'
           token: ${{ secrets.UITESTREPOACCESS }}
-
-      - name: Get Allure history
-        uses: actions/checkout@v4
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -118,16 +110,6 @@ jobs:
           name: allure-report
           path: ${{ github.workspace }}/allure-report
 
-      - name: upload allure-result to gh-pages
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        id: allure-report
-        with:
-          allure_results: build/allure-results
-          gh_pages: gh-pages
-          allure_report: allure-report
-          allure_history: allure-history
-
       - name: notification to Slack
         run: pwd
 
@@ -138,6 +120,55 @@ jobs:
           echo "Launch: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
           echo "Device: ${{ github.event.inputs.device }}" >> $GITHUB_STEP_SUMMARY
           echo "Build agent: ${{ github.event.inputs.runner }}" >> $GITHUB_STEP_SUMMARY
+
+  upload:
+    name: upload allure to gp-pages
+    needs: tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Print Env Variables
+        run: env
+        working-directory: ${{ github.workspace }}
+
+      - name: Get Allure history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: download allure results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+
+      - name: download allure report
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+      - name: upload allure-result to gh-pages
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
+
 
 #  GITHUB_REF_NAME=feature/auto_test
 #  GITHUB_RUN_ID=10653731636
