@@ -101,6 +101,7 @@ jobs:
           path: ${{ github.workspace }}/SDK-Auto-Test/target/allure-results
 
       - name: convert allure-result to allure-report
+        if: always()
         run: allure generate ${{ github.workspace }}/SDK-Auto-Test/target/allure-results --clean -o allure-report
 
       - name: save Allure report
@@ -111,6 +112,7 @@ jobs:
           path: ${{ github.workspace }}/allure-report
 
       - name: notification to Slack
+        if: always()
         run: pwd
 
       - name: Adding summary
