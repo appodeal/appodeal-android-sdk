@@ -102,14 +102,14 @@ jobs:
 
       - name: convert allure-result to allure-report
         if: always()
-        run: allure generate ${{ github.workspace }}/SDK-Auto-Test/target/allure-results --clean -o ${{ github.workspace }}/SDK-Auto-Test/target/allure-report
+        run: allure generate ${{ github.workspace }}/SDK-Auto-Test/target/allure-results --clean -o ${{ github.workspace }}/SDK-Auto-Test/allure-report
 
       - name: save Allure report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: allure-report
-          path: ${{ github.workspace }}/SDK-Auto-Test/target/allure-report
+          path: ${{ github.workspace }}/SDK-Auto-Test/allure-report
 
       - name: notification to Slack
         if: always()
@@ -181,8 +181,7 @@ jobs:
           context: 'Test report'
           state: 'success'
           sha: ${{ github.event.pull_request.head.sha }}
-          target_url: simple-elf.github.io/github-allure-history/${{ github.run_number }}
-
+          target_url: http://appodeal.github.io/appodeal-android-sdk/${{ github.run_number }}
 
 #  GITHUB_REF_NAME=feature/auto_test
 #  GITHUB_RUN_ID=10653731636
