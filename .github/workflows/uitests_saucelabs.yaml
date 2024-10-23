@@ -114,8 +114,9 @@ jobs:
       - name: notification to Slack
         if: always()
         run: |
-          chmod +x allure_notifications/allure-notifications-4.8.0.jar   
-          java "-DconfigFile=allure_notifications/config.json" -jar allure_notifications/allure-notifications-4.8.0.jar
+          pwd 
+          chmod +x ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/allure-notifications-4.8.0.jar   
+          java "-DconfigFile=allure_notifications/config.json" -jar ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/allure-notifications-4.8.0.jar
 
       - name: Adding summary
         if: ${{ always() }}
@@ -172,6 +173,16 @@ jobs:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
+
+      - name: Post the link to the report
+        if: always()
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: 'Test report'
+          state: 'success'
+          sha: ${{ github.event.pull_request.head.sha }}
+          target_url: simple-elf.github.io/github-allure-history/${{ github.run_number }}
 
 
 #  GITHUB_REF_NAME=feature/auto_test
