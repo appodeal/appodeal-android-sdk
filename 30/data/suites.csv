@@ -1,0 +1,2 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Oct 23 16:04:04 GMT 2024","Wed Oct 23 16:04:17 GMT 2024","13031","Surefire suite","Surefire test","libs.APD.SauceLabs_DeviceFarm.AndroidAppTest","libs.APD.SauceLabs_DeviceFarm.AndroidAppTest","sampleTest","sampleTest",""
