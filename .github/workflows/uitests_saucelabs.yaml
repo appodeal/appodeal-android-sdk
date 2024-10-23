@@ -114,9 +114,8 @@ jobs:
       - name: notification to Slack
         if: always()
         run: |
-          pwd 
           chmod +x ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/allure-notifications-4.8.0.jar   
-          java "-DconfigFile=allure_notifications/config.json" -jar ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/allure-notifications-4.8.0.jar
+          java "-DconfigFile=${{ github.workspace }}/SDK-Auto-Test/allure_notifications/config.json" -jar ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/allure-notifications-4.8.0.jar
 
       - name: Adding summary
         if: ${{ always() }}
