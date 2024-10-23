@@ -102,14 +102,14 @@ jobs:
 
       - name: convert allure-result to allure-report
         if: always()
-        run: allure generate ${{ github.workspace }}/SDK-Auto-Test/target/allure-results --clean -o allure-report
+        run: allure generate ${{ github.workspace }}/SDK-Auto-Test/target/allure-results --clean -o ${{ github.workspace }}/SDK-Auto-Test/target/allure-report
 
       - name: save Allure report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: allure-report
-          path: ${{ github.workspace }}/allure-report
+          path: ${{ github.workspace }}/SDK-Auto-Test/target/allure-report
 
       - name: notification to Slack
         if: always()
