@@ -113,7 +113,9 @@ jobs:
 
       - name: notification to Slack
         if: always()
-        run: java "-DconfigFile=allure_notifications/config.json" -jar allure_notifications/allure-notifications-4.8.0.jar
+        run: |
+          chmod +x allure_notifications/allure-notifications-4.8.0.jar   
+          java "-DconfigFile=allure_notifications/config.json" -jar allure_notifications/allure-notifications-4.8.0.jar
 
       - name: Adding summary
         if: ${{ always() }}
@@ -127,7 +129,7 @@ jobs:
     name: upload allure to gp-pages
     needs: tests
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 3
     steps:
       - name: Print Env Variables
         run: env
