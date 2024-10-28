@@ -124,7 +124,7 @@ jobs:
         if: always()
         run: |
           chmod +x ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/allure-notifications-4.8.0.jar   
-          jq '.base.reportLink = "http://appodeal.github.io/appodeal-android-sdk/${{ github.run_number }}"' config.json > temp.json && mv temp.json config.json || true
+          jq '.base.reportLink = "http://appodeal.github.io/appodeal-android-sdk/${{ github.run_number }}"' ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/config.json > ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/temp.json && mv ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/temp.json ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/config.json
           java "-DconfigFile=${{ github.workspace }}/SDK-Auto-Test/allure_notifications/config.json" -jar ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/allure-notifications-4.8.0.jar
 
       - name: Adding summary
