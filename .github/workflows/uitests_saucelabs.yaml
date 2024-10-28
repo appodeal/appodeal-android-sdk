@@ -80,6 +80,11 @@ jobs:
           ref: 'aws'
           token: ${{ secrets.UITESTREPOACCESS }}
 
+      - name: Clean all tests reports
+        run: | 
+          rm -rf ${{ github.workspace }}/SDK-Auto-Test/target/allure-results || true
+          rm -rf ${{ github.workspace }}/SDK-Auto-Test/allure-report || true
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
