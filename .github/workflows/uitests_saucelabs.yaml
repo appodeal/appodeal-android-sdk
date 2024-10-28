@@ -122,6 +122,7 @@ jobs:
 
       - name: notification to Slack
         if: always()
+        working-directory: ${{ github.workspace }}/SDK-Auto-Test
         run: |
           chmod +x ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/allure-notifications-4.8.0.jar   
           jq '.base.reportLink = "http://appodeal.github.io/appodeal-android-sdk/${{ github.run_number }}"' ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/config.json > ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/temp.json && mv ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/temp.json ${{ github.workspace }}/SDK-Auto-Test/allure_notifications/config.json
@@ -193,14 +194,3 @@ jobs:
           state: 'success'
           sha: ${{ github.sha }}
           target_url: http://appodeal.github.io/appodeal-android-sdk/${{ github.run_number }}
-
-#  GITHUB_REF_NAME=feature/auto_test
-#  GITHUB_RUN_ID=10653731636
-#  GITHUB_REPOSITORY=appodeal/appodeal-android-sdk
-#  https://github.com/appodeal/appodeal-android-sdk/actions/runs/10653731636
-#  GITHUB_TRIGGERING_ACTOR=johnlitvinov
-#  ${{ env.GITHUB_RUN_ID }}
-
-#
-#  mvn clean test -DtestEnv=${ENVIRONMENT} -P${SUITE} -Dmaven.repo.local=$MAVEN_LOCAL_REPO -Dstand=${STAND} -Dselenide.browser=${PLATFORM} -Dlocal_run=false
-#  mvn io.qameta.allure:allure-maven:report -Dmaven.repo.local=$MAVEN_LOCAL_REPO
