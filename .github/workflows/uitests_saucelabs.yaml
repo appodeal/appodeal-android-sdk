@@ -1,6 +1,10 @@
 name: UITest on SauceLabs
 
 on:
+  pull_request:
+    types: [ opened, edited, reopened, assigned, synchronize, ready_for_review ]
+    branches:
+      - '**'
   workflow_dispatch:
     inputs:
       device:
