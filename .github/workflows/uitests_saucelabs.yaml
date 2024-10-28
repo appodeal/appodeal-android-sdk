@@ -133,6 +133,7 @@ jobs:
           echo "Launch: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
           echo "Device: ${{ github.event.inputs.device }}" >> $GITHUB_STEP_SUMMARY
           echo "Build agent: ${{ github.event.inputs.runner }}" >> $GITHUB_STEP_SUMMARY
+          echo "Allure report link: http://appodeal.github.io/appodeal-android-sdk/${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY   
 
   upload:
     name: upload allure to gp-pages
