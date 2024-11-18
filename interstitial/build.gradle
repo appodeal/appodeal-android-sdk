@@ -39,6 +39,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Appodeal SDK 3.4.0.0-beta.1
-    implementation 'com.appodeal.ads:sdk:3.4.0.0-beta.1'
+    // Appodeal SDK 3.4.0.0
+    implementation 'com.appodeal.ads:sdk:3.4.0.0'
 }
