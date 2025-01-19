@@ -1,0 +1,2 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","10893","sampleTest","Surefire suite","Sun Jan 19 16:08:55 GMT 2025","passed","Sun Jan 19 16:09:06 GMT 2025","libs.APD.SauceLabs_DeviceFarm.AndroidAppTest","Surefire test","libs.APD.SauceLabs_DeviceFarm.AndroidAppTest","sampleTest"
