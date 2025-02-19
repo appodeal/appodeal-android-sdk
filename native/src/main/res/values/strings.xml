@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">Appodeal Native</string>
-    <string name="show_native">SHOW NATIVE</string>
-    <string name="hide_native">HIDE NATIVE</string>
-    <string name="show_in_list">SHOW IN LIST</string>
-
-    <string name="native_custom_ad_text">Ad</string>
-    <string name="native_custom_icon_description">Appodeal banner icon</string>
-</resources>
