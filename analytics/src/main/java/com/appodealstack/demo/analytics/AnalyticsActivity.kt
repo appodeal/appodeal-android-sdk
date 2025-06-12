@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.Purchase
 import com.appodeal.ads.Appodeal
+import com.appodeal.ads.AppodealServices
 import com.appodeal.ads.inapp.InAppPurchase
 import com.appodeal.ads.inapp.InAppPurchaseValidateCallback
 import com.appodeal.ads.initializing.ApdInitializationError
@@ -63,7 +64,11 @@ class AnalyticsActivity : AppCompatActivity() {
             "example_param_1" to "Param1 value",
             "example_param_2" to 123
         )
-        Appodeal.logEvent("appodealstack_sdk_example_test_event", params)
+        Appodeal.logEvent(
+            eventName = "appodealstack_sdk_example_test_event",
+            params = params,
+            service = AppodealServices.APPSFLYER or AppodealServices.FIREBASE
+        )
     }
 
     private fun validatePurchase(purchase: Purchase) = purchase.products.forEach { productId ->
