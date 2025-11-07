@@ -59,7 +59,7 @@ class BillingUseCase(
     private val billingClient =
         BillingClient.newBuilder(context)
             .setListener(purchasesUpdatedListener)
-            .enablePendingPurchases()
+            .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
             .build()
             .apply { startConnection(billingClientStateListener) }
 
@@ -98,9 +98,10 @@ class BillingUseCase(
 
     private fun queryProductDetailsAsync() {
         val detailsResponseListener =
-            ProductDetailsResponseListener { billingResult, productDetailsList ->
+            ProductDetailsResponseListener { billingResult, result ->
                 debug("onProductDetailsResponse: ${billingResult.responseCode} ${billingResult.debugMessage}")
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    val productDetailsList = result.productDetailsList
                     if (productDetailsList.isEmpty()) {
                         error(
                             "onProductDetailsResponse: " +
@@ -109,7 +110,7 @@ class BillingUseCase(
                             "in the Google Play Console."
                         )
                     } else {
-                        for (productDetails: ProductDetails in productDetailsList) {
+                        for (productDetails in productDetailsList) {
                             _productDetails[productDetails.productId] = productDetails
                         }
                     }
