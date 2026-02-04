@@ -1,4 +1,4 @@
-# Appodeal Android SDK
+https://github.com/appodeal/appodeal-android-sdk.git# Appodeal Android SDK
 
 [![](https://img.shields.io/badge/SDK%20version-%204.0.0-brightgreen)](https://docs.appodeal.com/android/get-started)
 
