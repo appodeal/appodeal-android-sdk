@@ -1,17 +1,18 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    compileSdk 35
+    compileSdk = 36
     namespace 'com.appodealstack.demo.nativead'
 
     defaultConfig {
         buildConfigField "String", "APP_KEY", "\"d908f77a97ae0993514bc8edba7e776a36593c77e5f44994\""
         applicationId "com.appodealstack.demo"
-        minSdkVersion 24
-        targetSdkVersion 35
+        minSdk = 24
+        targetSdk = 36
         versionCode 1
         versionName "1.0"
     }
@@ -24,9 +25,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = '11'
     }
     buildFeatures {
         viewBinding true
@@ -141,4 +139,10 @@ dependencies {
     implementation("com.unity3d.ads-mediation:unityads-adapter:5.6.0")
     implementation("com.unity3d.ads-mediation:verve-adapter:5.2.0")
     implementation("com.unity3d.ads-mediation:vungle-adapter:5.4.0")
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
+    }
 }
