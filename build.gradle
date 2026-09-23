@@ -14,7 +14,7 @@ allprojects {
         google()
         mavenCentral()
         // Add Appodeal repository
-        maven { url "https://artifactory.appodeal.com/appodeal" }
+        maven { url = "https://artifactory.appodeal.com/appodeal" }
     }
 }
 

@@ -3,30 +3,30 @@ plugins {
 }
 
 android {
-    compileSdk 37
-    namespace 'com.appodealstack.demo.nativead'
+    compileSdk = 37
+    namespace = 'com.appodealstack.demo.nativead'
 
     defaultConfig {
         buildConfigField "String", "APP_KEY", "\"d908f77a97ae0993514bc8edba7e776a36593c77e5f44994\""
-        applicationId "com.appodealstack.demo"
-        minSdk 24
-        targetSdk 35
-        versionCode 1
-        versionName "1.0"
+        applicationId = "com.appodealstack.demo"
+        minSdk = 24
+        targetSdk = 37
+        versionCode = 1
+        versionName = "1.0"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
-        viewBinding true
-        buildConfig true
+        viewBinding = true
+        buildConfig = true
     }
 }
 
