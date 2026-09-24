@@ -4,9 +4,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.13.1'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0'
-        classpath 'com.google.gms:google-services:4.4.4'  // Google Services plugin
+        classpath 'com.android.tools.build:gradle:9.4.1'
+        classpath 'com.google.gms:google-services:4.5.0'  // Google Services plugin
     }
 }
 
@@ -15,10 +14,10 @@ allprojects {
         google()
         mavenCentral()
         // Add Appodeal repository
-        maven { url "https://artifactory.appodeal.com/appodeal" }
+        maven { url = "https://artifactory.appodeal.com/appodeal" }
     }
 }
 
 tasks.register('clean', Delete) {
-    delete rootProject.buildDir
+    delete rootProject.layout.buildDirectory
 }
