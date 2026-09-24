@@ -16,8 +16,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled = false
+            minifyEnabled = true
+            shrinkResources = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // Demo only: sign release with the debug key so the minified build can be installed for R8 checks.
+            signingConfig = signingConfigs.debug
         }
     }
     compileOptions {
